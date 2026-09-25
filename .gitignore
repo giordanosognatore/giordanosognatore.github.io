@@ -1,0 +1,9 @@
+.sites-runtime/
+node_modules/
+.env
+.env.*
+*.log
+*.zip
+*.tar.gz
+.DS_Store
+node-v24.21.0-darwin-x64/
