@@ -1,3 +1,3 @@
 User-agent: *
-Disallow: /
-Sitemap: https://giordano-sognatore.grognakilbarbaro.chatgpt.site/sitemap.xml
+Allow: /
+Sitemap: https://giordanosognatore.github.io/sitemap.xml

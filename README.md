@@ -51,7 +51,7 @@ Le copertine sono ottimizzate a due dimensioni. Il CSS è sorgente diretto in `d
 `site.config.json` contiene l’URL dell’anteprima e `indexable: false`. In alternativa, usare `SITE_URL` e `SITE_INDEXABLE` durante la build. L’URL include l’eventuale prefisso, senza slash finale.
 
 ```sh
-SITE_URL=https://gsognatore.github.io/website SITE_INDEXABLE=true npm run build
+SITE_URL=https://giordanosognatore.github.io SITE_INDEXABLE=true npm run build
 ```
 
 Configurare l’URL pubblico effettivo **solo dopo la scelta dell’hosting**. Vengono aggiornati canonical, Open Graph, JSON-LD, sitemap, robots e link di recupero della 404. Nessun dominio definitivo è presupposto. Le risorse relative funzionano con la stessa struttura sia alla radice sia sotto un prefisso; i metadati assoluti richiedono una build con l’URL della destinazione. Non pubblicare l’anteprima `noindex` come versione definitiva senza riconfigurazione.

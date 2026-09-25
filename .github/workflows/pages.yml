@@ -22,7 +22,7 @@ jobs:
           node-version: '22'
       - run: npm run build
         env:
-          SITE_URL: https://gsognatore.github.io/website
+          SITE_URL: https://giordanosognatore.github.io
           SITE_INDEXABLE: 'true'
       - run: npm run check
       - uses: actions/configure-pages@v5
