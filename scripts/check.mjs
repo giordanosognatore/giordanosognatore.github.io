@@ -19,7 +19,7 @@ for(const page of pages){
  }
  for(const m of html.matchAll(/(?:href|src)="([^"#]*)(#[^"]*)?"/g)){
   const [_,path,hash]=m;
-  if(/^(https?:|data:)/.test(path))continue;
+  if(/^(https?:|data:|mailto:|tel:)/.test(path))continue;
   assert.ok(!path.startsWith('/'),`Fragile root path: ${path}`);
   const target=path?resolve(dirname(resolve(root,page)),path):resolve(root,page);
   assert.ok(target.startsWith(root)&&existsSync(target),`${page} -> ${path}`);
