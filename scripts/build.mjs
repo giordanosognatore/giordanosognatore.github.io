@@ -7,8 +7,8 @@ const root=new URL('../dist/',import.meta.url);
 mkdirSync(root,{recursive:true});
 const esc=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
 const books=[
- {id:'bestia',route:'l-immagine-della-bestia.html',title:'L’Immagine della Bestia',status:'Prossimamente',genre:'Thriller geopolitico fantascientifico',credit:'con Ada Vesper',width:671,height:1003,desc:'Una pace possibile. Un’intelligenza capace di vedere più lontano. E la responsabilità, tutta umana, di decidere fin dove affidarsi.'},
- {id:'ombre',route:'le-ombre-si-rivelano.html',title:'Le Ombre Si Rivelano',status:'Disponibile',genre:'Thriller distopico',credit:'',width:654,height:1040,desc:'Milano, avvolta nella nebbia. Marco Rinaldi cerca la verità in un mondo dove paura, sorveglianza e potere rendono incerto il confine tra protezione e controllo.'}
+ {id:'bestia',route:'l-immagine-della-bestia.html',title:'L’Immagine della Bestia',status:'PROSSIMAMENTE',genre:'Thriller geopolitico fantascientifico',credit:'con Ada Vesper',width:671,height:1003,desc:'Una pace possibile. Un’intelligenza capace di vedere più lontano. E la responsabilità, tutta umana, di decidere fin dove affidarsi.'},
+ {id:'ombre',route:'le-ombre-si-rivelano.html',title:'Le Ombre Si Rivelano',status:'DISPONIBILE',genre:'Thriller distopico',credit:'',width:654,height:1040,desc:'Milano, avvolta nella nebbia. Marco Rinaldi cerca la verità in un mondo dove paura, sorveglianza e potere rendono incerto il confine tra protezione e controllo.'}
 ];
 const companion={
  route:'il-giorno-in-cui-nacque-la-bestia.html',
