@@ -33,7 +33,9 @@ for(const page of pages){
  assert.ok(!/<script(?! type="application\/ld\+json")|<iframe|<form/.test(html),'No client runtime or forms expected');
 }
 assert.match(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8'),/href="https:\/\/amzn.eu\/d\/6sXfK4j"/);
-assert.ok(!readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8').includes('Acquista'));
+const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/0gZG6TFN">Acquista su Amazon<\/a>/;
+assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
+assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');assert.equal((map.match(/<loc>/g)||[]).length,5);assert.ok(!map.includes('404.html'));assert.ok(map.includes('il-giorno-in-cui-nacque-la-bestia.html'));
 assert.match(readFileSync(resolve(root,'robots.txt'),'utf8'),/Sitemap: https:\/\//);
 const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);
