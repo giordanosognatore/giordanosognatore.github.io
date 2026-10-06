@@ -16,7 +16,6 @@ for(const page of pages){
   assert.equal(data['@graph'].filter(n=>n['@type']==='Book').length,2);
   assert.equal(data['@graph'].filter(n=>n['@type']==='Person').length,1);
   assert.ok(!JSON.stringify(data).match(/isbn|offers|price|datePublished/));
-  assert.match(html,/href="press\.html"/);
  }
  for(const m of html.matchAll(/(?:href|src)="([^"#]*)(#[^"]*)?"/g)){
   const [_,path,hash]=m;
@@ -36,6 +35,7 @@ assert.match(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8'),/hre
 const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/023g6Qe1">Acquista su Amazon<\/a>/;
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
 assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
+assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html">Press<\/a>/);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((map.match(/<loc>/g)||[]).length,8);
 assert.ok(!map.includes('404.html'));
