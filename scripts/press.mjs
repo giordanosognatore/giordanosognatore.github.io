@@ -30,7 +30,7 @@ function page(file,title,description,body,active='press'){
 for(const file of readdirSync(root).filter(name=>name.endsWith('.html'))){
  const path=resolve(root,file);
  let html=readFileSync(path,'utf8').replaceAll('https://amzn.eu/d/0gZG6TFN',amazon);
- if(file!=='404.html'&&!html.includes('href="press.html"')){
+ if(file==='index.html'&&!html.includes('href="press.html"')){
   html=html.replace('<a href="autore.html"','<a href="press.html">Press</a><a href="autore.html"');
  }
  writeFileSync(path,html);
