@@ -1,10 +1,10 @@
 import {readFileSync,writeFileSync,readdirSync} from 'node:fs';
 import {resolve} from 'node:path';
 
-const config=JSON.parse(readFileSync(new URL('./site.config.json',import.meta.url)));
+const config=JSON.parse(readFileSync(new URL('../site.config.json',import.meta.url)));
 const origin=(process.env.SITE_URL || config.url).replace(/\/$/,'');
 const indexable=process.env.SITE_INDEXABLE==='true'||(process.env.SITE_INDEXABLE!=='false'&&config.indexable);
-const root=resolve(new URL('./dist/',import.meta.url).pathname);
+const root=resolve(new URL('../dist/',import.meta.url).pathname);
 const email='giordano.sognatore@gmail.com';
 const telegram='https://t.me/giordanosognatore';
 const amazon='https://amzn.eu/d/023g6Qe1';
