@@ -3,7 +3,7 @@ import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 const root=resolve('dist');
 const pages=readdirSync(root).filter(p=>p.endsWith('.html'));
-assert.equal(pages.length,6);
+assert.equal(pages.length,9);
 let refs=0;
 for(const page of pages){
  const html=readFileSync(resolve(root,page),'utf8');
@@ -16,6 +16,7 @@ for(const page of pages){
   assert.equal(data['@graph'].filter(n=>n['@type']==='Book').length,2);
   assert.equal(data['@graph'].filter(n=>n['@type']==='Person').length,1);
   assert.ok(!JSON.stringify(data).match(/isbn|offers|price|datePublished/));
+  assert.match(html,/href="press\.html"/);
  }
  for(const m of html.matchAll(/(?:href|src)="([^"#]*)(#[^"]*)?"/g)){
   const [_,path,hash]=m;
@@ -24,7 +25,6 @@ for(const page of pages){
   const target=path?resolve(dirname(resolve(root,page)),path):resolve(root,page);
   assert.ok(target.startsWith(root)&&existsSync(target),`${page} -> ${path}`);
   if(hash)assert.ok(readFileSync(target,'utf8').includes(`id="${hash.slice(1)}"`),`${page} missing anchor ${hash}`);
-  // Exact same relative path resolves within a project-site prefix.
   const url=new URL(path||page,`https://example.test/giordanosognatore/${page}`);
   assert.ok(url.pathname.startsWith('/giordanosognatore/'));
   refs++;
@@ -33,13 +33,21 @@ for(const page of pages){
  assert.ok(!/<script(?! type="application\/ld\+json")|<iframe|<form/.test(html),'No client runtime or forms expected');
 }
 assert.match(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8'),/href="https:\/\/amzn.eu\/d\/6sXfK4j"/);
-const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/0gZG6TFN">Acquista su Amazon<\/a>/;
+const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/023g6Qe1">Acquista su Amazon<\/a>/;
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
 assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
-const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');assert.equal((map.match(/<loc>/g)||[]).length,5);assert.ok(!map.includes('404.html'));assert.ok(map.includes('il-giorno-in-cui-nacque-la-bestia.html'));
+const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
+assert.equal((map.match(/<loc>/g)||[]).length,8);
+assert.ok(!map.includes('404.html'));
+for(const required of ['il-giorno-in-cui-nacque-la-bestia.html','press.html','ai.html','temi.html'])assert.ok(map.includes(required));
 assert.match(readFileSync(resolve(root,'robots.txt'),'utf8'),/Sitemap: https:\/\//);
 const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);
 assert.match(readFileSync(resolve(root,'il-giorno-in-cui-nacque-la-bestia.html'),'utf8'),/COMPANION GRATUITO/);
+assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/PRESS &amp; MEDIA|PRESS & MEDIA/);
+assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/Review copy EPUB\/PDF disponibile su richiesta/);
+assert.match(readFileSync(resolve(root,'ai.html'),'utf8'),/Non contro l’IA/);
+assert.match(readFileSync(resolve(root,'ai.html'),'utf8'),/Ada Vesper/);
+assert.match(readFileSync(resolve(root,'temi.html'),'utf8'),/Sei domande/);
 const companionPdf=resolve(root,'downloads/il-giorno-in-cui-nacque-la-bestia-ada-vesper.pdf');
 const companionEpub=resolve(root,'downloads/il-giorno-in-cui-nacque-la-bestia-ada-vesper.epub');
 const companionCover=resolve(root,'assets/companion-cover.png');
