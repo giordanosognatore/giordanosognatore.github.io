@@ -2,8 +2,14 @@ import {readFileSync,readdirSync,existsSync,statSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 const root=resolve('dist');
-const pages=readdirSync(root).filter(p=>p.endsWith('.html'));
+const htmlFiles=readdirSync(root).filter(p=>p.endsWith('.html'));
+const verificationFiles=htmlFiles.filter(p=>/^google[0-9a-f]+\.html$/.test(p));
+const pages=htmlFiles.filter(p=>!verificationFiles.includes(p));
 assert.equal(pages.length,9);
+for(const file of verificationFiles){
+ const value=readFileSync(resolve(root,file),'utf8').trim();
+ assert.equal(value,`google-site-verification: ${file}`,`${file}: invalid Google site verification payload`);
+}
 let refs=0;
 for(const page of pages){
  const html=readFileSync(resolve(root,page),'utf8');
@@ -66,4 +72,4 @@ let bytes=0;for(const f of walk(root)){
  if(/\.(epub|pdf)$/.test(f))assert.ok(allowedBinary.has(f),`Unexpected downloadable binary: ${f}`);
  bytes+=statSync(f).size;
 }
-console.log(`PASS: ${pages.length} pages; ${refs} local references; root/subpath links; metadata, JSON-LD, sitemap, 404 and publication perimeter. Companion assets: ${companionStates[0]?'ready':'not yet imported'}. ${Math.round(bytes/1024)} KiB total.`);
+console.log(`PASS: ${pages.length} pages; ${verificationFiles.length} verification file(s); ${refs} local references; root/subpath links; metadata, JSON-LD, sitemap, 404 and publication perimeter. Companion assets: ${companionStates[0]?'ready':'not yet imported'}. ${Math.round(bytes/1024)} KiB total.`);
