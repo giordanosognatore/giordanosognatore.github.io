@@ -34,7 +34,7 @@ const companionDownloads=companionAssetsReady
 const amazon=url=>link(url,'Acquista su Amazon','button');
 const email='giordano.sognatore@gmail.com';
 const telegram='https://t.me/giordanosognatore';
-const contactLinks=`<div class="contact-links"><a href="mailto:${email}">${email}</a><a href="${telegram}">Telegram</a></div>`;
+const contactLinks=`<div class="contact-links"><a href="mailto:${email}" aria-label="Email: ${email}">Email</a><a href="${telegram}">Telegram</a></div>`;
 const footer=`<footer class="footer"><a class="footer-name" href="index.html">Giordano Sognatore</a><p>© 2026 Giordano Sognatore<br>Testi e immagini: tutti i diritti riservati.</p>${contactLinks}<a href="index.html#romanzi">Esplora i romanzi</a></footer>`;
 const schemas=()=>({'@context':'https://schema.org','@graph':[{'@type':'Person','@id':`${origin}/autore.html#autore`,name:'Giordano Sognatore',url:`${origin}/autore.html`,email,sameAs:[telegram]},...books.map(b=>({'@type':'Book','@id':`${origin}/${b.route}#libro`,name:b.title,inLanguage:'it',genre:b.genre,author:{'@id':`${origin}/autore.html#autore`},url:`${origin}/${b.route}`}))]});
 function page(file,title,description,body,active='book'){
