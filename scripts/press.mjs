@@ -1,5 +1,6 @@
 import {readFileSync,writeFileSync,readdirSync} from 'node:fs';
 import {resolve} from 'node:path';
+import {nav} from './navigation.mjs';
 
 const config=JSON.parse(readFileSync(new URL('../site.config.json',import.meta.url)));
 const origin=(process.env.SITE_URL || config.url).replace(/\/$/,'');
@@ -16,7 +17,6 @@ const schema=()=>({'@context':'https://schema.org','@graph':[
  {'@type':'Book','@id':`${origin}/le-ombre-si-rivelano.html#libro`,name:'Le Ombre Si Rivelano',inLanguage:'it',genre:'Thriller distopico',author:{'@id':`${origin}/autore.html#autore`},url:`${origin}/le-ombre-si-rivelano.html`}
 ]});
 
-const nav=active=>`<a class="skip" href="#contenuto">Vai al contenuto</a><header class="header"><a class="wordmark" href="index.html" aria-label="Giordano Sognatore, home">GIORDANO<span>SOGNATORE</span></a><nav aria-label="Navigazione principale"><a href="index.html">Home</a><a href="index.html#romanzi">Romanzi</a><a href="press.html" ${active==='press'?'aria-current="page"':''}>Press</a><a href="autore.html">L’autore</a></nav></header>`;
 const contactLinks=`<div class="contact-links"><a href="mailto:${email}">${email}</a><a href="${telegram}">Telegram</a></div>`;
 const footer=`<footer class="footer"><a class="footer-name" href="index.html">Giordano Sognatore</a><p>© 2026 Giordano Sognatore<br>Testi e immagini: tutti i diritti riservati.</p>${contactLinks}<a href="press.html">Press & media</a></footer>`;
 const link=(href,label,cls='text-link')=>`<a class="${cls}" href="${href}">${label}</a>`;
@@ -24,15 +24,12 @@ const link=(href,label,cls='text-link')=>`<a class="${cls}" href="${href}">${lab
 function page(file,title,description,body,active='press'){
  const absolute=origin?`${origin}/${file}`:'';
  const canonical=absolute?`<link rel="canonical" href="${esc(absolute)}"><meta property="og:url" content="${esc(absolute)}">`:'';
- writeFileSync(resolve(root,file),`<!doctype html>\n<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="theme-color" content="#111412"><meta name="robots" content="${indexable?'index,follow':'noindex,follow'}">${canonical}<meta property="og:type" content="website"><meta property="og:locale" content="it_IT"><meta property="og:site_name" content="Giordano Sognatore"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23111412'/%3E%3Ctext x='20' y='29' font-size='29' font-family='Georgia' fill='%23cbb183' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="assets/site.css">${origin?`<script type="application/ld+json">${JSON.stringify(schema()).replaceAll('<','\\u003c')}</script>`:''}</head><body>${nav(active)}<main id="contenuto">${body}</main>${footer}</body></html>\n`);
+ writeFileSync(resolve(root,file),`<!doctype html>\n<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="theme-color" content="#111412"><meta name="robots" content="${indexable?'index,follow':'noindex,follow'}">${canonical}<meta property="og:type" content="website"><meta property="og:locale" content="it_IT"><meta property="og:site_name" content="Giordano Sognatore"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23111412'/%3E%3Ctext x='20' y='29' font-size='29' font-family='Georgia' fill='%23cbb183' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="assets/site.css">${origin?`<script type="application/ld+json">${JSON.stringify(schema()).replaceAll('<','\\u003c')}</script>`:''}<script src="assets/navigation.js" defer></script></head><body>${nav(active)}<main id="contenuto">${body}</main>${footer}</body></html>\n`);
 }
 
 for(const file of readdirSync(root).filter(name=>name.endsWith('.html'))){
  const path=resolve(root,file);
- let html=readFileSync(path,'utf8').replaceAll('https://amzn.eu/d/0gZG6TFN',amazon);
- if(file==='index.html'&&!html.includes('href="press.html"')){
-  html=html.replace('<a href="autore.html"','<a href="press.html">Press</a><a href="autore.html"');
- }
+ const html=readFileSync(path,'utf8').replaceAll('https://amzn.eu/d/0gZG6TFN',amazon);
  writeFileSync(path,html);
 }
 

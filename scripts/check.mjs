@@ -16,6 +16,9 @@ for(const page of pages){
  assert.match(html,/<html lang="it">/);
  assert.equal((html.match(/<h1[ >]/g)||[]).length,1);
  for(const required of ['<title>','name="description"','name="viewport"','name="robots"','property="og:title"','name="twitter:card"','rel="icon"','<main id="contenuto"','class="skip"'])assert.ok(html.includes(required),`${page}: ${required}`);
+ assert.match(html,/<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Apri menu">/);
+ assert.match(html,/<nav id="primary-navigation" aria-label="Navigazione principale">.*>Home<.*>Romanzi<.*>Press<.*>L’autore</s);
+ assert.match(html,/<script src="(?:https:\/\/[^" ]+\/)?assets\/navigation\.js" defer><\/script>/);
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
@@ -35,19 +38,22 @@ for(const page of pages){
   refs++;
  }
  for(const image of html.matchAll(/<img\b[^>]*>/g))for(const attr of ['alt=','width=','height='])assert.ok(image[0].includes(attr));
- assert.ok(!/<script(?! type="application\/ld\+json")|<iframe|<form/.test(html),'No client runtime or forms expected');
+ for(const script of html.matchAll(/<script\b[^>]*>/g))assert.ok(/type="application\/ld\+json"|src="(?:https:\/\/[^" ]+\/)?assets\/navigation\.js" defer/.test(script[0]),`${page}: unexpected script ${script[0]}`);
+ assert.ok(!/<iframe|<form/.test(html),'No iframes or forms expected');
 }
 assert.match(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8'),/href="https:\/\/amzn.eu\/d\/6sXfK4j"/);
 const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/023g6Qe1">Acquista su Amazon<\/a>/;
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
 assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
-assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html">Press<\/a>/);
+assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html"[^>]*>Press<\/a>/);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((map.match(/<loc>/g)||[]).length,8);
 assert.ok(!map.includes('404.html'));
 for(const required of ['il-giorno-in-cui-nacque-la-bestia.html','press.html','ai.html','temi.html'])assert.ok(map.includes(required));
 assert.match(readFileSync(resolve(root,'robots.txt'),'utf8'),/Sitemap: https:\/\//);
-const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);
+const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);assert.match(css,/@media\(max-width:700px\).*\.nav-toggle/s);assert.match(css,/\.nav-toggle\[aria-expanded="false"\]\+nav\{display:none\}/);
+const navigationJs=readFileSync(resolve(root,'assets/navigation.js'),'utf8');
+for(const required of ["event.key==='Escape'","closeMenu(true)","mobile.addEventListener('change'","aria-expanded","aria-label"])assert.ok(navigationJs.includes(required),`navigation.js: ${required}`);
 assert.match(readFileSync(resolve(root,'il-giorno-in-cui-nacque-la-bestia.html'),'utf8'),/COMPANION GRATUITO/);
 assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/PRESS &amp; MEDIA|PRESS & MEDIA/);
 assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/Review copy EPUB\/PDF disponibile su richiesta/);
