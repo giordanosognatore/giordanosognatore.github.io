@@ -19,6 +19,7 @@ for(const page of pages){
  assert.match(html,/<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Apri menu">/);
  assert.match(html,/<nav id="primary-navigation" aria-label="Navigazione principale">.*>Home<.*>Romanzi<.*>Press<.*>L’autore</s);
  assert.match(html,/<script src="(?:https:\/\/[^" ]+\/)?assets\/navigation\.js" defer><\/script>/);
+ assert.match(html,/<div class="contact-links"><a href="mailto:giordano\.sognatore@gmail\.com" aria-label="Email: giordano\.sognatore@gmail\.com">Email<\/a><a href="https:\/\/t\.me\/giordanosognatore">Telegram<\/a><\/div>/);
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
