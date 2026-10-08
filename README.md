@@ -4,12 +4,13 @@ Sito italiano dell’autore, con Home, L’Immagine della Bestia, Le Ombre Si Ri
 
 ## Architettura
 
-HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Nessun JavaScript client, backend, database, tracciamento, font remoto o cookie applicativo. Il server Node è solo uno strumento locale: non viene distribuito.
+HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il solo JavaScript client gestisce il menu mobile; non sono presenti backend, database, tracciamento, font remoto o cookie applicativi. Il server Node è solo uno strumento locale: non viene distribuito.
 
 - `scripts/build.mjs`: template condivisi, catalogo libri, companion, testi e metadati;
+- `scripts/navigation.mjs`: fonte canonica condivisa dell’header e della navigazione;
 - `scripts/import-companion-assets.sh`: importa e verifica dal repository canonico `bestia` PDF, EPUB e cover del companion;
 - `dist/`: output pubblico versionato e pronto all’hosting;
-- `dist/assets/`: CSS, copertine ottimizzate, mockup promozionale di *L’Immagine della Bestia* e cover web del companion;
+- `dist/assets/`: CSS, JavaScript vanilla del menu mobile, copertine ottimizzate, mockup promozionale di *L’Immagine della Bestia* e cover web del companion;
 - `dist/downloads/`: PDF ed EPUB gratuiti del companion, presenti dopo l’import degli asset canonici;
 - `site.config.json`: URL canonico completo e indicizzazione;
 - `scripts/check.mjs`: controllo del sito e dei riferimenti;
