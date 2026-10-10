@@ -173,4 +173,4 @@ Ed è proprio per questo che mi affascina.
 
 Per questo articolo sono state consultate in particolare le voci dell’**Enciclopedia Treccani** dedicate a Giordano Bruno e allo *Spaccio de la bestia trionfante*, insieme al testo dell’*Epistola esplicatoria* e del primo dialogo dell’opera.
 
-*L’Immagine della Bestia* è disponibile nella pagina dedicata del sito di Giordano Sognatore.
+*L’Immagine della Bestia* è disponibile nella [pagina dedicata](l-immagine-della-bestia.html) del sito di Giordano Sognatore.
