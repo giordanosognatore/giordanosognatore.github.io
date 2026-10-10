@@ -99,3 +99,70 @@ Companion: fonte canonica `documentazione/diario/Il giorno in cui nacque la Best
 - Verifica finale del collegamento Amazon nel browser dell’autore.
 - Hosting e dominio definitivi.
 - Eventuali contatti e social pubblici; futuro link d’acquisto per Bestia.
+
+## Dal taccuino di Giordano
+
+Nel Taccuino entra ciò che alimenta i libri, nasce dai libri o racconta il percorso dello scrittore. Le sorgenti sono in `contenuti/taccuino/`; `scripts/taccuino.mjs` gestisce metadati, Markdown, liste e RSS senza dipendenze. Per pubblicare un articolo basta aggiungere un file `.md`, eseguire `npm run build` e `npm run check`, quindi sottoporre sorgenti e `dist/` alla normale revisione.
+
+```markdown
+---
+title: "Il titolo dell’appunto"
+date: 2026-10-10
+description: "Una breve descrizione per archivio, anteprime, SEO e feed."
+category: taccuino
+tags:
+  - Dietro le quinte
+  - Scrittura
+slug: il-titolo-dell-appunto
+showOnHome: true
+---
+
+Il primo paragrafo con *corsivo* e **grassetto**.
+
+## Un approfondimento
+
+Un [collegamento al romanzo](l-immagine-della-bestia.html).
+```
+
+### Front matter supportato
+
+Il blocco iniziale è delimitato da due righe `---`. È un formato limitato, non YAML generico: una coppia `campo: valore` per riga, nessun commento, oggetto o testo multilinea. Sono ammessi soltanto i campi seguenti; campi sconosciuti, duplicati o valori invalidi fanno fallire la build.
+
+| Campo | Regola |
+| --- | --- |
+| `title` | Testo obbligatorio; diventa l’unico H1 della pagina. |
+| `date` | Data obbligatoria e valida, `YYYY-MM-DD`. |
+| `description` | Testo obbligatorio per anteprime e metadati; usare questo nome, non `summary`. |
+| `category` | Obbligatoria: `taccuino` (etichetta “Dal taccuino”) o `comunicati-stampa`. |
+| `tags` | Elenco di testi, ciascuno su una riga con due spazi e `- `; `tags: []` per nessun tag. |
+| `slug` | Opzionale: lettere minuscole ASCII, cifre e trattini; deve essere unico. |
+| `showOnHome` | Booleano non quotato `true`/`false`; predefinito `true` per Taccuino, `false` per comunicati. |
+
+Le stringhe possono essere non quotate, tra doppi apici con escape JSON (`\"`, `\\`), oppure tra apici singoli (raddoppiare l’apice interno). Senza `slug`, il nome del file senza `.md` viene trasformato in minuscolo, senza accenti, sostituendo gli altri separatori con trattini. Per mantenere un URL permanente, conservare lo slug anche se cambiano titolo o filename.
+
+### Markdown e collegamenti
+
+Sono supportati paragrafi separati da righe vuote, `##` e `###`, `*corsivo*`, `**grassetto**` (anche corsivo dentro il grassetto), link `[testo](URL)`, elenchi semplici con `- ` o `* `, citazioni con `> ` e separatori `---`. Un eventuale `# Titolo` iniziale deve coincidere con `title` e non viene duplicato nel corpo. L’HTML è mostrato come testo, mai eseguito. Tabelle, immagini, codice, liste annidate e altre estensioni Markdown non sono previste.
+
+I link interni partono dalla radice logica di `dist/`, per esempio `l-immagine-della-bestia.html` o `taccuino/altro-appunto.html`; la build aggiunge il prefisso relativo necessario alle pagine articolo. Non usare `/` iniziale né `../`. Per link esterni usare URL completi `https://`/`http://`; sono ammessi anche `mailto:`. Non sono previsti attributi HTML o titoli aggiuntivi nei link.
+
+### Cosa genera la build
+
+- `taccuino.html`: tutti i contenuti, dal più recente; a parità di data, ordine lessicografico dello slug.
+- `taccuino/<slug>.html`: articolo con data, categoria, tag, metadati Open Graph e JSON-LD `BlogPosting`.
+- Home: ultimi tre contenuti con `showOnHome: true`, dopo romanzi e presentazione dell’autore. `showOnHome: false` esclude solo dalla Home.
+- Press: due richiami distinti, fino a tre articoli ordinari e tre comunicati. I comunicati e il loro archivio `comunicati-stampa.html` compaiono soltanto quando esiste almeno un comunicato.
+- `sitemap.xml` e `feed.xml`: archivio e URL permanenti, feed RSS 2.0 con tutti i contenuti e descrizioni, in ordine cronologico inverso. Le pagine offrono autodiscovery RSS.
+
+Per creare un comunicato basta aggiungere un altro Markdown con `category: comunicati-stampa`. Non occorre modificare Press o altri template. Ogni file presente è pubblicato dalla build, anche con data futura: tenere le bozze fuori da `contenuti/taccuino/`. La build elimina gli HTML articolo obsoleti e l’archivio comunicati se rimane vuoto, senza toccare asset o download. Non vengono usati timestamp correnti: a parità di sorgenti e configurazione l’output è identico.
+
+Canonical, feed, sitemap e JSON-LD seguono `SITE_URL` (o `site.config.json`); `SITE_INDEXABLE=false` mantiene `noindex` nelle pagine e `Disallow: /` in robots. Per verificare una preview sotto prefisso:
+
+```sh
+SITE_URL=https://example.test/anteprima SITE_INDEXABLE=false npm run build
+SITE_URL=https://example.test/anteprima SITE_INDEXABLE=false npm run check
+npm run build
+npm run check
+```
+
+L’ultima coppia ripristina la configurazione normale. `npm run check` verifica anche il parser, l’aggiunta/rimozione di articoli e comunicati e una build preview in una directory temporanea isolata.
