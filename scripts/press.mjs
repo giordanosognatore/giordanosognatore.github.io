@@ -9,7 +9,7 @@ const origin=(process.env.SITE_URL || config.url).replace(/\/$/,'');
 const indexable=process.env.SITE_INDEXABLE==='true'||(process.env.SITE_INDEXABLE!=='false'&&config.indexable);
 const root=resolve(new URL('../dist/',import.meta.url).pathname);
 const email='giordano.sognatore@gmail.com';
-const telegram='https://t.me/giordanosognatore';
+const telegram='https://t.me/giordanosognatoreofficial';
 const amazon='https://amzn.eu/d/023g6Qe1';
 const esc=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
 
@@ -19,7 +19,7 @@ const schema=()=>({'@context':'https://schema.org','@graph':[
  {'@type':'Book','@id':`${origin}/le-ombre-si-rivelano.html#libro`,name:'Le Ombre Si Rivelano',inLanguage:'it',genre:'Thriller distopico',author:{'@id':`${origin}/autore.html#autore`},url:`${origin}/le-ombre-si-rivelano.html`}
 ]});
 
-const contactLinks=`<div class="contact-links"><a href="mailto:${email}" aria-label="Email: ${email}">Email</a><a href="${telegram}">Telegram</a></div>`;
+const contactLinks=`<div class="contact-links"><a href="mailto:${email}" aria-label="Email: ${email}">Email</a><a href="${telegram}" aria-label="Canale Telegram ufficiale di Giordano Sognatore">Telegram</a></div>`;
 const footer=`<footer class="footer"><a class="footer-name" href="index.html">Giordano Sognatore</a><p>© 2026 Giordano Sognatore<br>Testi e immagini: tutti i diritti riservati.</p>${contactLinks}<a href="press.html">Press & media</a></footer>`;
 const link=(href,label,cls='text-link')=>`<a class="${cls}" href="${href}">${label}</a>`;
 

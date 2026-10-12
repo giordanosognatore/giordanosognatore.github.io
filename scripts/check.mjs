@@ -1,6 +1,7 @@
 import {readFileSync,readdirSync,existsSync,statSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
+import {estrattoAssets,verifyEstratto} from './estratto-assets.mjs';
 import {loadArticles,escapeHtml,renderMarkdown} from './taccuino.mjs';
 const articles=loadArticles();
 const releases=articles.filter(a=>a.category==='comunicati-stampa');
@@ -25,12 +26,13 @@ for(const page of pages){
  assert.match(html,/<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Apri menu">/);
  assert.match(html,/<nav id="primary-navigation" aria-label="Navigazione principale">.*>Home<.*>Romanzi<.*>Taccuino<.*>Press<.*>L’autore</s);
  assert.match(html,/<script src="(?:https:\/\/[^" ]+\/|\.\.\/)?assets\/navigation\.js" defer><\/script>/);
- assert.match(html,/<div class="contact-links"><a href="mailto:giordano\.sognatore@gmail\.com" aria-label="Email: giordano\.sognatore@gmail\.com">Email<\/a><a href="https:\/\/t\.me\/giordanosognatore">Telegram<\/a><\/div>/);
+ assert.match(html,/<div class="contact-links"><a href="mailto:giordano\.sognatore@gmail\.com" aria-label="Email: giordano\.sognatore@gmail\.com">Email<\/a><a href="https:\/\/t\.me\/giordanosognatoreofficial" aria-label="Canale Telegram ufficiale di Giordano Sognatore">Telegram<\/a><\/div>/);
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
   assert.equal(data['@graph'].filter(n=>n['@type']==='Book').length,2);
   assert.equal(data['@graph'].filter(n=>n['@type']==='Person').length,1);
+  assert.deepEqual(data['@graph'].find(n=>n['@type']==='Person').sameAs,['https://t.me/giordanosognatoreofficial']);
   assert.ok(!JSON.stringify(data['@graph'].filter(n=>n['@type']!=='BlogPosting')).match(/isbn|offers|price|datePublished/));
   assert.ok(html.includes(`name="robots" content="${indexable?'index,follow':'noindex,follow'}"`));
   assert.ok(html.includes(`rel="canonical" href="${escapeHtml(origin+'/'+(page==='index.html'?'':page))}"`));
@@ -112,11 +114,26 @@ if(companionStates[0]){
  assert.ok(statSync(companionPdf).size>100000&&statSync(companionPdf).size<2000000,'Companion PDF size');
  assert.ok(statSync(companionEpub).size>100000&&statSync(companionEpub).size<2000000,'Companion EPUB size');
 }
-const allowedBinary=new Set([companionPdf,companionEpub]);
+const bestia=readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8');
+const sample=bestia.match(/<section class="sample-strip shell"[^>]*>(.*?)<\/section>/s)?.[1];
+assert.ok(sample,'Missing free reading sample');
+for(const copy of ['ESTRATTO GRATUITO','Leggi gratuitamente<br>il primo Atto.','Prologo + Atto I — La Pace, capitoli 1–6. Un estratto completo dell’inizio del romanzo, gratuito e senza registrazione.'])assert.ok(sample.includes(copy),`Missing approved sample copy: ${copy}`);
+assert.ok(bestia.indexOf('id="estratto-gratuito"')<bestia.indexOf('class="companion-strip shell"'),'Reading sample must precede the companion');
+for(const asset of estrattoAssets){
+ verifyEstratto(readFileSync(resolve(root,asset.publicPath)),asset);
+ assert.ok(sample.includes(`<a class="button" href="${asset.publicPath}" download>Scarica ${asset.format}</a>`),`Missing direct ${asset.format} download`);
+}
+assert.ok(sample.indexOf('Scarica EPUB')<sample.indexOf('Scarica PDF'),'EPUB must come first');
+const allowedBinary=new Set([companionPdf,companionEpub,...estrattoAssets.map(asset=>resolve(root,asset.publicPath))]);
 const walk=p=>readdirSync(p,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(resolve(p,e.name)):resolve(p,e.name));
 let bytes=0;for(const f of walk(root)){
  assert.ok(!/\.(docx|zip|env)$/.test(f),`Unexpected publication/source file: ${f}`);
  if(/\.(epub|pdf)$/.test(f))assert.ok(allowedBinary.has(f),`Unexpected downloadable binary: ${f}`);
+ if(/\.(html|xml|txt|js|css)$/.test(f)){
+  const text=readFileSync(f,'utf8');
+  assert.doesNotMatch(text,/google\s*play|play\.google\.com|books\.google\./i,`${f}: premature Google Play reference`);
+  for(const match of text.matchAll(/https?:\/\/(?:t\.me|telegram\.me)\/[^\s"'<>]+/g))assert.equal(match[0],'https://t.me/giordanosognatoreofficial',`${f}: unexpected public Telegram URL`);
+ }
  bytes+=statSync(f).size;
 }
-console.log(`PASS: ${pages.length} pages; ${verificationFiles.length} verification file(s); ${refs} local references; root/subpath links; metadata, JSON-LD, sitemap, 404 and publication perimeter. Companion assets: ${companionStates[0]?'ready':'not yet imported'}. ${Math.round(bytes/1024)} KiB total.`);
+console.log(`PASS: ${pages.length} pages; ${verificationFiles.length} verification file(s); ${refs} local references; root/subpath links; metadata, JSON-LD, sitemap, 404 and publication perimeter. Sample EPUB/PDF: verified Git blobs and SHA-256. Companion assets: ${companionStates[0]?'ready':'not yet imported'}. ${Math.round(bytes/1024)} KiB total.`);

@@ -9,9 +9,10 @@ HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il so
 - `scripts/build.mjs`: template condivisi, catalogo libri, companion, testi e metadati;
 - `scripts/navigation.mjs`: fonte canonica condivisa dell’header e della navigazione;
 - `scripts/import-companion-assets.sh`: importa e verifica dal repository canonico `bestia` PDF, EPUB e cover del companion;
+- `scripts/import-estratto-assets.mjs`: importa senza trasformazioni EPUB/PDF dell’estratto; `scripts/estratto-assets.mjs` ne fissa provenienza e hash;
 - `dist/`: output pubblico versionato e pronto all’hosting;
 - `dist/assets/`: CSS, JavaScript vanilla del menu mobile, copertine ottimizzate, mockup promozionale di *L’Immagine della Bestia* e cover web del companion;
-- `dist/downloads/`: PDF ed EPUB gratuiti del companion, presenti dopo l’import degli asset canonici;
+- `dist/downloads/`: PDF ed EPUB gratuiti del companion e dell’estratto, copie degli asset canonici;
 - `site.config.json`: URL canonico completo e indicizzazione;
 - `scripts/check.mjs`: controllo del sito e dei riferimenti;
 - `scripts/serve.mjs`: anteprima locale, anche sotto `/giordanosognatore/`;
@@ -46,6 +47,36 @@ npm run check
 Lo script verifica gli SHA Git dei tre sorgenti prima di copiarli, rinomina PDF/EPUB con URL stabili e crea una cover web ridimensionata senza modificare gli originali. Se gli asset non sono ancora importati, la pagina resta costruibile in modalità di revisione con una copertina tipografica di riserva e senza link di download attivi.
 
 Le copertine sono ottimizzate a due dimensioni. Il CSS è sorgente diretto in `dist/assets/site.css`; la build rigenera HTML e SEO, conservando gli asset. Il mockup promozionale `dist/assets/bestia-mockup.webp` è usato soltanto nella pagina dedicata a *L’Immagine della Bestia*; home e catalogo mantengono la copertina piatta canonica. Non cancellare `dist/assets` come se fosse una cache.
+
+### Estratto gratuito di L’Immagine della Bestia
+
+La pagina del romanzo presenta **Prologo + Atto I — La Pace, capitoli 1–6**, prima del companion, con EPUB per primo e accesso diretto senza registrazione. La sezione è tipografica e riusa il linguaggio editoriale del sito, senza nuove immagini.
+
+Fonte canonica: `giordanosognatore/bestia`, commit approvato `68f7bbb3142f5f0e4dabd0b8d7afb4e6b6b9646a`:
+
+- `produzione/prove/Bestia_Atto_I_Estratto_gratuito_1.6.7.epub`
+- `produzione/prove/Bestia_Atto_I_Estratto_gratuito_1.6.7.pdf`
+
+Da un checkout locale di `bestia` contenente questi file:
+
+```sh
+node scripts/import-estratto-assets.mjs ../bestia
+npm run build
+npm run check
+```
+
+Il percorso di `bestia` è relativo alla directory corrente (o assoluto); la destinazione è sempre il `dist/downloads/` di questo sito. Lo script legge soltanto i due sorgenti, verifica **entrambi prima di scrivere** tramite dimensione, SHA Git blob e SHA-256 fissati in `scripts/estratto-assets.mjs`, poi copia i byte e ricontrolla hash e identità esatta della copia. Non richiede strumenti esterni, non modifica il checkout sorgente e non trasforma né ricomprime i file. Companion ed estratto hanno importazioni indipendenti.
+
+URL pubblici stabili, relativi alla radice del sito e funzionanti anche sotto prefisso:
+
+- `downloads/l-immagine-della-bestia-atto-i-estratto-gratuito.epub`
+- `downloads/l-immagine-della-bestia-atto-i-estratto-gratuito.pdf`
+
+Gli asset sono versionati nel sito: build e CI non accedono al repository privato. `npm run check` richiede entrambi i file e verifica gli hash approvati, i link diretti e l’ordine EPUB/PDF. Un aggiornamento editoriale richiede una nuova approvazione e l’aggiornamento esplicito del manifest; non basta sostituire i file.
+
+### Canale Telegram ufficiale
+
+Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial`, con etichetta “Telegram” e descrizione accessibile del canale. I controlli rifiutano altri URL Telegram nelle superfici web pubbliche e riferimenti prematuri a Google Play Books. Google Play Books resta fuori dalla pubblicazione finché la scheda non è realmente disponibile.
 
 ## URL canonici e indicizzazione
 
