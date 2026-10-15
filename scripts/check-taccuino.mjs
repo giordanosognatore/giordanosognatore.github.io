@@ -39,7 +39,7 @@ try{
  for(const path of ['scripts','dist','site.config.json'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
  const dir=join(temp,'contenuti/taccuino');mkdirSync(dir,{recursive:true});
  const env={...process.env,SITE_URL:'https://example.test/anteprima',SITE_INDEXABLE:'false'};
- const run=()=>{for(const file of ['build.mjs','press.mjs','check.mjs'])execFileSync(process.execPath,[`scripts/${file}`],{cwd:temp,env,stdio:'pipe'});};
+ const run=()=>{for(const file of ['build.mjs','press.mjs','google-play.mjs','check.mjs'])execFileSync(process.execPath,[`scripts/${file}`],{cwd:temp,env,stdio:'pipe'});};
  run();
  assert.ok(!existsSync(join(temp,'dist/taccuino/giordano-bruno-un-altra-bestia.html')));
  for(let n=1;n<=4;n++)writeFileSync(join(dir,`appunto-${n}.md`),fixture().replace('2026-10-10',`2026-10-0${n}`));
