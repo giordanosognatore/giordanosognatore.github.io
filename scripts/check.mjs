@@ -56,6 +56,10 @@ assert.match(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8'),/hre
 const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/023g6Qe1">Acquista su Amazon<\/a>/;
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
 assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
+const googlePlayUrl='https://play.google.com/store/books/details?id=jpgZEgAAQBAJ';
+const googlePlayButton=`<a class="button" href="${googlePlayUrl}">Google Play Books</a>`;
+for(const page of ['index.html','l-immagine-della-bestia.html','press.html'])assert.ok(readFileSync(resolve(root,page),'utf8').includes(googlePlayButton),`${page}: missing Google Play Books button`);
+assert.ok(!readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes('play.google.com'),'Le Ombre Si Rivelano must remain Amazon-only');
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html"[^>]*>Press<\/a>/);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((map.match(/<loc>/g)||[]).length,pages.length-1);
@@ -70,7 +74,10 @@ assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/PRESS &amp; MEDIA|
 assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/Review copy EPUB\/PDF disponibile su richiesta/);
 assert.match(readFileSync(resolve(root,'ai.html'),'utf8'),/Non contro l’IA/);
 assert.match(readFileSync(resolve(root,'ai.html'),'utf8'),/Ada Vesper/);
-assert.match(readFileSync(resolve(root,'temi.html'),'utf8'),/Sei domande/);
+const temi=readFileSync(resolve(root,'temi.html'),'utf8');
+assert.match(temi,/Sei domande/);
+assert.ok(temi.includes('<a class="text-link" href="press.html">Torna a Press & media</a>'),'temi.html: missing aligned Press text link');
+assert.ok(!temi.includes('<a class="button" href="press.html">Press & media</a>'),'temi.html: obsolete Press button remains');
 const home=readFileSync(resolve(root,'index.html'),'utf8');
 const press=readFileSync(resolve(root,'press.html'),'utf8');
 const archive=readFileSync(resolve(root,'taccuino.html'),'utf8');
@@ -131,7 +138,7 @@ let bytes=0;for(const f of walk(root)){
  if(/\.(epub|pdf)$/.test(f))assert.ok(allowedBinary.has(f),`Unexpected downloadable binary: ${f}`);
  if(/\.(html|xml|txt|js|css)$/.test(f)){
   const text=readFileSync(f,'utf8');
-  assert.doesNotMatch(text,/google\s*play|play\.google\.com|books\.google\./i,`${f}: premature Google Play reference`);
+  for(const match of text.matchAll(/https?:\/\/play\.google\.com\/store\/books\/details\?[^\s"'<>]+/g))assert.equal(match[0],googlePlayUrl,`${f}: unexpected Google Play Books URL`);
   for(const match of text.matchAll(/https?:\/\/(?:t\.me|telegram\.me)\/[^\s"'<>]+/g))assert.equal(match[0],'https://t.me/giordanosognatoreofficial',`${f}: unexpected public Telegram URL`);
  }
  bytes+=statSync(f).size;
