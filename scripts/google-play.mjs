@@ -23,7 +23,7 @@ for(const [file,sampleHref,needle] of pages){
  let html=readFileSync(path,'utf8');
  if(!html.includes(needle))throw new Error(`${file}: expected Bestia Amazon CTA not found`);
  html=html.replace(needle,formatActions(sampleHref));
- writeFileSync(path,html);
+ writeFileSync(path,html.trimEnd());
 }
 
 // Keep the public metadata aligned with the formats that are actually available.
@@ -33,13 +33,13 @@ for(const file of ['index.html','l-immagine-della-bestia.html']){
  html=html
   .replaceAll('I romanzi di Giordano Sognatore. Scopri L’Immagine della Bestia e Le Ombre Si Rivelano, disponibili su Amazon.','I romanzi di Giordano Sognatore. Scopri L’Immagine della Bestia e Le Ombre Si Rivelano, tra ebook, cartaceo e audiolibro.')
   .replaceAll('Un thriller geopolitico fantascientifico su intelligenza artificiale, fiducia e libertà. Giordano Sognatore con Ada Vesper. Disponibile su Amazon.','Un thriller geopolitico fantascientifico su intelligenza artificiale, fiducia e libertà. Giordano Sognatore con Ada Vesper. Disponibile in ebook, cartaceo e audiolibro.');
- writeFileSync(path,html);
+ writeFileSync(path,html.trimEnd());
 }
 
 const pressPath=resolve(root,'press.html');
 let press=readFileSync(pressPath,'utf8');
 press=press.replace('<strong>Genere:</strong> thriller geopolitico fantascientifico<br><strong>Ambientazione:</strong>','<strong>Genere:</strong> thriller geopolitico fantascientifico<br><strong>Formati:</strong> ebook, cartaceo e audiolibro<br><strong>Ambientazione:</strong>');
-writeFileSync(pressPath,press);
+writeFileSync(pressPath,press.trimEnd());
 
 const themesPath=resolve(root,'temi.html');
 let themes=readFileSync(themesPath,'utf8');
@@ -56,5 +56,16 @@ const end=css.indexOf(cssEnd);
 if(start!==-1&&end!==-1&&end>=start)css=css.slice(0,start).trimEnd()+css.slice(end+cssEnd.length);
 css=css.trimEnd()+`\n${cssBlock}\n`;
 writeFileSync(cssPath,css);
+
+// 404 inlines the whole stylesheet during build, but these purchase controls never appear there.
+// Keep that generated page stable instead of copying format-only CSS into the inline fallback.
+const notFoundPath=resolve(root,'404.html');
+let notFound=readFileSync(notFoundPath,'utf8');
+const notFoundStart=notFound.indexOf(cssStart);
+const notFoundEnd=notFound.indexOf(cssEnd);
+if(notFoundStart!==-1&&notFoundEnd!==-1&&notFoundEnd>=notFoundStart){
+ notFound=notFound.slice(0,notFoundStart).trimEnd()+notFound.slice(notFoundEnd+cssEnd.length);
+ writeFileSync(notFoundPath,notFound);
+}
 
 console.log('Added format-based Bestia CTAs, Google Play ebook/audiobook links, 30-minute audio preview and aligned Press link.');
