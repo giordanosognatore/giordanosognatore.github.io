@@ -1,8 +1,10 @@
-import {mkdirSync,writeFileSync} from 'node:fs';
+import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {resolve,dirname} from 'node:path';
 const out=resolve(dirname(fileURLToPath(import.meta.url)),'../dist/downloads/press-kit-l-immagine-della-bestia.pdf');
 const W=595.28,H=841.89;
+// Compatta riproduzione JPEG della copertina originale del romanzo, tracciata nel repository.
+const cover=readFileSync(resolve(dirname(fileURLToPath(import.meta.url)),'assets/press-kit-cover.jpg'));
 const C={navy:[.046,.09,.145],mid:[.07,.17,.25],gold:[.69,.52,.31],ink:[.12,.17,.22],muted:[.36,.42,.48],paper:[.985,.979,.964],white:[1,1,1]};
 const urls={book:'https://giordanosognatore.github.io/l-immagine-della-bestia.html',sample:'https://giordanosognatore.github.io/l-immagine-della-bestia.html#estratto-gratuito',diary:'https://giordanosognatore.github.io/il-giorno-in-cui-nacque-la-bestia.html',article:'https://giordanosognatore.github.io/taccuino/la-firma-resta-umana-e-ada-vesper.html',audio:'https://play.google.com/books/listen?id=AQAAAEBG5iumfM',press:'https://giordanosognatore.github.io/press.html',email:'mailto:giordano.sognatore@gmail.com'};
 const pages=[];let ops=[],links=[];
@@ -33,9 +35,8 @@ function end(){pages.push({ops:ops.join('\n')+'\n',links});ops=[];links=[];}
 // Pagina 1: scheda del romanzo e letture di ingresso.
 rect(0,0,W,H,'paper');rect(0,0,218,H,'navy');rect(218,0,3,H,'gold');
 label('SCHEDA EDITORIALE',34,763);
-rect(34,439,150,287,'mid');rect(38,443,142,279,'navy');
-text('L’IMMAGINE',43,665,17.2,'F3','white');text('DELLA',43,635,17.2,'F3','white');text('BESTIA',43,603,29,'F3','gold');
-line(42,584,130,'gold');words('IL FUTURO HA UN VOLTO.',43,566,123,11,15,'F2','white');
+rect(27,468,168,248,'mid');
+ops.push('q 164 0 0 243 29 470 cm /ImCover Do Q');
 label('AUTORE',34,414);text('Giordano Sognatore',34,394,10.5,'F2','white');text('con Ada Vesper',34,378,10,'F1','white');
 line(34,355,148,'muted');label('GENERE',34,337);text('Thriller geopolitico',34,316,10,'F1','white');text('fantascientifico',34,301,10,'F1','white');
 line(34,282,148,'muted');label('FORMATI',34,265);text('Cartaceo · ebook',34,245,10,'F1','white');text('Audiolibro',34,229,10,'F1','white');text('822 pagine (cartaceo)',34,207,9,'F1','white');
@@ -64,10 +65,11 @@ let objects=[''];const add=s=>{objects.push(s);return objects.length-1};
 const f1=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
 const f2=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
 const f3=add('<< /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>');
+const coverObj=add(`<< /Type /XObject /Subtype /Image /Width 80 /Height 118 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${cover.length} >>\nstream\n${cover.toString('latin1')}\nendstream`);
 const pageNodes=[];
 for(const p of pages){const bytes=toLatinBytes(p.ops);const cont=add(`<< /Length ${bytes.length} >>\nstream\n${p.ops}endstream`);const anns=p.links.map(({uri,rect})=>add(`<< /Type /Annot /Subtype /Link /Rect [${rect.join(' ')}] /Border [0 0 0] /A << /S /URI /URI (${pdfEscape(uri)}) >> >>`));const pg=add(`PLACEHOLDER_PAGE_${cont}_${anns.join('_')}`);pageNodes.push({pg,cont,anns});}
 const parents=add(`<< /Type /Pages /Kids [${pageNodes.map(o=>o.pg+' 0 R').join(' ')}] /Count ${pageNodes.length} >>`);
-for(const p of pageNodes){objects[p.pg]=`<< /Type /Page /Parent ${parents} 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 ${f1} 0 R /F2 ${f2} 0 R /F3 ${f3} 0 R >> >> /Contents ${p.cont} 0 R /Annots [${p.anns.map(n=>n+' 0 R').join(' ')}] >>`;}
+for(const p of pageNodes){objects[p.pg]=`<< /Type /Page /Parent ${parents} 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 ${f1} 0 R /F2 ${f2} 0 R /F3 ${f3} 0 R >> /XObject << /ImCover ${coverObj} 0 R >> >> /Contents ${p.cont} 0 R /Annots [${p.anns.map(n=>n+' 0 R').join(' ')}] >>`;}
 const catalog=add(`<< /Type /Catalog /Pages ${parents} 0 R >>`);
 let buffers=[Buffer.from('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n','binary')],offsets=[0],length=buffers[0].length;
 for(let i=1;i<objects.length;i++){offsets.push(length);const b=Buffer.concat([Buffer.from(`${i} 0 obj\n`,'ascii'),toLatinBytes(objects[i]),Buffer.from('\nendobj\n','ascii')]);buffers.push(b);length+=b.length;}
