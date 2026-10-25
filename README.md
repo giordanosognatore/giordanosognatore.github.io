@@ -78,6 +78,12 @@ Gli asset sono versionati nel sito: build e CI non accedono al repository privat
 
 Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial`, con etichetta “Telegram” e descrizione accessibile del canale. I controlli rifiutano altri URL Telegram nelle superfici web pubbliche e riferimenti prematuri a Google Play Books. Google Play Books resta fuori dalla pubblicazione finché la scheda non è realmente disponibile.
 
+### Cartella stampa PDF (Press & media)
+
+La pagina `press.html` offre il download diretto del press kit di **due pagine A4** per *L’Immagine della Bestia*. Il PDF è generato in modo deterministico da `scripts/press-kit-pdf.mjs`, usando la riproduzione compatta della copertina originale tracciata in `scripts/assets/press-kit-cover.jpg` e senza dipendenze esterne.
+
+**Eccezione alla convenzione su `dist/`:** `dist/downloads/press-kit-l-immagine-della-bestia.pdf` è un derivato ignorato da Git, non la fonte canonica. `npm run build` lo rigenera prima di `npm run check` e prima del deployment GitHub Pages, che distribuisce il `dist/` completo. Non modificare né caricare manualmente il PDF: per cambiare il contenuto si aggiorna la sorgente del generatore e si verifica la build. Il file rimane disponibile pubblicamente allo stesso URL dopo il deploy.
+
 ## URL canonici e indicizzazione
 
 `site.config.json` contiene l’URL dell’anteprima e `indexable: false`. In alternativa, usare `SITE_URL` e `SITE_INDEXABLE` durante la build. L’URL include l’eventuale prefisso, senza slash finale.
