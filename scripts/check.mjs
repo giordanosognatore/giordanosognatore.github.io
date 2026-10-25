@@ -131,7 +131,13 @@ for(const asset of estrattoAssets){
  assert.ok(sample.includes(`<a class="button" href="${asset.publicPath}" download>Scarica ${asset.format}</a>`),`Missing direct ${asset.format} download`);
 }
 assert.ok(sample.indexOf('Scarica EPUB')<sample.indexOf('Scarica PDF'),'EPUB must come first');
-const allowedBinary=new Set([companionPdf,companionEpub,...estrattoAssets.map(asset=>resolve(root,asset.publicPath))]);
+const pressKit=resolve(root,'downloads/press-kit-l-immagine-della-bestia.pdf');
+const pressKitBytes=readFileSync(pressKit);
+assert.equal(pressKitBytes.subarray(0,5).toString(),'%PDF-','Press kit PDF signature');
+assert.ok(pressKitBytes.includes(Buffer.from('/Count 2')),'Press kit must have exactly two pages');
+assert.ok(pressKitBytes.length>5000&&pressKitBytes.length<500000,'Press kit file size');
+assert.ok(press.includes('<a class="button" href="downloads/press-kit-l-immagine-della-bestia.pdf" download>Scarica press kit PDF</a>'),'Press kit download link is missing');
+const allowedBinary=new Set([companionPdf,companionEpub,pressKit,...estrattoAssets.map(asset=>resolve(root,asset.publicPath))]);
 const walk=p=>readdirSync(p,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(resolve(p,e.name)):resolve(p,e.name));
 let bytes=0;for(const f of walk(root)){
  assert.ok(!/\.(docx|zip|env)$/.test(f),`Unexpected publication/source file: ${f}`);
