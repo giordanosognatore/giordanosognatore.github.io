@@ -1,4 +1,5 @@
 import {readFileSync,readdirSync,existsSync,statSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 import {estrattoAssets,verifyEstratto} from './estratto-assets.mjs';
@@ -134,7 +135,7 @@ assert.ok(sample.indexOf('Scarica EPUB')<sample.indexOf('Scarica PDF'),'EPUB mus
 const pressKit=resolve(root,'downloads/press-kit-l-immagine-della-bestia.pdf');
 const pressKitBytes=readFileSync(pressKit);
 assert.equal(pressKitBytes.subarray(0,5).toString(),'%PDF-','Press kit PDF signature');
-assert.ok(pressKitBytes.includes(Buffer.from('/Count 2')),'Press kit must have exactly two pages');
+assert.equal(createHash('sha256').update(pressKitBytes).digest('hex'),'d2ce554baba4f64f0103b2bda1a55e87d84e457306b86e5893f16ff6c6a456a6','Press kit PDF must match approved 2-page master');
 assert.ok(pressKitBytes.length>5000&&pressKitBytes.length<500000,'Press kit file size');
 assert.ok(press.includes('<a class="button" href="downloads/press-kit-l-immagine-della-bestia.pdf" download>Scarica press kit PDF</a>'),'Press kit download link is missing');
 const allowedBinary=new Set([companionPdf,companionEpub,pressKit,...estrattoAssets.map(asset=>resolve(root,asset.publicPath))]);
