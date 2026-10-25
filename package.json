@@ -1,5 +1,5 @@
 {
   "name": "giordano-sognatore", "private": true, "type": "module",
-  "scripts": {"build": "node scripts/build.mjs && node scripts/press.mjs && node scripts/google-play.mjs && node scripts/press-kit-pdf.mjs", "check": "node scripts/check.mjs && node scripts/check-taccuino.mjs", "dev": "node scripts/serve.mjs"},
+  "scripts": {"build": "node scripts/build.mjs && node scripts/press.mjs && node scripts/google-play.mjs", "check": "node scripts/check.mjs && node scripts/check-taccuino.mjs", "dev": "node scripts/serve.mjs"},
   "engines": {"node": ">=22"}
 }

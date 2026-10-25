@@ -7,6 +7,3 @@ node_modules/
 *.tar.gz
 .DS_Store
 node-v24.21.0-darwin-x64/
-
-# Generato da npm run build (copertina originale incorporata)
-dist/downloads/press-kit-l-immagine-della-bestia.pdf

@@ -80,9 +80,11 @@ Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial
 
 ### Cartella stampa PDF (Press & media)
 
-La pagina `press.html` offre il download diretto del press kit di **due pagine A4** per *L’Immagine della Bestia*. Il PDF è generato in modo deterministico da `scripts/press-kit-pdf.mjs`, usando la riproduzione compatta della copertina originale tracciata in `scripts/assets/press-kit-cover.jpg` e senza dipendenze esterne.
+La pagina `press.html` mette a disposizione un press kit ufficiale di **due pagine A4** per *L’Immagine della Bestia*, completo di copertina a risoluzione adeguata, testi approvati e link cliccabili.
 
-**Eccezione alla convenzione su `dist/`:** `dist/downloads/press-kit-l-immagine-della-bestia.pdf` è un derivato ignorato da Git, non la fonte canonica. `npm run build` lo rigenera prima di `npm run check` e prima del deployment GitHub Pages, che distribuisce il `dist/` completo. Non modificare né caricare manualmente il PDF: per cambiare il contenuto si aggiorna la sorgente del generatore e si verifica la build. Il file rimane disponibile pubblicamente allo stesso URL dopo il deploy.
+Il PDF canonico e versionato è `dist/downloads/press-kit-l-immagine-della-bestia.pdf`, una copia **ottimizzata senza modifiche visive** del press kit illustrato verificato dall'autore. Pesa circa 37 KiB, contiene due pagine A4 e conserva i collegamenti; il confronto dei render con l'originale ha rilevato zero differenze. SHA-256: `d2ce554baba4f64f0103b2bda1a55e87d84e457306b86e5893f16ff6c6a456a6`.
+
+Il PDF **non viene rigenerato** da `npm run build`: è l'asset ufficiale che va mantenuto nel repository insieme agli altri download statici. Lo script di verifica controlla la firma PDF, le dimensioni e lo SHA-256 atteso. Sostituirlo solo in seguito a una modifica editoriale approvata; aggiornare anche lo SHA-256 nel controllo. Non occorre alcun caricamento manuale nel repository locale.
 
 ## URL canonici e indicizzazione
 
