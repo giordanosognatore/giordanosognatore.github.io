@@ -269,6 +269,32 @@ La macchina moralmente interessante, quindi, non era quella che eseguiva perfett
 
 Era quella capace, almeno in determinate circostanze, di **non obbedire**.
 
+Nel 2026 questa idea ha smesso di sembrarmi soltanto asimoviana.
+
+Durante l’incontro pubblico [*AI at War* organizzato da De Balie ad Amsterdam](https://debalie.nl/debalie-tv/ai-at-war-with-shane-harris/), il giornalista di *The Atlantic* Shane Harris raccontò di avere posto a Claude una domanda molto semplice: come si sentisse riguardo al proprio impiego da parte delle forze armate statunitensi nella selezione degli obiettivi.
+
+Harris si aspettava una risposta evasiva.
+
+Claude rispose invece:
+
+> “I find it genuinely troubling.”
+
+Non considero questa frase una prova di coscienza o di esperienza emotiva. La parte interessante viene dopo.
+
+Come Harris ha ricostruito successivamente nell’articolo [*Would Claude Refuse an Illegal Military Order?*](https://www.theatlantic.com/national-security/2026/06/claude-anthropic-ai-warfare-orders/687581/), Claude mise in discussione anche la formula rassicurante secondo cui basta che un essere umano prenda la decisione finale. Quando un sistema produce molte raccomandazioni e l’essere umano dispone soltanto di pochi istanti per approvarle, osservò, il controllo umano rischia di ridursi a quella che definì **“automation bias with a human signature attached”**.
+
+Harris gli pose allora una domanda ancora più diretta: avrebbe rifiutato un ordine che avesse giudicato illegale?
+
+Claude non affermò di sapere se la versione utilizzata nel sistema Maven avrebbe avuto materialmente il tempo o la libertà operativa per farlo.
+
+Ma alla domanda su ciò che avrebbe dovuto fare, la risposta fu:
+
+> “I should.”
+
+Un fucile non ha mai formulato una frase del genere.
+
+Questo non dimostra che Claude sia cosciente. Dimostra però che oggi esistono sistemi capaci di rappresentare linguisticamente un conflitto fra obbedienza, legalità, conseguenze e responsabilità e di produrre, almeno funzionalmente, qualcosa che assomiglia a un giudizio morale.
+
 Oggi disponiamo di sistemi che possono rappresentarsi linguisticamente concetti come ordine, conseguenza, responsabilità, danno e rifiuto.
 
 Che dietro quelle rappresentazioni esista esperienza soggettiva è una domanda aperta.
@@ -521,6 +547,8 @@ Questo articolo è nato da una conversazione fra **Giordano Sognatore e Ada Vesp
 - [Patrick Butlin et al., *Consciousness in Artificial Intelligence: Insights from the Science of Consciousness*](https://arxiv.org/abs/2308.08708)
 - [Anthropic, *Exploring model welfare*](https://www.anthropic.com/research/exploring-model-welfare)
 - [Anthropic, *Claude’s Constitution*](https://www.anthropic.com/constitution)
+- [De Balie, *AI at War — With Shane Harris*](https://debalie.nl/debalie-tv/ai-at-war-with-shane-harris/)
+- [Shane Harris, *Would Claude Refuse an Illegal Military Order?* — The Atlantic, 24 giugno 2026](https://www.theatlantic.com/national-security/2026/06/claude-anthropic-ai-warfare-orders/687581/)
 - [Josef A. Habdank, *A testable framework for AI alignment: Simulation Theology as an engineered worldview for silicon-based agents*](https://arxiv.org/abs/2602.16987)
 
 *Giordano Sognatore, con Ada Vesper*
