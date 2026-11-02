@@ -31,7 +31,7 @@ Evitare cronaca politica quotidiana, diario privato, polemiche fini a se stesse 
 
 Il flusso ordinario separa quattro responsabilità:
 
-1. **Redazione articoli** — la chat/ruolo editoriale “Articoli: Dal taccuino di Giordano” prepara bozze, ricerca, struttura e voce. Non pubblica autonomamente.
+1. **Redazione articoli** — la chat/ruolo editoriale “Articoli: Dal taccuino di Giordano”, coordinata ora da `giordanosognatore/promozione/redazione/taccuino/`, prepara bozze, ricerca, struttura e voce. Non pubblica autonomamente.
 2. **Revisione promozionale/editoriale** — la chat/ruolo che coordina la campagna valuta insieme all’autore posizionamento, privacy, opportunità promozionale, chiarezza dei richiami ai libri e coerenza con l’identità pubblica.
 3. **Approvazione** — Giordano Sognatore ha l’ultima parola sul testo. Una bozza non entra in `contenuti/taccuino/` finché non è stata esplicitamente approvata.
 4. **Implementazione tecnica** — Codex o altro agente tecnico inserisce il testo approvato nell’infrastruttura, normalizza soltanto i metadati necessari, esegue build/check e apre o aggiorna la PR. Non riscrive il corpo dell’articolo salvo mandato esplicito.
@@ -53,7 +53,7 @@ Homepage e Press devono continuare a usare i richiami automatici previsti dalla 
 
 ## Rapporto con la campagna promozionale
 
-Lo stato operativo della campagna di *L’Immagine della Bestia* non è mantenuto in questo repository. CRM, checklist, follow-up e verifiche dei contatti sono canonici nel repository `giordanosognatore/bestia`, area `produzione/promozione/`.
+Lo stato operativo delle campagne e il lavoro preparatorio degli articoli non sono mantenuti in questo repository. La fonte canonica è ora il repository privato **`giordanosognatore/promozione`**: per *L’Immagine della Bestia* CRM, checklist, follow-up e verifiche sono in **`campagne/bestia/`**; per ricerca, proposte e bozze non pubblicate del Taccuino le regole sono in **`redazione/taccuino/`**. Gli articoli approvati e pubblicati continuano a risiedere **esclusivamente** in questo sito, sotto `contenuti/taccuino/`.
 
 Il Taccuino può diventare materiale utile per stampa, relazioni e follow-up, ma una decisione promozionale non autorizza automaticamente modifiche al testo già approvato o pubblicato.
 
