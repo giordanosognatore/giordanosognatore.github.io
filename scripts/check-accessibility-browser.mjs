@@ -74,7 +74,12 @@ const probe=()=>{
    if([...range.getClientRects()].some(r=>r.right>innerWidth+1||r.left< -1))clippedText.push(describe(e));
   }
  }
- return {contrast,overflow,clippedText,unnamed};
+ // The decorative footer line shares the header width at every breakpoint.
+ const footer=document.querySelector('.footer'),header=document.querySelector('.header').getBoundingClientRect();
+ const line=getComputedStyle(footer,'::before'),box=footer.getBoundingClientRect(),footerLine=[];
+ const left=box.x+parseFloat(line.left)+parseFloat(line.marginLeft),width=parseFloat(line.width);
+ if(!Number.isFinite(left)||!Number.isFinite(width)||line.content!=='""'||(parseFloat(getComputedStyle(footer).borderTopWidth)>0&&rgba(getComputedStyle(footer).borderTopColor)[3]!==0)||Math.abs(width-header.width)>.5||Math.abs(left-header.x)>.5)footerLine.push('Header and footer separators are not aligned');
+ return {contrast,overflow,clippedText,unnamed,footerLine};
 };
 const modes=[
  {width:1440},{width:768},{width:390},{width:320},
@@ -150,6 +155,11 @@ try{
   assert.ok(focus.top>=focus.bar,'Focused chapter link is hidden by reading toolbar');
  }
  console.log('PASS long excerpt anchors/focus clear of sticky tools, including 200% text');
+ await size(390);await call('Emulation.setEmulatedMedia',{features:[{name:'forced-colors',value:'active'},{name:'prefers-reduced-motion',value:'reduce'}]});await navigate('autore.html');
+ assert.deepEqual((await evaluate(`(${probe.toString()})()`)).footerLine,[],'Forced colors must not restore a full-width footer border');
+ assert.equal(await evaluate('getComputedStyle(document.querySelector(".footer")).borderTopWidth'),'0px');
+ await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+ console.log('PASS footer/header separator alignment, including forced-colors emulation');
  await size(390);await call('Emulation.setScriptExecutionDisabled',{value:true});await navigate('estratto-l-immagine-della-bestia.html');
  assert.equal(await evaluate('document.querySelectorAll(".excerpt-text p").length'),3753);
  assert.equal(await evaluate('getComputedStyle(document.querySelector(".header nav")).display'),'flex');
