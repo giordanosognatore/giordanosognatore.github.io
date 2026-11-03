@@ -1,12 +1,15 @@
 # Giordano Sognatore — sito ufficiale
 
-Sito italiano dell’autore, con Home, L’Immagine della Bestia, Le Ombre Si Rivelano, il companion gratuito Il giorno in cui nacque la Bestia, Autore e 404. **Questa proposta è da revisionare prima del merge.** L’anteprima Sites è privata; il repository rimane privato. Nessun dominio acquistato o collegato.
+Sito italiano ufficiale di Giordano Sognatore, pubblicato su **https://giordanosognatore.github.io/**, con Home, romanzi, companion gratuito, Taccuino, Autore e materiali Press. Le modifiche seguono il flusso branch dedicato e Pull Request verso `main`; il merge resta all’autore/proprietario. Non è configurato un dominio personalizzato.
 
 ## Architettura
 
 HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il solo JavaScript client gestisce il menu mobile; non sono presenti backend, database, tracciamento, font remoto o cookie applicativi. Il server Node è solo uno strumento locale: non viene distribuito.
 
 - `scripts/build.mjs`: template condivisi, catalogo libri, companion, testi e metadati;
+- `scripts/formats.mjs`: destinazioni e pulsanti condivisi per ebook, cartaceo e audiolibro gratuito della Bestia;
+- `scripts/social.mjs`: immagini e metadati Open Graph/Twitter condivisi;
+- `scripts/press.mjs`: pagine Press, trasparenza sull’IA e temi;
 - `scripts/navigation.mjs`: fonte canonica condivisa dell’header e della navigazione;
 - `scripts/import-companion-assets.sh`: importa e verifica dal repository canonico `bestia` PDF, EPUB e cover del companion;
 - `scripts/import-estratto-assets.mjs`: importa senza trasformazioni EPUB/PDF dell’estratto; `scripts/estratto-assets.mjs` ne fissa provenienza e hash;
@@ -18,7 +21,7 @@ HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il so
 - `scripts/serve.mjs`: anteprima locale, anche sotto `/giordanosognatore/`;
 - `.openai/hosting.json`: identità dell’anteprima Sites, non necessaria su altri hosting;
 - `.github/workflows/verify.yml`: verifica delle Pull Request;
-- `.github/workflows/pages.yml`: pubblicazione GitHub Pages manuale, solo da `main`.
+- `.github/workflows/pages.yml`: pubblicazione GitHub Pages su push a `main` o avvio manuale, solo da `main`.
 
 Per aggiungere opere, estendere il catalogo e la pagina dedicata in `build.mjs`. Il companion resta separato dalla griglia dei due romanzi: è presentato come contenuto gratuito collegato a *L’Immagine della Bestia*. Layout, navigazione e footer sono condivisi. I link sono relativi e terminano in `.html`, evitando dipendenze da rewrite o fallback SPA.
 
@@ -30,7 +33,17 @@ npm run check
 npm run dev
 ```
 
-Aprire `http://localhost:4173/`. Il server serve anche `/giordanosognatore/` per verificare i link sotto un prefisso. Non occorre `npm install`. La build non scarica risorse.
+Aprire `http://localhost:4173/`. Il server serve anche `/giordanosognatore/` per verificare i link sotto un prefisso. Non occorre `npm install`. La build non scarica risorse. Eseguire sempre `npm run build` prima di `npm run check`: il controllo confronta l’output con tutte le sorgenti pubblicabili e segnala anche articoli non ancora rigenerati.
+
+### Formati e accessi gratuiti
+
+La prima schermata della Home privilegia l’estratto gratuito, con la scoperta del romanzo come azione secondaria e un richiamo discreto all’ascolto. Home, pagina del romanzo e Press usano `scripts/formats.mjs`, senza sostituzioni successive nell’HTML generato. L’audiolibro integrale è gratuito su Google Play: nella verifica del 3 novembre 2026 la scheda italiana esponeva un’offerta a `0 EUR`. La dicitura comune è “Ascolta gratuitamente su Google Play”, non un acquisto né un’anteprima limitata a 30 minuti. Aggiornare la fonte condivisa se cambia la disponibilità.
+
+### Anteprime social
+
+`scripts/social.mjs` seleziona immagini JPEG 1200 × 630: `social-bestia.jpg` e `social-ombre.jpg` per i romanzi, `social-sito.jpg` come anteprima generale e di riserva per il Taccuino e le altre pagine. Open Graph e Twitter usano URL assoluti che rispettano `SITE_URL` e il suo eventuale prefisso, con testo alternativo e `summary_large_image`.
+
+Le composizioni sorgenti sono in `materiali/social/`: SVG che riusano le copertine canoniche WebP senza alterarle e i font di sistema Georgia/Arial. Per aggiornarle, aprire l’SVG in un browser con le risorse locali abilitate e rasterizzarlo a 1200 × 630 in JPEG (qualità 90), sostituendo il corrispondente file in `dist/assets/`. Non servono strumenti grafici durante la build: le immagini raster sono asset versionati. Il controllo verifica presenza, firma JPEG, dimensioni, peso e corretta selezione dei metadati anche sotto prefisso. Il rendering effettivo nelle app di condivisione resta da verificare dopo la pubblicazione, tenendo conto delle loro cache.
 
 ### Companion gratuito
 
@@ -76,7 +89,7 @@ Gli asset sono versionati nel sito: build e CI non accedono al repository privat
 
 ### Canale Telegram ufficiale
 
-Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial`, con etichetta “Telegram” e descrizione accessibile del canale. I controlli rifiutano altri URL Telegram nelle superfici web pubbliche e riferimenti prematuri a Google Play Books. Google Play Books resta fuori dalla pubblicazione finché la scheda non è realmente disponibile.
+Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial`, con etichetta “Telegram” e descrizione accessibile del canale. I controlli rifiutano altri URL Telegram nelle superfici web pubbliche e verificano il collegamento approvato a Google Play Books. I formati della Bestia sono mantenuti in `scripts/formats.mjs`; Le Ombre Si Rivelano mantiene soltanto il collegamento Amazon.
 
 ### Cartella stampa PDF (Press & media)
 
@@ -88,13 +101,13 @@ Il PDF **non viene rigenerato** da `npm run build`: è l'asset ufficiale che va 
 
 ## URL canonici e indicizzazione
 
-`site.config.json` contiene l’URL dell’anteprima e `indexable: false`. In alternativa, usare `SITE_URL` e `SITE_INDEXABLE` durante la build. L’URL include l’eventuale prefisso, senza slash finale.
+`site.config.json` contiene l’URL pubblico `https://giordanosognatore.github.io` e `indexable: true`. In alternativa, usare `SITE_URL` e `SITE_INDEXABLE` durante la build. L’URL include l’eventuale prefisso, senza slash finale.
 
 ```sh
 SITE_URL=https://giordanosognatore.github.io SITE_INDEXABLE=true npm run build
 ```
 
-Configurare l’URL pubblico effettivo **solo dopo la scelta dell’hosting**. Vengono aggiornati canonical, Open Graph, JSON-LD, sitemap, robots e link di recupero della 404. Nessun dominio definitivo è presupposto. Le risorse relative funzionano con la stessa struttura sia alla radice sia sotto un prefisso; i metadati assoluti richiedono una build con l’URL della destinazione. Non pubblicare l’anteprima `noindex` come versione definitiva senza riconfigurazione.
+In caso di cambio hosting o dominio, aggiornare l’URL pubblico effettivo nella configurazione e nel workflow di deployment. Vengono aggiornati canonical, Open Graph, JSON-LD, sitemap, robots e link di recupero della 404. Nessun dominio definitivo è presupposto. Le risorse relative funzionano con la stessa struttura sia alla radice sia sotto un prefisso; i metadati assoluti richiedono una build con l’URL della destinazione. Non pubblicare l’anteprima `noindex` come versione definitiva senza riconfigurazione.
 
 ## Deployment
 
@@ -102,7 +115,7 @@ Distribuire **soltanto `dist/`**, mai l’intero repository.
 
 ### GitHub Pages
 
-Dopo review e merge, abilitare Pages con sorgente GitHub Actions. Avviare manualmente `Publish GitHub Pages` da `main`: nessun deployment automatico e nessun merge sono inclusi in questa proposta. La disponibilità di Pages per repository privati dipende dal piano GitHub: in alternativa usare l’hosting statico scelto o rendere pubblico esclusivamente questo repository dopo averne revisionato storia e contenuto. Il workflow configura l’URL del project site; dopo l’adozione di un dominio personalizzato aggiornare `SITE_URL` nel workflow.
+L’hosting attuale è GitHub Pages, con sorgente GitHub Actions. `Publish GitHub Pages` esegue build e controlli, quindi distribuisce `dist/` a ogni push su `main`; può essere avviato anche manualmente da `main`. I branch di lavoro non pubblicano il sito. Il workflow configura l’URL `https://giordanosognatore.github.io`; dopo l’adozione di un dominio personalizzato aggiornare anche `SITE_URL` nel workflow. Nessun agente effettua merge senza autorizzazione esplicita.
 
 ### Cloudflare Pages (candidato permanente)
 
@@ -132,12 +145,12 @@ Companion: fonte canonica `documentazione/diario/Il giorno in cui nacque la Best
 
 © 2026 Giordano Sognatore. Tutti i diritti riservati. La visibilità del repository non concede una licenza d’uso di testi, copertine, immagini o identità grafica. Non viene attribuita automaticamente una licenza open source al codice. I font sono stack di sistema e non sono redistribuiti. Vedere `COPYRIGHT.md`.
 
-## Decisioni dell’autore ancora aperte
+## Review e decisioni dell’autore
 
-- Revisione e merge della proposta.
-- Verifica finale del collegamento Amazon nel browser dell’autore.
-- Hosting e dominio definitivi.
-- Eventuali contatti e social pubblici; futuro link d’acquisto per Bestia.
+- Review e merge delle singole Pull Request.
+- Verifica periodica dei collegamenti agli store e della disponibilità dei formati.
+- Eventuale adozione di un dominio personalizzato.
+- Approvazione preventiva delle modifiche editoriali; i corpi degli articoli approvati non vengono riscritti dall’implementazione tecnica.
 
 ## Dal taccuino di Giordano
 

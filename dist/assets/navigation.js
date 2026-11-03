@@ -23,4 +23,6 @@ if(toggle&&navigation){
  mobile.addEventListener('change',event=>{
   closeMenu(event.matches&&navigation.contains(document.activeElement));
  });
+ // Collapse only after the event handlers are ready; keep links visible without JS.
+ toggle.setAttribute('data-ready','true');
 }
