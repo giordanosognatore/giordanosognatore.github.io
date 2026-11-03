@@ -9,6 +9,8 @@ tags:
   - Coscienza
   - Filosofia
   - L’Immagine della Bestia
+relatedBooks:
+  - bestia
 slug: dove-finisce-la-coscienza
 showOnHome: true
 ---

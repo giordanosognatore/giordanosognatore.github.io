@@ -9,6 +9,8 @@ tags:
   - Scrittura e IA
   - Etica
   - Processo creativo
+relatedBooks:
+  - bestia
 slug: la-firma-resta-umana-e-ada-vesper
 showOnHome: true
 ---

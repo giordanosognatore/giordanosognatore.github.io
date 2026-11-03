@@ -9,6 +9,8 @@ tags:
   - Coincidenze
   - Dietro le quinte
   - Intelligenza artificiale
+relatedBooks:
+  - bestia
 slug: quando-un-libro-comincia-a-incontrare-le-persone
 showOnHome: true
 ---

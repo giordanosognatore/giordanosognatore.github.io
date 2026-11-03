@@ -10,6 +10,9 @@
 @media(min-width:701px) and (max-width:900px){.header nav{gap:1.3rem}}
 @media(max-width:700px){.journal-strip{padding:45px 0}.journal-archive,.journal-article{padding-top:38px;padding-bottom:55px}.entry-body{font-size:1.0625rem}.entry-header h1{text-wrap:wrap}.entry-body h2{font-size:1.7rem}.entry-list{margin-top:28px}}
 
+/* Contextual links are outside the approved article body. */
+.entry-books{border-top:1px solid var(--line);margin-top:48px;padding-top:28px}.entry-books>h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.25;margin-top:12px}.entry-book-list{list-style:none;margin:24px 0 0;padding:0}.entry-book-list li+li{margin-top:28px}.entry-book-list h3{font-size:1.4rem;line-height:1.3}.entry-book-links{display:flex;flex-wrap:wrap;gap:8px 28px}.entry-book-links .text-link{margin-top:10px;max-width:100%}
+@media(max-width:700px){.entry-books{margin-top:36px;padding-top:24px}.entry-book-links{flex-direction:column;align-items:flex-start;gap:0}}
 /* Reading sample: editorial bridge between the novel and its companion. */
 .sample-strip{display:grid;grid-template-columns:1fr 1.2fr;gap:95px;border-top:1px solid var(--line);padding:78px 0}.sample-strip .eyebrow{color:var(--gold)}.sample-strip h2{margin-top:24px}.sample-copy{align-self:center;max-width:630px;color:var(--muted);font-size:1.0625rem}.sample-strip .download-actions{margin-top:26px}
 @media(max-width:1050px){.sample-strip{gap:35px}}

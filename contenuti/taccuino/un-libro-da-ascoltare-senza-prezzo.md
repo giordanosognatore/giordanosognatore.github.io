@@ -9,6 +9,8 @@ tags:
   - Intelligenza artificiale
   - Processo creativo
   - ElevenLabs
+relatedBooks:
+  - bestia
 slug: un-libro-da-ascoltare-senza-prezzo
 showOnHome: true
 ---

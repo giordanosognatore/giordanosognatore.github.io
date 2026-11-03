@@ -1,4 +1,5 @@
 import {readFileSync,readdirSync,existsSync} from 'node:fs';
+import {books} from './books.mjs';
 export const escapeHtml=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 export const categoryLabels={'taccuino':'Dal taccuino','comunicati-stampa':'Comunicati stampa'};
 const compare=(a,b)=>a<b?-1:a>b?1:0;
@@ -11,16 +12,16 @@ const scalar=value=>{
 export function parseArticle(source,filename){
  const match=source.replaceAll('\r\n','\n').match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
  if(!match)throw new Error(`${filename}: front matter mancante`);
- const meta={};let inTags=false;
+ const meta={};let listKey=null;
  for(const line of match[1].split('\n')){
   if(!line.trim())continue;
-  if(inTags&&/^  - .+/.test(line)){meta.tags.push(scalar(line.slice(4)));continue;}
-  const field=line.match(/^(title|date|description|category|tags|slug|showOnHome):(?: (.*))?$/);
+  if(listKey&&/^  - .+/.test(line)){meta[listKey].push(scalar(line.slice(4)));continue;}
+  const field=line.match(/^(title|date|description|category|tags|relatedBooks|slug|showOnHome):(?: (.*))?$/);
   if(!field)throw new Error(`${filename}: campo o sintassi non supportati: ${line}`);
   const [,key,value='']=field;
   if(Object.hasOwn(meta,key))throw new Error(`${filename}: campo duplicato ${key}`);
-  inTags=key==='tags';
-  if(inTags){if(value&&value!=='[]')throw new Error(`${filename}: tags richiede un elenco su righe separate`);meta.tags=[];}
+  listKey=['tags','relatedBooks'].includes(key)?key:null;
+  if(listKey){if(value&&value!=='[]')throw new Error(`${filename}: ${key} richiede un elenco su righe separate`);meta[key]=[];}
   else if(key==='showOnHome'){if(!/^(true|false)$/.test(value))throw new Error(`${filename}: showOnHome deve essere true/false`);meta[key]=value==='true';}
   else meta[key]=scalar(value);
  }
@@ -31,6 +32,10 @@ export function parseArticle(source,filename){
  meta.slug??=filename.replace(/\.md$/,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
  if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta.slug))throw new Error(`${filename}: slug non valido`);
  meta.showOnHome??=meta.category==='taccuino';
+ meta.relatedBooks??=[];
+ if(meta.relatedBooks.some(id=>!books.some(book=>book.id===id)))throw new Error(`${filename}: relatedBooks contiene un’opera sconosciuta`);
+ if(new Set(meta.relatedBooks).size!==meta.relatedBooks.length)throw new Error(`${filename}: relatedBooks contiene duplicati`);
+ if(meta.category!=='taccuino'&&meta.relatedBooks.length)throw new Error(`${filename}: relatedBooks è riservato agli articoli del Taccuino`);
  let body=match[2].trim();
  // A matching source H1 is represented by the page's single H1.
  if(body.startsWith('# ')){
