@@ -3,6 +3,8 @@ import {createHash} from 'node:crypto';
 import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 import {estrattoAssets,verifyEstratto} from './estratto-assets.mjs';
+import {sampleRoute} from './epub-sample.mjs';
+import {checkOnlineSample} from './check-epub-sample.mjs';
 import {bestiaFormats} from './formats.mjs';
 import {books} from './books.mjs';
 import {bookJournal,articleBooks} from './related-books.mjs';
@@ -17,7 +19,7 @@ const root=resolve('dist');
 const htmlFiles=readdirSync(root,{recursive:true}).filter(p=>p.endsWith('.html'));
 const verificationFiles=htmlFiles.filter(p=>/^google[0-9a-f]+\.html$/.test(p));
 const pages=htmlFiles.filter(p=>!verificationFiles.includes(p));
-assert.equal(pages.length,10+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
+assert.equal(pages.length,11+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
 for(const card of Object.values(socialCards)){
  const bytes=readFileSync(resolve(root,card.path));
  assert.equal(bytes.subarray(0,3).toString('hex'),'ffd8ff',`${card.path}: expected JPEG`);
@@ -53,7 +55,7 @@ for(const page of pages){
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
   assert.ok(html.includes(socialMetadata(origin,page)),`${page}: missing shared social metadata`);
-  const card=page==='l-immagine-della-bestia.html'?'bestia':page==='le-ombre-si-rivelano.html'?'ombre':'sito';
+  const card=['l-immagine-della-bestia.html',sampleRoute].includes(page)?'bestia':page==='le-ombre-si-rivelano.html'?'ombre':'sito';
   assert.ok(html.includes(`property="og:image" content="${escapeHtml(origin+'/assets/social-'+card+'.jpg')}"`),`${page}: wrong social card or prefix`);
   assert.equal((html.match(/name="twitter:card"/g)||[]).length,1,`${page}: duplicate Twitter card`);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
@@ -142,7 +144,7 @@ assert.ok(author.includes('<a class="button" href="mailto:giordano.sognatore@gma
 assert.ok(author.indexOf('id="perche-scrivo"')<author.indexOf('UN IMMAGINARIO NARRATIVO'));
 const home=readFileSync(resolve(root,'index.html'),'utf8');
 const hero=home.match(/<section class="hero shell">(.*?)<\/section>/s)[1];
-assert.ok(hero.includes('<a class="button button-primary" href="l-immagine-della-bestia.html#estratto-gratuito">Leggi l’estratto gratuito</a>'));
+assert.ok(hero.includes('<a class="button button-primary" href="estratto-l-immagine-della-bestia.html">Leggi l’estratto gratuito</a>'));
 assert.ok(hero.includes('<a class="text-link" href="l-immagine-della-bestia.html">Scopri il romanzo</a>'));
 assert.ok(hero.includes(bestiaFormats.audiobookLabel));
 const press=readFileSync(resolve(root,'press.html'),'utf8');
@@ -205,7 +207,10 @@ for(const asset of estrattoAssets){
  verifyEstratto(readFileSync(resolve(root,asset.publicPath)),asset);
  assert.ok(sample.includes(`<a class="button" href="${asset.publicPath}" download>Scarica ${asset.format}</a>`),`Missing direct ${asset.format} download`);
 }
+assert.ok(sample.indexOf('Leggi online')<sample.indexOf('Scarica EPUB'),'Online reading comes before downloads');
+assert.ok(sample.includes(`<a class="button button-primary" href="${sampleRoute}">Leggi online</a>`));
 assert.ok(sample.indexOf('Scarica EPUB')<sample.indexOf('Scarica PDF'),'EPUB must come first');
+checkOnlineSample(root);
 const pressKit=resolve(root,'downloads/press-kit-l-immagine-della-bestia.pdf');
 const pressKitBytes=readFileSync(pressKit);
 assert.equal(pressKitBytes.subarray(0,5).toString(),'%PDF-','Press kit PDF signature');

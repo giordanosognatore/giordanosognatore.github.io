@@ -11,6 +11,8 @@ HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il so
 - `scripts/related-books.mjs`: richiami reciproci fra romanzi e articoli associati esplicitamente;
 - `scripts/formats.mjs`: destinazioni e pulsanti condivisi per ebook, cartaceo e audiolibro gratuito della Bestia;
 - `scripts/social.mjs`: immagini e metadati Open Graph/Twitter condivisi;
+- `scripts/epub-sample.mjs`: lettura online generata direttamente dall’EPUB pubblico approvato, senza duplicare il testo;
+- `scripts/check-epub-sample.mjs`: confronto di testo, paragrafi e formattazione con l’EPUB e controlli delle illustrazioni web;
 - `scripts/press.mjs`: pagine Press, trasparenza sull’IA e temi;
 - `scripts/navigation.mjs`: fonte canonica condivisa dell’header e della navigazione;
 - `scripts/import-companion-assets.sh`: importa e verifica dal repository canonico `bestia` PDF, EPUB e cover del companion;
@@ -43,7 +45,7 @@ La prima schermata della Home privilegia l’estratto gratuito, con la scoperta 
 
 ### Anteprime social
 
-`scripts/social.mjs` seleziona immagini JPEG 1200 × 630: `social-bestia.jpg` e `social-ombre.jpg` per i romanzi, `social-sito.jpg` come anteprima generale e di riserva per il Taccuino e le altre pagine. Open Graph e Twitter usano URL assoluti che rispettano `SITE_URL` e il suo eventuale prefisso, con testo alternativo e `summary_large_image`.
+`scripts/social.mjs` seleziona immagini JPEG 1200 × 630: `social-bestia.jpg` (anche per l’estratto online) e `social-ombre.jpg` per i romanzi, `social-sito.jpg` come anteprima generale e di riserva per il Taccuino e le altre pagine. Open Graph e Twitter usano URL assoluti che rispettano `SITE_URL` e il suo eventuale prefisso, con testo alternativo e `summary_large_image`.
 
 Le composizioni sorgenti sono in `materiali/social/`: SVG che riusano le copertine canoniche WebP senza alterarle e i font di sistema Georgia/Arial. Per aggiornarle, aprire l’SVG in un browser con le risorse locali abilitate e rasterizzarlo a 1200 × 630 in JPEG (qualità 90), sostituendo il corrispondente file in `dist/assets/`. Non servono strumenti grafici durante la build: le immagini raster sono asset versionati. Il controllo verifica presenza, firma JPEG, dimensioni, peso e corretta selezione dei metadati anche sotto prefisso. Il rendering effettivo nelle app di condivisione resta da verificare dopo la pubblicazione, tenendo conto delle loro cache.
 
@@ -65,7 +67,7 @@ Le copertine sono ottimizzate a due dimensioni. Il CSS è sorgente diretto in `d
 
 ### Estratto gratuito di L’Immagine della Bestia
 
-La pagina del romanzo presenta **Prologo + Atto I — La Pace, capitoli 1–6**, prima del companion, con EPUB per primo e accesso diretto senza registrazione. La sezione è tipografica e riusa il linguaggio editoriale del sito, senza nuove immagini.
+La pagina del romanzo presenta **Prologo + Atto I — La Pace, capitoli 1–6**, prima del companion, con «Leggi online» come prima azione e download EPUB/PDF subito disponibili (EPUB per primo fra i download), senza registrazione. La sezione è tipografica e riusa il linguaggio editoriale del sito, senza nuove immagini. Il pulsante principale della Home «Leggi l’estratto gratuito» apre direttamente la lettura online.
 
 Fonte canonica: `giordanosognatore/bestia`, commit approvato `68f7bbb3142f5f0e4dabd0b8d7afb4e6b6b9646a`:
 
@@ -88,6 +90,34 @@ URL pubblici stabili, relativi alla radice del sito e funzionanti anche sotto pr
 - `downloads/l-immagine-della-bestia-atto-i-estratto-gratuito.pdf`
 
 Gli asset sono versionati nel sito: build e CI non accedono al repository privato. `npm run check` richiede entrambi i file e verifica gli hash approvati, i link diretti e l’ordine EPUB/PDF. Un aggiornamento editoriale richiede una nuova approvazione e l’aggiornamento esplicito del manifest; non basta sostituire i file.
+
+#### Lettura online
+
+`estratto-l-immagine-della-bestia.html` è una pagina HTML statica completa: indice con ancore condivisibili, nota degli autori ed epigrafe già presenti nell’EPUB, Prologo, apertura dell’Atto I e capitoli 1–6. Include strumenti di lettura discreti (indice, EPUB, PDF, scheda del romanzo), navigazione fra capitoli e un richiamo al romanzo completo soltanto alla fine. Non richiede JavaScript per leggere o usare l’indice; non registra posizione, cookie o dati del lettore.
+
+`scripts/epub-sample.mjs` legge **soltanto l’EPUB pubblico versionato in `dist/downloads/`**, verificandone dimensione, SHA Git e SHA-256 **prima** di interpretarlo. Un lettore ZIP limitato a questo file immutabile usa esclusivamente `node:zlib`, seleziona dieci sezioni XHTML e le due illustrazioni già approvate, non estrae altri contenuti e non scrive file sorgenti. Non si accede a `bestia` durante la build, non si include il master, non si mantengono trascrizioni o copie editoriali da sincronizzare. Un asset assente o diverso da quello approvato interrompe la build.
+
+Il testo XHTML viene mantenuto: paragrafi, corsivi, grassetti, messaggi, testo a schermo, maiuscoletto, citazioni e tutti gli 83 stacchi narrativi. Gli unici adattamenti HTML sono tecnici: titoli `h1` → `h2` sotto il titolo della pagina, titoli di apertura resi visibili, rimozione del duplicato XML di `lang` (conservando `lang="en"` dove presente), percorsi/dimensioni e caricamento differito delle immagini. Identificativi, indice e navigazione web sono contenitori esterni al testo. `scripts/check-epub-sample.mjs` confronta ordine e contenuto di tutti i **3753 paragrafi** con la fonte approvata e rifiuta un EPUB alterato.
+
+Le illustrazioni web sono derivati senza metadati delle immagini **già incluse nell’EPUB**, non nuove creazioni: `dist/assets/estratto-bestia-atto-i.webp` (768 × 1152, circa 116 KiB) e `dist/assets/estratto-bestia-ala-spezzata.webp` (768 × 925, circa 46 KiB). La composizione intera, il rapporto d’aspetto e i testi alternativi originali sono conservati; le immagini restano fuori dalle altre pagine. Sono asset versionati, senza encoder necessario in build o CI. Per rigenerarli con `cwebp` (libwebp) installato localmente:
+
+```sh
+workdir="$(mktemp -d)"
+node --input-type=module - "$workdir" <<'JS'
+import {writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {approvedEpubEntries,sampleImages} from './scripts/epub-sample.mjs';
+const entries=approvedEpubEntries();
+for (const image of sampleImages) writeFileSync(resolve(process.argv[2],image.source),entries.get('EPUB/images/'+image.source));
+JS
+cwebp -q 82 -m 6 -metadata none -resize 768 0 "$workdir/act-01.jpg" -o dist/assets/estratto-bestia-atto-i.webp
+cwebp -q 82 -m 6 -metadata none -resize 768 0 "$workdir/internal-02.png" -o dist/assets/estratto-bestia-ala-spezzata.webp
+rm -r "$workdir"
+npm run build
+npm run check
+```
+
+La pagina ha canonical, anteprima social del romanzo e voce in sitemap, ma **non** è un articolo del Taccuino e non entra nel feed RSS. I download approvati rimangono byte per byte invariati. Per ampliare o sostituire il perimetro dell’estratto serve una nuova approvazione editoriale, non una semplice modifica alla selezione delle sezioni.
 
 ### Voce dell’autore
 
