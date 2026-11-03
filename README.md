@@ -169,6 +169,7 @@ tags:
   - Scrittura
 slug: il-titolo-dell-appunto
 showOnHome: true
+relatedBooks: []
 ---
 
 Il primo paragrafo con *corsivo* e **grassetto**.
@@ -197,7 +198,9 @@ Le stringhe possono essere non quotate, tra doppi apici con escape JSON (`\"`, `
 
 ### Associazioni fra Taccuino e romanzi
 
-Le associazioni sono una scelta editoriale esplicita, non sono dedotte da tag, citazioni, link nel corpo o `showOnHome`. Nel front matter di un articolo pertinente aggiungere, per esempio:
+Le associazioni sono una scelta editoriale esplicita, non sono dedotte da tag, citazioni, link nel corpo o `showOnHome`. Nell’handoff di un nuovo articolo, la redazione (anche dalla chat web) deve proporre il valore di `relatedBooks` per la revisione dell’autore: elenco pertinente oppure `[]`. Il parser mantiene il campo opzionale per compatibilità con le sorgenti esistenti. Non scrivere i riquadri nel corpo Markdown: li genera il sito. Le istruzioni della redazione sono in `giordanosognatore/promozione/redazione/taccuino/AGENTS.md`.
+
+Nel front matter di un articolo pertinente aggiungere, per esempio:
 
 ```markdown
 relatedBooks:
