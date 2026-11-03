@@ -18,7 +18,7 @@ assert.equal(renderMarkdown('[Romanzo](l-immagine-della-bestia.html)'),'<p><a hr
 assert.ok(renderMarkdown('<script>alert("x")</script>').includes('&lt;script&gt;'));
 assert.throws(()=>renderMarkdown('[click](javascript:alert)'));
 assert.throws(()=>renderMarkdown('[click](//example.test)'));
-// Execute the unchanged client menu against controlled DOM events.
+// Execute the client menu against controlled DOM events.
 const attributes={'aria-controls':'primary-navigation','aria-expanded':'false'};
 const listeners={};let focused=false;
 const toggle={getAttribute:k=>attributes[k],setAttribute:(k,v)=>attributes[k]=v,focus:()=>{focused=true;},addEventListener:(k,fn)=>listeners['toggle:'+k]=fn};
@@ -28,6 +28,7 @@ runInNewContext(readFileSync(new URL('../dist/assets/navigation.js',import.meta.
  document:{querySelector:()=>toggle,getElementById:()=>navigation,addEventListener:(k,fn)=>listeners['doc:'+k]=fn},
  window:{matchMedia:query=>{assert.equal(query,'(max-width: 700px)');return mobile;}}
 });
+assert.equal(attributes['data-ready'],'true');
 listeners['toggle:click']();assert.equal(attributes['aria-expanded'],'true');assert.equal(attributes['aria-label'],'Chiudi menu');
 listeners['doc:keydown']({key:'Escape'});assert.equal(attributes['aria-expanded'],'false');assert.ok(focused);
 listeners['toggle:click']();listeners['nav:click']({target:{closest:()=>true}});assert.equal(attributes['aria-expanded'],'false');
@@ -39,7 +40,7 @@ try{
  for(const path of ['scripts','dist','site.config.json'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
  const dir=join(temp,'contenuti/taccuino');mkdirSync(dir,{recursive:true});
  const env={...process.env,SITE_URL:'https://example.test/anteprima',SITE_INDEXABLE:'false'};
- const run=()=>{for(const file of ['build.mjs','press.mjs','google-play.mjs','check.mjs'])execFileSync(process.execPath,[`scripts/${file}`],{cwd:temp,env,stdio:'pipe'});};
+ const run=()=>{for(const file of ['build.mjs','press.mjs','check.mjs'])execFileSync(process.execPath,[`scripts/${file}`],{cwd:temp,env,stdio:'pipe'});};
  run();
  assert.ok(!existsSync(join(temp,'dist/taccuino/giordano-bruno-un-altra-bestia.html')));
  for(let n=1;n<=4;n++)writeFileSync(join(dir,`appunto-${n}.md`),fixture().replace('2026-10-10',`2026-10-0${n}`));

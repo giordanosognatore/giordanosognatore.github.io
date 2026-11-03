@@ -3,6 +3,8 @@ import {createHash} from 'node:crypto';
 import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 import {estrattoAssets,verifyEstratto} from './estratto-assets.mjs';
+import {bestiaFormats} from './formats.mjs';
+import {socialCards,socialMetadata} from './social.mjs';
 import {loadArticles,escapeHtml,renderMarkdown} from './taccuino.mjs';
 const articles=loadArticles();
 const releases=articles.filter(a=>a.category==='comunicati-stampa');
@@ -13,7 +15,25 @@ const root=resolve('dist');
 const htmlFiles=readdirSync(root,{recursive:true}).filter(p=>p.endsWith('.html'));
 const verificationFiles=htmlFiles.filter(p=>/^google[0-9a-f]+\.html$/.test(p));
 const pages=htmlFiles.filter(p=>!verificationFiles.includes(p));
-assert.equal(pages.length,10+articles.length+(releases.length?1:0));
+assert.equal(pages.length,10+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
+for(const card of Object.values(socialCards)){
+ const bytes=readFileSync(resolve(root,card.path));
+ assert.equal(bytes.subarray(0,3).toString('hex'),'ffd8ff',`${card.path}: expected JPEG`);
+ assert.ok(bytes.length<300000,`${card.path}: social image must stay below 300 KB`);
+ let dimensions=null;
+ for(let offset=2;offset+8<bytes.length;){
+  assert.equal(bytes[offset],0xff,`${card.path}: malformed JPEG segment`);
+  const marker=bytes[offset+1];
+  if([0xc0,0xc1,0xc2].includes(marker)){
+   dimensions=[bytes.readUInt16BE(offset+7),bytes.readUInt16BE(offset+5)];break;
+  }
+  if(marker===0xda||marker===0xd9)break;
+  const length=bytes.readUInt16BE(offset+2);
+  assert.ok(length>=2,`${card.path}: invalid JPEG segment length`);
+  offset+=2+length;
+ }
+ assert.deepEqual(dimensions,[1200,630],`${card.path}: social image dimensions`);
+}
 for(const file of verificationFiles){
  const value=readFileSync(resolve(root,file),'utf8').trim();
  assert.equal(value,`google-site-verification: ${file}`,`${file}: invalid Google site verification payload`);
@@ -30,6 +50,10 @@ for(const page of pages){
  assert.match(html,/<div class="contact-links"><a href="mailto:giordano\.sognatore@gmail\.com" aria-label="Email: giordano\.sognatore@gmail\.com">Email<\/a><a href="https:\/\/t\.me\/giordanosognatoreofficial" aria-label="Canale Telegram ufficiale di Giordano Sognatore">Telegram<\/a><\/div>/);
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
+  assert.ok(html.includes(socialMetadata(origin,page)),`${page}: missing shared social metadata`);
+  const card=page==='l-immagine-della-bestia.html'?'bestia':page==='le-ombre-si-rivelano.html'?'ombre':'sito';
+  assert.ok(html.includes(`property="og:image" content="${escapeHtml(origin+'/assets/social-'+card+'.jpg')}"`),`${page}: wrong social card or prefix`);
+  assert.equal((html.match(/name="twitter:card"/g)||[]).length,1,`${page}: duplicate Twitter card`);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
   assert.equal(data['@graph'].filter(n=>n['@type']==='Book').length,2);
   assert.equal(data['@graph'].filter(n=>n['@type']==='Person').length,1);
@@ -57,9 +81,14 @@ assert.match(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8'),/hre
 const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/023g6Qe1">Acquista su Amazon<\/a>/;
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
 assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
-const googlePlayUrl='https://play.google.com/store/books/details?id=jpgZEgAAQBAJ';
+const googlePlayUrl=bestiaFormats.ebook;
 const googlePlayButton=`<a class="button" href="${googlePlayUrl}">Google Play Books</a>`;
-for(const page of ['index.html','l-immagine-della-bestia.html','press.html'])assert.ok(readFileSync(resolve(root,page),'utf8').includes(googlePlayButton),`${page}: missing Google Play Books button`);
+for(const page of ['index.html','l-immagine-della-bestia.html','press.html']){
+ const html=readFileSync(resolve(root,page),'utf8');
+ assert.ok(html.includes(googlePlayButton),`${page}: missing Google Play Books button`);
+ assert.ok(html.includes(`<a class="button" href="${bestiaFormats.audiobook}">${bestiaFormats.audiobookLabel}</a>`),`${page}: missing free full audiobook`);
+ assert.ok(!/Ascolta 30 minuti gratis|Acquista su Google Play|books\/listen\?/.test(html),`${page}: obsolete audiobook CTA`);
+}
 assert.ok(!readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes('play.google.com'),'Le Ombre Si Rivelano must remain Amazon-only');
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html"[^>]*>Press<\/a>/);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
@@ -67,7 +96,7 @@ assert.equal((map.match(/<loc>/g)||[]).length,pages.length-1);
 assert.ok(!map.includes('404.html'));
 for(const required of ['il-giorno-in-cui-nacque-la-bestia.html','press.html','ai.html','temi.html'])assert.ok(map.includes(required));
 assert.match(readFileSync(resolve(root,'robots.txt'),'utf8'),/Sitemap: https:\/\//);
-const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);assert.match(css,/@media\(max-width:700px\).*\.nav-toggle/s);assert.match(css,/\.nav-toggle\[aria-expanded="false"\]\+nav\{display:none\}/);
+const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);assert.match(css,/@media\(max-width:700px\).*\.nav-toggle/s);assert.match(css,/\.nav-toggle\[data-ready\]\[aria-expanded="false"\]\+nav\{display:none\}/);
 const navigationJs=readFileSync(resolve(root,'assets/navigation.js'),'utf8');
 for(const required of ["event.key==='Escape'","closeMenu(true)","mobile.addEventListener('change'","aria-expanded","aria-label"])assert.ok(navigationJs.includes(required),`navigation.js: ${required}`);
 assert.match(readFileSync(resolve(root,'il-giorno-in-cui-nacque-la-bestia.html'),'utf8'),/COMPANION GRATUITO/);
@@ -80,6 +109,10 @@ assert.match(temi,/Sei domande/);
 assert.ok(temi.includes('<a class="text-link" href="press.html">Torna a Press & media</a>'),'temi.html: missing aligned Press text link');
 assert.ok(!temi.includes('<a class="button" href="press.html">Press & media</a>'),'temi.html: obsolete Press button remains');
 const home=readFileSync(resolve(root,'index.html'),'utf8');
+const hero=home.match(/<section class="hero shell">(.*?)<\/section>/s)[1];
+assert.ok(hero.includes('<a class="button button-primary" href="l-immagine-della-bestia.html#estratto-gratuito">Leggi l’estratto gratuito</a>'));
+assert.ok(hero.includes('<a class="text-link" href="l-immagine-della-bestia.html">Scopri il romanzo</a>'));
+assert.ok(hero.includes(bestiaFormats.audiobookLabel));
 const press=readFileSync(resolve(root,'press.html'),'utf8');
 const archive=readFileSync(resolve(root,'taccuino.html'),'utf8');
 const feed=readFileSync(resolve(root,'feed.xml'),'utf8');
