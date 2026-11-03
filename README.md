@@ -89,6 +89,12 @@ URL pubblici stabili, relativi alla radice del sito e funzionanti anche sotto pr
 
 Gli asset sono versionati nel sito: build e CI non accedono al repository privato. `npm run check` richiede entrambi i file e verifica gli hash approvati, i link diretti e l’ordine EPUB/PDF. Un aggiornamento editoriale richiede una nuova approvazione e l’aggiornamento esplicito del manifest; non basta sostituire i file.
 
+### Voce dell’autore
+
+`contenuti/autore/perche-scrivo.md` contiene il testo in prima persona «Perché scrivo queste storie», approvato dall’autore. È Markdown senza front matter, separato dagli articoli del Taccuino: viene inserito solo nella pagina `autore.html`, prima della presentazione dell’immaginario narrativo. Non genera una pagina, un articolo RSS o una voce di archivio. Il titolo e l’invito Telegram «Continuiamo la conversazione» sono nel template `scripts/build.mjs`.
+
+Questa sezione presenta motivazioni, discernimento, fede e rispetto verso il prossimo senza dati anagrafici privati né anticipazioni dei romanzi in lavorazione. Il testo approvato non va riscritto senza nuova autorizzazione. `npm run check` verifica che il Markdown sia riportato senza modifiche e che l’invito punti al canale ufficiale, conservando anche il contatto email.
+
 ### Canale Telegram ufficiale
 
 Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial`, con etichetta “Telegram” e descrizione accessibile del canale. I controlli rifiutano altri URL Telegram nelle superfici web pubbliche e verificano il collegamento approvato a Google Play Books. I formati della Bestia sono mantenuti in `scripts/formats.mjs`; Le Ombre Si Rivelano mantiene soltanto il collegamento Amazon.

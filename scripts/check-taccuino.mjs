@@ -51,7 +51,7 @@ listeners['toggle:click']();mobile.matches=false;listeners['media:change']({matc
 const temp=mkdtempSync(join(tmpdir(),'taccuino-check-'));
 try{
  const repo=new URL('../',import.meta.url);
- for(const path of ['scripts','dist','site.config.json'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
+ for(const path of ['scripts','dist','site.config.json','contenuti/autore'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
  const dir=join(temp,'contenuti/taccuino');mkdirSync(dir,{recursive:true});
  const env={...process.env,SITE_URL:'https://example.test/anteprima',SITE_INDEXABLE:'false'};
  const run=()=>{for(const file of ['build.mjs','press.mjs','check.mjs'])execFileSync(process.execPath,[`scripts/${file}`],{cwd:temp,env,stdio:'pipe'});};
@@ -83,7 +83,7 @@ try{
  const linkedPage=readFileSync(join(temp,'dist/taccuino/appunto-4.html'),'utf8');
  assert.ok(linkedPage.includes('</div><aside class="entry-books"'));
  assert.ok(linkedPage.includes('href="../l-immagine-della-bestia.html#estratto-gratuito"'));
- const snapshots=['index.html','feed.xml','sitemap.xml','l-immagine-della-bestia.html','taccuino/appunto-4.html'].map(f=>[f,readFileSync(join(temp,'dist',f),'utf8')]);
+ const snapshots=['index.html','autore.html','feed.xml','sitemap.xml','l-immagine-della-bestia.html','taccuino/appunto-4.html'].map(f=>[f,readFileSync(join(temp,'dist',f),'utf8')]);
  run();for(const [f,content] of snapshots)assert.equal(readFileSync(join(temp,'dist',f),'utf8'),content);
  rmSync(join(dir,'comunicato.md'));run();
  assert.ok(!existsSync(join(temp,'dist/comunicati-stampa.html')));
