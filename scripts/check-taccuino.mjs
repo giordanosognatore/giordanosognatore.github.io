@@ -34,9 +34,9 @@ assert.throws(()=>renderMarkdown('[click](javascript:alert)'));
 assert.throws(()=>renderMarkdown('[click](//example.test)'));
 // Execute the client menu against controlled DOM events.
 const attributes={'aria-controls':'primary-navigation','aria-expanded':'false'};
-const listeners={};let focused=false;
+const listeners={};let focused=false,insideNavigation=true;
 const toggle={getAttribute:k=>attributes[k],setAttribute:(k,v)=>attributes[k]=v,focus:()=>{focused=true;},addEventListener:(k,fn)=>listeners['toggle:'+k]=fn};
-const navigation={contains:()=>true,addEventListener:(k,fn)=>listeners['nav:'+k]=fn};
+const navigation={contains:()=>insideNavigation,addEventListener:(k,fn)=>listeners['nav:'+k]=fn};
 const mobile={matches:true,addEventListener:(k,fn)=>listeners['media:'+k]=fn};
 runInNewContext(readFileSync(new URL('../dist/assets/navigation.js',import.meta.url),'utf8'),{
  document:{querySelector:()=>toggle,getElementById:()=>navigation,addEventListener:(k,fn)=>listeners['doc:'+k]=fn},
@@ -46,6 +46,12 @@ assert.equal(attributes['data-ready'],'true');
 listeners['toggle:click']();assert.equal(attributes['aria-expanded'],'true');assert.equal(attributes['aria-label'],'Chiudi menu');
 listeners['doc:keydown']({key:'Escape'});assert.equal(attributes['aria-expanded'],'false');assert.ok(focused);
 listeners['toggle:click']();listeners['nav:click']({target:{closest:()=>true}});assert.equal(attributes['aria-expanded'],'false');
+listeners['toggle:click']();insideNavigation=false;
+listeners['doc:focusin']({target:toggle});assert.equal(attributes['aria-expanded'],'true','Focus on the toggle keeps the disclosure open');
+insideNavigation=true;listeners['doc:focusin']({target:{}});assert.equal(attributes['aria-expanded'],'true','Tab within navigation keeps it open');
+insideNavigation=false;focused=false;listeners['doc:focusin']({target:{}});
+assert.equal(attributes['aria-expanded'],'false','Leaving navigation closes the non-modal disclosure');assert.equal(focused,false,'Do not steal focus from the newly focused control');
+insideNavigation=true;
 listeners['toggle:click']();mobile.matches=false;listeners['media:change']({matches:false});assert.equal(attributes['aria-expanded'],'false');
 // Isolated build exercises future publishing with no edits to real content or dist.
 const temp=mkdtempSync(join(tmpdir(),'taccuino-check-'));

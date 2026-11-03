@@ -21,7 +21,8 @@ HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il so
 - `dist/assets/`: CSS, JavaScript vanilla del menu mobile, copertine ottimizzate, mockup promozionale di *L’Immagine della Bestia* e cover web del companion;
 - `dist/downloads/`: PDF ed EPUB gratuiti del companion e dell’estratto, copie degli asset canonici;
 - `site.config.json`: URL canonico completo e indicizzazione;
-- `scripts/check.mjs`: controllo del sito e dei riferimenti;
+- `scripts/check.mjs`: controllo del sito, dei riferimenti e delle invarianti di accessibilità;
+- `scripts/check-accessibility-browser.mjs`: verifica browser facoltativa e senza dipendenze di reflow, contrasto, tastiera, focus e semantica;
 - `scripts/serve.mjs`: anteprima locale, anche sotto `/giordanosognatore/`;
 - `.openai/hosting.json`: identità dell’anteprima Sites, non necessaria su altri hosting;
 - `.github/workflows/verify.yml`: verifica delle Pull Request;
@@ -38,6 +39,12 @@ npm run dev
 ```
 
 Aprire `http://localhost:4173/`. Il server serve anche `/giordanosognatore/` per verificare i link sotto un prefisso. Non occorre `npm install`. La build non scarica risorse. Eseguire sempre `npm run build` prima di `npm run check`: il controllo confronta l’output con tutte le sorgenti pubblicabili e segnala anche articoli non ancora rigenerati.
+
+### Accessibilità e comfort di lettura
+
+Il testo di base rispetta la dimensione predefinita del browser. Header, griglie e controlli consentono l’ingrandimento e la spezzatura delle etichette lunghe senza nascondere contenuti. Il collegamento «Vai al contenuto» trasferisce il focus al `main` senza aggiungerlo all’ordine di Tab; link, pulsanti e riepiloghi nativi hanno un indicatore di focus visibile. Le sezioni tematiche espongono titoli gerarchici e i formati sono gruppi accessibili nominati. Non sono stati cambiati testi approvati, palette o immagini. L’unico JavaScript client resta il menu mobile: ora si chiude anche quando il focus esce dalla navigazione, senza riportarlo al pulsante o coprire il controllo successivo.
+
+`npm run check` protegge le invarianti HTML/CSS e il contrasto della palette. `npm run check:browser` aggiunge controlli reali in Chrome tramite CDP, con anteprima e browser già avviati: non richiede dipendenze npm e non è necessario in build/CI. Matrice di prova, comandi, risultati e limiti sono documentati in [`docs/accessibilita.md`](docs/accessibilita.md). I test automatici **non sono una certificazione WCAG** e non sostituiscono verifiche con lettori di schermo, Safari, zoom nativo e dispositivi reali.
 
 ### Formati e accessi gratuiti
 

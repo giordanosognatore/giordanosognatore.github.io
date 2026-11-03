@@ -17,6 +17,10 @@ if(toggle&&navigation){
  navigation.addEventListener('click',event=>{
   if(event.target.closest?.('a'))closeMenu(true);
  });
+ // This is a non-modal disclosure: let Tab leave it without covering the new focus.
+ document.addEventListener('focusin',event=>{
+  if(isOpen()&&event.target!==toggle&&!navigation.contains(event.target))closeMenu();
+ });
  document.addEventListener('keydown',event=>{
   if(event.key==='Escape'&&isOpen())closeMenu(true);
  });
