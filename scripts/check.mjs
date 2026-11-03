@@ -114,6 +114,27 @@ const author=readFileSync(resolve(root,'autore.html'),'utf8');
 const authorStatement=renderMarkdown(readFileSync(resolve('contenuti/autore/perche-scrivo.md'),'utf8').trim(),'');
 assert.ok(author.includes(`<h2 id="perche-scrivo-title">Perché scrivo queste storie</h2></div><div class="prose">${authorStatement}</div></section>`),'Author page: approved statement must be rendered unchanged');
 assert.match(author,/id="perche-scrivo" aria-labelledby="perche-scrivo-title"/);
+assert.ok(author.includes('<figure class="author-illustration"><img src="assets/autore-viandante-800.webp"'));
+assert.ok(author.includes('srcset="assets/autore-viandante-400.webp 400w, assets/autore-viandante-800.webp 800w"'));
+assert.ok(author.includes('width="800" height="800" alt="Viandante con un cane fra libri, simboli celesti e paesaggi antichi e futuristici"'));
+assert.ok(author.includes('<figcaption>Il viandante cosmico — immagine simbolica di Giordano Sognatore</figcaption>'));
+const authorOriginal=readFileSync(resolve('materiali/autore/viandante-cosmico-tra-mondi-celesti-originale.png'));
+assert.equal(createHash('sha256').update(authorOriginal).digest('hex'),'6efc4795cb8ee693a1753da30d5c17826decaae14336e28e505145ad941c32a6','Archived author image must match the unmodified original');
+for(const size of [400,800]){
+ const bytes=readFileSync(resolve(root,`assets/autore-viandante-${size}.webp`));
+ assert.equal(bytes.subarray(0,4).toString(),'RIFF');
+ assert.equal(bytes.readUInt32LE(4)+8,bytes.length);
+ assert.equal(bytes.subarray(8,16).toString(),'WEBPVP8 ');
+ assert.equal(bytes.subarray(23,26).toString('hex'),'9d012a');
+ assert.deepEqual([bytes.readUInt16LE(26)&0x3fff,bytes.readUInt16LE(28)&0x3fff],[size,size]);
+ assert.ok(bytes.length<(size===400?80000:260000),'Author image exceeds its web budget');
+}
+assert.ok(!existsSync(resolve(root,'materiali')),'Archive materials must not be deployed');
+for(const page of pages){
+ const html=readFileSync(resolve(root,page),'utf8');
+ assert.ok(!html.includes('viandante-cosmico-tra-mondi-celesti-originale.png'),`${page}: original archive image must not be linked`);
+ if(page!=='autore.html')assert.ok(!html.includes('assets/autore-viandante-'),`${page}: illustration belongs only on the author page`);
+}
 assert.equal((author.match(/id="perche-scrivo"/g)||[]).length,1);
 assert.ok(author.includes('<h2>Continuiamo la conversazione</h2><p>Sul mio canale Telegram condivido gli articoli del Taccuino e riflessioni sui temi che attraversano le mie storie: libertà, conoscenza, fede, tecnologia e responsabilità.</p>'));
 assert.ok(author.includes('<a class="button" href="https://t.me/giordanosognatoreofficial">Segui Giordano Sognatore su Telegram</a>'));
