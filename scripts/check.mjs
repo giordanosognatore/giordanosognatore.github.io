@@ -47,6 +47,14 @@ for(const page of pages){
  const html=readFileSync(resolve(root,page),'utf8');
  assert.match(html,/<html lang="it">/);
  assert.equal((html.match(/<h1[ >]/g)||[]).length,1);
+ assert.equal((html.match(/<main\b/g)||[]).length,1);
+ assert.match(html,/<main id="contenuto" tabindex="-1">/,`${page}: keyboard skip target must accept focus`);
+ assert.ok(!/tabindex="[1-9]/.test(html),`${page}: do not override natural tab order`);
+ let headingLevel=0;
+ for(const heading of html.matchAll(/<h([1-6])(?:\s[^>]*)?>/g)){
+  const level=Number(heading[1]);assert.ok(level<=headingLevel+1,`${page}: skipped heading level h${headingLevel} → h${level}`);headingLevel=level;
+ }
+ for(const group of html.matchAll(/<div class="format-actions"[^>]*>/g))assert.ok(group[0].includes('role="group"'),`${page}: formats need a named accessible group`);
  for(const required of ['<title>','name="description"','name="viewport"','name="robots"','property="og:title"','name="twitter:card"','rel="icon"','<main id="contenuto"','class="skip"'])assert.ok(html.includes(required),`${page}: ${required}`);
  assert.match(html,/<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Apri menu">/);
  assert.match(html,/<nav id="primary-navigation" aria-label="Navigazione principale">.*>Home<.*>Romanzi<.*>Taccuino<.*>Press<.*>L’autore</s);
@@ -101,6 +109,14 @@ assert.ok(!map.includes('404.html'));
 for(const required of ['il-giorno-in-cui-nacque-la-bestia.html','press.html','ai.html','temi.html'])assert.ok(map.includes(required));
 assert.match(readFileSync(resolve(root,'robots.txt'),'utf8'),/Sitemap: https:\/\//);
 const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);assert.match(css,/@media\(max-width:700px\).*\.nav-toggle/s);assert.match(css,/\.nav-toggle\[data-ready\]\[aria-expanded="false"\]\+nav\{display:none\}/);
+assert.match(css,/:root\{[^}]*font-size:100%/, 'Respect the browser’s default text size');
+assert.match(css,/:where\(a,button,summary\):focus-visible\{outline:2px solid var\(--gold\)/);
+const luminance=hex=>{const rgb=hex.match(/[a-f\d]{2}/gi).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;};
+const color=name=>css.match(new RegExp(`--${name}:(#[a-f0-9]{6})`))[1].slice(1);
+for(const background of ['bg','surface'])for(const foreground of ['ink','muted','gold']){
+ const a=luminance(color(background)),b=luminance(color(foreground));
+ assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5,`${foreground} on ${background}: text contrast below 4.5:1`);
+}
 const navigationJs=readFileSync(resolve(root,'assets/navigation.js'),'utf8');
 for(const required of ["event.key==='Escape'","closeMenu(true)","mobile.addEventListener('change'","aria-expanded","aria-label"])assert.ok(navigationJs.includes(required),`navigation.js: ${required}`);
 assert.match(readFileSync(resolve(root,'il-giorno-in-cui-nacque-la-bestia.html'),'utf8'),/COMPANION GRATUITO/);
