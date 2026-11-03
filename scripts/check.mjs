@@ -4,6 +4,8 @@ import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 import {estrattoAssets,verifyEstratto} from './estratto-assets.mjs';
 import {bestiaFormats} from './formats.mjs';
+import {books} from './books.mjs';
+import {bookJournal,articleBooks} from './related-books.mjs';
 import {socialCards,socialMetadata} from './social.mjs';
 import {loadArticles,escapeHtml,renderMarkdown} from './taccuino.mjs';
 const articles=loadArticles();
@@ -132,10 +134,19 @@ for(const article of articles){
  assert.deepEqual(posting.keywords,article.tags);
  assert.match(html,/property="og:type" content="article"/);
  assert.ok(html.includes(`<div class="entry-body">${renderMarkdown(article.body)}</div>`));
+ const related=articleBooks(article);
+ assert.equal(html.includes('class="entry-books"'),Boolean(related),`${article.route}: unexpected/missing book links`);
+ if(related)assert.ok(html.includes(`</div>${related}</article>`),`${article.route}: book links must follow the unchanged body`);
  assert.ok(html.includes('href="../taccuino.html" aria-current="page"'));
  assert.ok(archive.includes(`href="${article.route}"`));
  assert.ok(map.includes(escapeHtml(origin+'/'+article.route)));
  assert.ok(feed.includes(`<link>${escapeHtml(origin+'/'+article.route)}</link>`));
+}
+for(const book of books){
+ const html=readFileSync(resolve(root,book.route),'utf8');
+ const related=bookJournal(articles,book.id);
+ assert.equal(html.includes('Dal taccuino: dentro e intorno al romanzo'),Boolean(related),`${book.route}: unexpected/missing journal section`);
+ if(related)assert.ok(html.includes(related),`${book.route}: incorrect related articles`);
 }
 for(const article of articles.filter(a=>a.showOnHome).slice(0,3))assert.ok(home.includes(`href="${article.route}"`));
 for(const category of ['taccuino','comunicati-stampa'])for(const article of articles.filter(a=>a.category===category).slice(0,3))assert.ok(press.includes(`href="${article.route}"`));

@@ -8,6 +8,8 @@ tags:
   - L’Immagine della Bestia
   - Incontri
   - Dietro le quinte
+relatedBooks:
+  - bestia
 slug: portici-di-carta-brian-822-pagine
 showOnHome: true
 description: "Una giornata a Portici di Carta, fra libri, incontri, conversazioni e Brian al guinzaglio, con L’Immagine della Bestia sotto il braccio."

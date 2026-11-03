@@ -7,6 +7,8 @@ Sito italiano ufficiale di Giordano Sognatore, pubblicato su **https://giordanos
 HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il solo JavaScript client gestisce il menu mobile; non sono presenti backend, database, tracciamento, font remoto o cookie applicativi. Il server Node è solo uno strumento locale: non viene distribuito.
 
 - `scripts/build.mjs`: template condivisi, catalogo libri, companion, testi e metadati;
+- `scripts/books.mjs`: identità condivise dei romanzi e destinazioni per i collegamenti dal Taccuino;
+- `scripts/related-books.mjs`: richiami reciproci fra romanzi e articoli associati esplicitamente;
 - `scripts/formats.mjs`: destinazioni e pulsanti condivisi per ebook, cartaceo e audiolibro gratuito della Bestia;
 - `scripts/social.mjs`: immagini e metadati Open Graph/Twitter condivisi;
 - `scripts/press.mjs`: pagine Press, trasparenza sull’IA e temi;
@@ -23,7 +25,7 @@ HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il so
 - `.github/workflows/verify.yml`: verifica delle Pull Request;
 - `.github/workflows/pages.yml`: pubblicazione GitHub Pages su push a `main` o avvio manuale, solo da `main`.
 
-Per aggiungere opere, estendere il catalogo e la pagina dedicata in `build.mjs`. Il companion resta separato dalla griglia dei due romanzi: è presentato come contenuto gratuito collegato a *L’Immagine della Bestia*. Layout, navigazione e footer sono condivisi. I link sono relativi e terminano in `.html`, evitando dipendenze da rewrite o fallback SPA.
+Per aggiungere opere, estendere il catalogo in `scripts/books.mjs` e la pagina dedicata in `scripts/build.mjs`. Il companion resta separato dalla griglia dei due romanzi: è presentato come contenuto gratuito collegato a *L’Immagine della Bestia*. Layout, navigazione e footer sono condivisi. I link sono relativi e terminano in `.html`, evitando dipendenze da rewrite o fallback SPA.
 
 ## Sviluppo e build
 
@@ -189,8 +191,26 @@ Il blocco iniziale è delimitato da due righe `---`. È un formato limitato, non
 | `tags` | Elenco di testi, ciascuno su una riga con due spazi e `- `; `tags: []` per nessun tag. |
 | `slug` | Opzionale: lettere minuscole ASCII, cifre e trattini; deve essere unico. |
 | `showOnHome` | Booleano non quotato `true`/`false`; predefinito `true` per Taccuino, `false` per comunicati. |
+| `relatedBooks` | Elenco opzionale di ID opera: `bestia`, `ombre`. Assente o `[]`: nessun richiamo. Solo per `category: taccuino`; ID sconosciuti e duplicati fanno fallire la build. |
 
 Le stringhe possono essere non quotate, tra doppi apici con escape JSON (`\"`, `\\`), oppure tra apici singoli (raddoppiare l’apice interno). Senza `slug`, il nome del file senza `.md` viene trasformato in minuscolo, senza accenti, sostituendo gli altri separatori con trattini. Per mantenere un URL permanente, conservare lo slug anche se cambiano titolo o filename.
+
+### Associazioni fra Taccuino e romanzi
+
+Le associazioni sono una scelta editoriale esplicita, non sono dedotte da tag, citazioni, link nel corpo o `showOnHome`. Nel front matter di un articolo pertinente aggiungere, per esempio:
+
+```markdown
+relatedBooks:
+  - bestia
+```
+
+Si possono associare più opere (un ID per riga); la build valida gli ID contro `scripts/books.mjs`. Non associare un libro soltanto perché è menzionato incidentalmente. I comunicati stampa restano esclusi da questi richiami.
+
+- **Pagina romanzo:** in fondo appare “Dal taccuino: dentro e intorno al romanzo”, con fino a tre articoli associati, ordinati dal più recente come nell’archivio (slug a parità di data). Il link “Tutti gli appunti” porta all’archivio completo, non filtrato. Se non ci sono associazioni la sezione non viene generata.
+- **Pagina articolo:** dopo il corpo approvato, un riquadro separato rimanda alla storia e, soltanto se disponibile, all’estratto gratuito. Nessun pulsante d’acquisto. Con più opere compare un elenco; senza associazioni non compare nulla.
+- `showOnHome: false` continua a escludere soltanto dalla Home: non impedisce un’associazione esplicita al romanzo. Rimuovere un ID elimina entrambi i richiami alla build successiva; rimuovere l’articolo elimina anche il richiamo dalla pagina romanzo.
+
+Le associazioni iniziali collegano i sei articoli attuali alla Bestia: processo creativo e riflessioni con Ada Vesper, Giordano Bruno, incontri dopo la pubblicazione, Portici di Carta e audiolibro. Per *Le Ombre Si Rivelano* non è stato aggiunto un collegamento basato sulla sola menzione degli esperimenti vocali: la sezione resta nascosta finché non viene associato un articolo pertinente. Sono modificati soltanto i metadati, non i corpi degli articoli.
 
 ### Markdown e collegamenti
 
@@ -201,7 +221,7 @@ I link interni partono dalla radice logica di `dist/`, per esempio `l-immagine-d
 ### Cosa genera la build
 
 - `taccuino.html`: tutti i contenuti, dal più recente; a parità di data, ordine lessicografico dello slug.
-- `taccuino/<slug>.html`: articolo con data, categoria, tag, metadati Open Graph e JSON-LD `BlogPosting`.
+- `taccuino/<slug>.html`: articolo con data, categoria, tag, metadati Open Graph e JSON-LD `BlogPosting`; eventuale riquadro dei romanzi associati dopo il corpo.
 - Home: ultimi tre contenuti con `showOnHome: true`, dopo romanzi e presentazione dell’autore. `showOnHome: false` esclude solo dalla Home.
 - Press: due richiami distinti, fino a tre articoli ordinari e tre comunicati. I comunicati e il loro archivio `comunicati-stampa.html` compaiono soltanto quando esiste almeno un comunicato.
 - `sitemap.xml` e `feed.xml`: archivio e URL permanenti, feed RSS 2.0 con tutti i contenuti e descrizioni, in ordine cronologico inverso. Le pagine offrono autodiscovery RSS.

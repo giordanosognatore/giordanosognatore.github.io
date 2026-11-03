@@ -9,6 +9,8 @@ tags:
   - Dietro le quinte
   - Coincidenze letterarie
 description: "Cercando il mio pseudonimo su Google ho scoperto, dopo la pubblicazione del romanzo, una sorprendente costellazione di coincidenze con lo Spaccio de la bestia trionfante di Giordano Bruno."
+relatedBooks:
+  - bestia
 slug: giordano-bruno-un-altra-bestia
 showOnHome: true
 ---
