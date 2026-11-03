@@ -74,7 +74,13 @@ const probe=()=>{
    if([...range.getClientRects()].some(r=>r.right>innerWidth+1||r.left< -1))clippedText.push(describe(e));
   }
  }
- return {contrast,overflow,clippedText,unnamed};
+ // Both frame separators span the page; their contents retain their inset.
+ const frameLines=[];
+ for(const [selector,border] of [['.header','borderBottomWidth'],['.footer','borderTopWidth']]){
+  const e=document.querySelector(selector),r=e.getBoundingClientRect();
+  if(Math.abs(r.x)>.5||Math.abs(r.width-document.documentElement.clientWidth)>.5||parseFloat(getComputedStyle(e)[border])!==1)frameLines.push(`${selector}: separator must span the full page width`);
+ }
+ return {contrast,overflow,clippedText,unnamed,frameLines};
 };
 const modes=[
  {width:1440},{width:768},{width:390},{width:320},
@@ -150,6 +156,10 @@ try{
   assert.ok(focus.top>=focus.bar,'Focused chapter link is hidden by reading toolbar');
  }
  console.log('PASS long excerpt anchors/focus clear of sticky tools, including 200% text');
+ await size(390);await call('Emulation.setEmulatedMedia',{features:[{name:'forced-colors',value:'active'},{name:'prefers-reduced-motion',value:'reduce'}]});await navigate('autore.html');
+ assert.deepEqual((await evaluate(`(${probe.toString()})()`)).frameLines,[],'Forced colors must retain full-width separators');
+ await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+ console.log('PASS full-width header/footer separators, including forced-colors emulation');
  await size(390);await call('Emulation.setScriptExecutionDisabled',{value:true});await navigate('estratto-l-immagine-della-bestia.html');
  assert.equal(await evaluate('document.querySelectorAll(".excerpt-text p").length'),3753);
  assert.equal(await evaluate('getComputedStyle(document.querySelector(".header nav")).display'),'flex');
