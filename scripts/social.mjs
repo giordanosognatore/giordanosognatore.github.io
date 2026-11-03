@@ -7,7 +7,7 @@ export const socialCards = Object.freeze({
 });
 
 export function socialMetadata(origin, file) {
- const key=file==='l-immagine-della-bestia.html'?'bestia':file==='le-ombre-si-rivelano.html'?'ombre':'site';
+ const key=['l-immagine-della-bestia.html','estratto-l-immagine-della-bestia.html'].includes(file)?'bestia':file==='le-ombre-si-rivelano.html'?'ombre':'site';
  const card=socialCards[key];
  const url=escapeHtml(`${origin}/${card.path}`);
  const alt=escapeHtml(card.alt);
