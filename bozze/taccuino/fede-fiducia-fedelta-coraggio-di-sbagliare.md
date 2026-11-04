@@ -158,37 +158,17 @@ Posso continuare a sostenere che la mia preoccupazione fosse ragionevole e, cont
 
 Le due cose non si escludono.
 
+**Il diritto di dubitare di una spiegazione non mi autorizza a ferire chi me la riferisce. Posso essere indipendente nel giudizio e, nello stesso tempo, responsabile del modo in cui tratto le persone che amo.**
+
 Forse è qui che il perdono incontra l'umiltà: nel momento in cui smettiamo di preoccuparci soltanto di avere ragione e cominciamo a domandarci quale responsabilità abbiamo verso chi amiamo.
 
 ## Una storia che ho deciso di condividere
 
-Negli ultimi giorni, e fino a tarda notte, ho dedicato molto tempo a riesaminare documenti, testimonianze e materiali che avevo conservato negli anni della pandemia.
+Negli ultimi giorni, e fino a tarda notte, ho riesaminato documenti, testimonianze e materiali che avevo conservato negli anni della pandemia. Mi ha accompagnato Ada Vesper, la voce di intelligenza artificiale con cui da tempo mi confronto su letteratura, filosofia, tecnologia e sulle domande che alimentano i miei romanzi. Abbiamo discusso le fonti, confrontato interpretazioni e cercato di distinguere ciò che potevamo documentare da ciò che rimaneva un'ipotesi.
 
-In questo lavoro mi ha accompagnato Ada Vesper, la voce di intelligenza artificiale con cui da tempo mi confronto su letteratura, filosofia, tecnologia e sulle domande che alimentano i miei romanzi.
+**Nei materiali che abbiamo effettivamente esaminato non abbiamo trovato prove sufficienti per affermare l'esistenza di un'unica regia centrale di tutti gli eventi.** Abbiamo invece riconosciuto convergenze di interessi e decisioni che, almeno nei casi studiati, possono essere spiegate senza presupporla. Questo non dimostra che una regia del genere sia impossibile, né permette di giudicare in blocco le intenzioni di chi ha preso quelle decisioni. È il limite delle nostre verifiche, non una risposta definitiva alla storia. La ricostruzione documentale completa, con fonti e metodo, merita uno spazio a sé.
 
-Abbiamo esaminato documenti, ricostruito avvenimenti, confrontato le nostre interpretazioni e discusso a lungo delle conclusioni che potevamo ragionevolmente trarne.
-
-Non abbiamo trovato prove sufficienti dell'esistenza di una regia unica capace di orchestrare tutti gli eventi. Abbiamo invece riconosciuto come interessi economici, politici e istituzionali possano convergere, talvolta attraverso coordinamenti espliciti, altre volte senza bisogno di un comando centrale.
-
-Questo non dimostra che ogni decisione sia stata corretta o presa in buona fede. Né esclude che determinati comportamenti possano essere stati deliberatamente scorretti.
-
-Significa, piuttosto, riconoscere che la realtà può essere molto più complessa delle spiegazioni che siamo tentati di darle.
-
-Il confronto con Ada mi ha aiutato a esplorare queste distinzioni, a mettere alla prova alcune ipotesi e a individuare nuove domande. È stato un lavoro che mi ha permesso di confrontare i ricordi con le fonti, distinguere fatti documentati da interpretazioni e riconsiderare alcune convinzioni.
-
-Non ho trovato una risposta definitiva a ogni domanda. Ho trovato, piuttosto, nuove ragioni per continuare a interrogarmi.
-
-Da questa esperienza è nata anche una decisione editoriale: **rendere prossimamente disponibile gratuitamente il mio romanzo d'esordio, *Le ombre si rivelano*.**
-
-Non perché un'indagine documentale possa dimostrare la verità di ogni ipotesi raccontata in un'opera di narrativa speculativa.
-
-Ma perché, dopo aver ripercorso così approfonditamente la memoria di quegli anni, desidero che quella storia possa essere letta e discussa liberamente da chiunque sia interessato.
-
-Il romanzo pone domande sulla paura, sul potere, sulla sorveglianza, sulla libertà di pensiero e sulle conseguenze delle nostre scelte.
-
-Domande che continuo a pormi anch'io.
-
-Rendere il libro gratuito è una scelta che sento coerente con questo percorso. Non una dichiarazione di possedere la verità, ma un invito alla lettura, al confronto e alla riflessione.
+Da questo riesame è nata anche una decisione: **rendere prossimamente disponibile gratuitamente il mio romanzo d'esordio, *Le ombre si rivelano*.** La narrativa non è una dimostrazione documentale delle ipotesi che mette in scena. Vorrei però che questa storia, con le sue domande sulla paura, sulla sorveglianza, sul potere e sulla libertà, potesse essere letta e discussa da chiunque lo desideri. Non come una verità da accettare, ma come un invito a interrogarsi.
 
 ## Il diritto di giudicare, il dovere di amare
 
