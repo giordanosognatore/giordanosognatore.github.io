@@ -1,0 +1,36 @@
+name: Temporaneo - genera dist per PR 27
+
+on:
+  push:
+    branches:
+      - draft/taccuino-fede-fiducia-fedelta
+    paths:
+      - .github/workflows/pr27-genera-dist.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.repository == 'giordanosognatore/giordanosognatore.github.io'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Genera HTML, RSS e sitemap
+        run: |
+          npm run build
+          npm run check
+      - name: Commit degli output generati esclusivamente nel branch di revisione
+        run: |
+          git add -- dist
+          if git diff --cached --quiet; then
+            echo "Gli output sono gia aggiornati."
+            exit 0
+          fi
+          git -c user.name='Giordano Sognatore' -c user.email='giordano.sognatore@gmail.com' commit -m 'build(taccuino): rigenera sito per articolo approvato'
+          git push origin HEAD:refs/heads/draft/taccuino-fede-fiducia-fedelta
