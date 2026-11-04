@@ -4,15 +4,25 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
       - run: npm run build
       - run: npm run check
+      - name: Rigenera dist nel branch draft (temporaneo, PR 27)
+        if: github.head_ref == 'draft/taccuino-fede-fiducia-fedelta'
+        run: |
+          git add -- dist
+          if ! git diff --cached --quiet; then
+            git -c user.name='Giordano Sognatore' -c user.email='giordano.sognatore@gmail.com' commit -m 'build(taccuino): rigenera output per PR 27'
+            git push origin HEAD:refs/heads/draft/taccuino-fede-fiducia-fedelta
+          fi
       - run: git diff --exit-code -- dist
