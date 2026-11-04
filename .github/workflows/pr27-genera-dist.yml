@@ -6,6 +6,7 @@ on:
       - draft/taccuino-fede-fiducia-fedelta
     paths:
       - .github/workflows/pr27-genera-dist.yml
+      - contenuti/taccuino/fede-fiducia-fedelta-coraggio-di-sbagliare.md
 
 permissions:
   contents: write
