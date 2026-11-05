@@ -1,10 +1,10 @@
-# Le Ombre Si Rivelano — edizione gratuita da revisionare
+# Le Ombre Si Rivelano — edizione gratuita approvata
 
 ## Mandato e stato
 
 L’autore ha autorizzato PDF, EPUB e lettura integrale, conservando copertina e sezioni, con adattamenti tecnici di reflow e rimozione dei font. Ha dichiarato cessata da tempo l’adesione a KDP Select e accettato l’eventuale adeguamento a zero del prezzo Amazon. Non viene certificato lo stato dell’account KDP. Nessun prezzo commerciale è fissato nel sito.
 
-**Questa implementazione resta locale fino al controllo visivo e all’approvazione dell’autore.** Non effettuare push degli asset su un repository pubblico, merge o deployment prima della revisione. KPF, Pages, schermate dell’account e rapporti temporanei di verifica non vanno distribuiti.
+**L’autore ha verificato l’EPUB adattato e approvato la versione locale, autorizzando esplicitamente push e pubblicazione.** KPF, Pages, schermate dell’account e rapporti temporanei di verifica non vanno distribuiti.
 
 ## Fonti e provenienza
 
@@ -64,9 +64,8 @@ La scheda Ombre offre lettura, EPUB e PDF, più il cartaceo Amazon (`B0F4Y71R6L`
 
 Il controllo browser comprende tutte le pagine e i due nuovi percorsi sotto prefisso: **192 combinazioni** di viewport 1440/768/390/320, testo al 200% e spaziatura aumentata. Include tastiera, nomi accessibili, contrasto su fondi solidi, ancore del romanzo non coperte dalla barra e lettura senza JavaScript. Non è una certificazione WCAG.
 
-## Da revisionare insieme
+## Revisione e limiti
 
-- Aspetto e leggibilità dell’EPUB in Apple Books o in un lettore EPUB abituale, con font/dimensioni scelti dal lettore.
-- Copertina e semplificazione dei capilettera; indice e sezioni iniziali/finali.
-- Lettura e download su un dispositivo reale; Safari/VoiceOver non sono stati collaudati in questa sessione.
-- Approvazione visiva prima di push/PR e pubblicazione; conferma periodica delle condizioni/disponibilità Amazon.
+- L’autore ha completato con esito positivo le verifiche richieste sull’EPUB e approvato la pubblicazione della versione locale.
+- Controllo browser desktop/mobile completato; Safari/VoiceOver non sono stati collaudati in questa sessione. I test automatici non sostituiscono prove con tecnologie assistive e dispositivi reali.
+- Verificare periodicamente condizioni e disponibilità Amazon.

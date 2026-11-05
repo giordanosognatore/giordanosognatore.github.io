@@ -132,7 +132,7 @@ La scheda del romanzo offre lettura online, EPUB adattato e PDF, senza registraz
 
 `leggi-le-ombre-si-rivelano.html` riusa il layout dell’estratto: copertina, indice, 26 sezioni, navigazione fra capitoli e download. Il testo deriva soltanto dall’EPUB pubblico adattato e verificato per hash; build e CI non accedono ai sorgenti privati. La pagina entra nella sitemap e usa l’anteprima social Ombre, ma non genera un articolo o una voce RSS.
 
-L’EPUB conserva testo, paragrafi e corsivi/grassetti, senza font incorporati o script; i 23 capilettera grafici diventano iniziali testuali. Il PDF è una copia invariata dell’esportazione Pages. `scripts/check-ombre.mjs` confronta i 279 blocchi e gli stati di enfasi con le impronte dell’esportazione originale. Provenienza, privacy, importazione riproducibile e verifiche sono documentate in [`docs/ombre.md`](docs/ombre.md). Il lavoro resta da approvare visivamente prima di push e pubblicazione.
+L’EPUB conserva testo, paragrafi e corsivi/grassetti, senza font incorporati o script; i 23 capilettera grafici diventano iniziali testuali. Il PDF è una copia invariata dell’esportazione Pages. `scripts/check-ombre.mjs` confronta i 279 blocchi e gli stati di enfasi con le impronte dell’esportazione originale. Provenienza, privacy, importazione riproducibile e verifiche sono documentate in [`docs/ombre.md`](docs/ombre.md). L’autore ha verificato l’EPUB, approvato la versione locale e autorizzato push e pubblicazione.
 
 ### Voce dell’autore
 
