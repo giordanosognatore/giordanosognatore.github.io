@@ -94,7 +94,7 @@ try{
  for(const mode of modes){
   await size(mode.width);
   // All generated pages at root; representative templates under project prefix.
-  const paths=[...pages,...['index.html','press.html','estratto-l-immagine-della-bestia.html'].map(p=>'giordanosognatore/'+p)];
+  const paths=[...pages,...['index.html','press.html','estratto-l-immagine-della-bestia.html','le-ombre-si-rivelano.html','leggi-le-ombre-si-rivelano.html'].map(p=>'giordanosognatore/'+p)];
   for(const path of paths){
    await navigate(path);
    if(mode.font)await evaluate(`document.documentElement.style.fontSize='${mode.font}px'`);
@@ -106,7 +106,7 @@ try{
   }
   console.log(`PASS layout/solid-background contrast: ${JSON.stringify(mode)}`);
  }
- for(const width of [390,1440])for(const page of ['index.html','press.html','estratto-l-immagine-della-bestia.html']){
+ for(const width of [390,1440])for(const page of ['index.html','press.html','estratto-l-immagine-della-bestia.html','leggi-le-ombre-si-rivelano.html']){
   await size(width);await navigate(page);await key('Tab');
   assert.equal(await evaluate('document.activeElement.className'),'skip');
   assert.ok(await evaluate('document.activeElement.matches(":focus-visible")&&document.activeElement.getBoundingClientRect().top>=0'));
@@ -156,6 +156,16 @@ try{
   assert.ok(focus.top>=focus.bar,'Focused chapter link is hidden by reading toolbar');
  }
  console.log('PASS long excerpt anchors/focus clear of sticky tools, including 200% text');
+ for(const mode of [{width:390},{width:320,font:32},{width:768,font:32}]){
+  await size(mode.width);await navigate('leggi-le-ombre-si-rivelano.html');
+  if(mode.font)await evaluate(`document.documentElement.style.fontSize='${mode.font}px'`);
+  for(const id of ['prologo','capitolo-1','capitolo-18','riflessioni-finali','fine-romanzo']){
+   await evaluate(`document.querySelector('a[href="#${id}"]').click()`);await delay(50);
+   const r=await evaluate(`(()=>{const h=document.getElementById('${id}').querySelector('h2'),bar=document.querySelector('.excerpt-tools');return {heading:h.getBoundingClientRect().top,barBottom:bar.getBoundingClientRect().bottom}})()`);
+   assert.ok(r.barBottom>0&&r.heading>=r.barBottom&&r.heading<1000,JSON.stringify(r));
+  }
+ }
+ console.log('PASS complete Ombre reader anchors clear of sticky tools, including 200% text');
  await size(390);await call('Emulation.setEmulatedMedia',{features:[{name:'forced-colors',value:'active'},{name:'prefers-reduced-motion',value:'reduce'}]});await navigate('autore.html');
  assert.deepEqual((await evaluate(`(${probe.toString()})()`)).frameLines,[],'Forced colors must retain full-width separators');
  await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
@@ -164,6 +174,11 @@ try{
  assert.equal(await evaluate('document.querySelectorAll(".excerpt-text p").length'),3753);
  assert.equal(await evaluate('getComputedStyle(document.querySelector(".header nav")).display'),'flex');
  await key('Tab');await key('Enter');assert.equal(await evaluate('document.activeElement.id'),'contenuto');
+ await navigate('leggi-le-ombre-si-rivelano.html');
+ assert.equal(await evaluate('document.querySelectorAll(".excerpt-section").length'),26);
+ assert.equal(await evaluate('document.querySelectorAll(".excerpt-text p").length'),253);
+ await evaluate('document.querySelector(\'a[href="#capitolo-18"]\').click()');
+ assert.equal(await evaluate('location.hash'),'#capitolo-18');
  console.log(`PASS: ${combinations} page/layout combinations; no-JavaScript reading and skip navigation. Not a WCAG certification.`);
 }finally{
  try{await call('Page.close');}finally{ws.close();for(const p of pending.values()){clearTimeout(p.timer);p.fail(new Error('Browser check closed'));}pending.clear();}

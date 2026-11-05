@@ -126,6 +126,14 @@ npm run check
 
 La pagina ha canonical, anteprima social del romanzo e voce in sitemap, ma **non** è un articolo del Taccuino e non entra nel feed RSS. I download approvati rimangono byte per byte invariati. Per ampliare o sostituire il perimetro dell’estratto serve una nuova approvazione editoriale, non una semplice modifica alla selezione delle sezioni.
 
+### Le Ombre Si Rivelano — romanzo integrale gratuito
+
+La scheda del romanzo offre lettura online, EPUB adattato e PDF, senza registrazione, mantenendo il collegamento al cartaceo Amazon. La Home continua a privilegiare *L’Immagine della Bestia*.
+
+`leggi-le-ombre-si-rivelano.html` riusa il layout dell’estratto: copertina, indice, 26 sezioni, navigazione fra capitoli e download. Il testo deriva soltanto dall’EPUB pubblico adattato e verificato per hash; build e CI non accedono ai sorgenti privati. La pagina entra nella sitemap e usa l’anteprima social Ombre, ma non genera un articolo o una voce RSS.
+
+L’EPUB conserva testo, paragrafi e corsivi/grassetti, senza font incorporati o script; i 23 capilettera grafici diventano iniziali testuali. Il PDF è una copia invariata dell’esportazione Pages. `scripts/check-ombre.mjs` confronta i 279 blocchi e gli stati di enfasi con le impronte dell’esportazione originale. Provenienza, privacy, importazione riproducibile e verifiche sono documentate in [`docs/ombre.md`](docs/ombre.md). Il lavoro resta da approvare visivamente prima di push e pubblicazione.
+
 ### Voce dell’autore
 
 `contenuti/autore/perche-scrivo.md` contiene il testo in prima persona «Perché scrivo queste storie», approvato dall’autore. È Markdown senza front matter, separato dagli articoli del Taccuino: viene inserito solo nella pagina `autore.html`, prima della presentazione dell’immaginario narrativo. Non genera una pagina, un articolo RSS o una voce di archivio. Il titolo e l’invito Telegram «Continuiamo la conversazione» sono nel template `scripts/build.mjs`.
@@ -140,7 +148,7 @@ L’originale PNG 1254 × 1254 è archiviato senza modifiche in `materiali/autor
 
 ### Canale Telegram ufficiale
 
-Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial`, con etichetta “Telegram” e descrizione accessibile del canale. I controlli rifiutano altri URL Telegram nelle superfici web pubbliche e verificano il collegamento approvato a Google Play Books. I formati della Bestia sono mantenuti in `scripts/formats.mjs`; Le Ombre Si Rivelano mantiene soltanto il collegamento Amazon.
+Footer, contatti autore e `sameAs` usano `https://t.me/giordanosognatoreofficial`, con etichetta “Telegram” e descrizione accessibile del canale. I controlli rifiutano altri URL Telegram nelle superfici web pubbliche e verificano il collegamento approvato a Google Play Books. I formati della Bestia sono mantenuti in `scripts/formats.mjs`; download, lettura e collegamento al cartaceo di *Le Ombre Si Rivelano* sono in `scripts/ombre.mjs`.
 
 ### Cartella stampa PDF (Press & media)
 
