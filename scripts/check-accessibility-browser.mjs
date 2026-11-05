@@ -101,6 +101,10 @@ try{
    if(mode.spacing)await evaluate(`(()=>{const s=document.createElement('style');s.textContent='*{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}';document.head.append(s);})()`);
    const report=await evaluate(`(${probe.toString()})()`);
    for(const [check,issues] of Object.entries(report))assert.deepEqual(issues,[],`${path} ${JSON.stringify(mode)} ${check}: ${JSON.stringify(issues.slice(0,5))}`);
+   if(path.endsWith('index.html')){
+    const separated=await evaluate(`(()=>{const group=document.querySelector('[aria-label="Scopri e leggi Le Ombre Si Rivelano"]'),links=[...group.querySelectorAll('a')];if(links.length!==2||links.some(a=>!a.classList.contains('button')))return false;const [a,b]=links.map(e=>e.getBoundingClientRect());return b.left-a.right>=7||b.top-a.bottom>=7;})()`);
+    assert.ok(separated,`Ombre catalog buttons must have a visible gap: ${path} ${JSON.stringify(mode)}`);
+   }
    if(path==='index.html'&&[390,1440].includes(mode.width)&&!mode.spacing)await screenshot(`home-${mode.width}-${mode.font||16}`);
    combinations++;
   }

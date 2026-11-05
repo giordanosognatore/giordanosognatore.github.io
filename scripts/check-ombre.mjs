@@ -63,6 +63,13 @@ export function checkOmbre(root){
  assert.ok(page.includes('class="reading-page"'));
  assert.equal((page.match(/class="excerpt-chapter-nav"/g)||[]).length,26);
  assert.ok(page.includes('href="#prologo">Inizia dal Prologo'));
+ const home=readFileSync(resolve(root,'index.html'),'utf8');
+ const catalog=[...home.matchAll(/<article class="book-row">[\s\S]*?<\/article>/g)].map(m=>m[0]).find(html=>html.includes('<h3><a href="le-ombre-si-rivelano.html">'));
+ assert.ok(catalog,'Missing Ombre catalog entry');
+ assert.ok(catalog.includes('<div class="format-actions" role="group" aria-label="Scopri e leggi Le Ombre Si Rivelano">'));
+ assert.ok(catalog.includes('<a class="button" href="le-ombre-si-rivelano.html">Scopri il libro</a>'));
+ assert.ok(catalog.includes(`<a class="button" href="${ombreRoute}">Leggi gratis il romanzo</a>`));
+ assert.equal((catalog.match(/class="button"/g)||[]).length,2,'Both Ombre catalog actions must remain spaced buttons');
  const book=readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8');
  assert.ok(book.includes(`href="${ombreRoute}">Leggi online`));assert.ok(book.includes(`href="${ombrePaperback}"`));
  for(const a of ombreAssets)for(const html of [book,page])assert.ok(html.includes(`href="${a.path}" download>Scarica ${a.format}`));
