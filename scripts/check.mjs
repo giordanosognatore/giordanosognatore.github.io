@@ -4,6 +4,8 @@ import {resolve,dirname} from 'node:path';
 import assert from 'node:assert/strict';
 import {estrattoAssets,verifyEstratto} from './estratto-assets.mjs';
 import {sampleRoute} from './epub-sample.mjs';
+import {ombreRoute,ombrePaperback,ombreAssets} from './ombre.mjs';
+import {checkOmbre} from './check-ombre.mjs';
 import {checkOnlineSample} from './check-epub-sample.mjs';
 import {bestiaFormats} from './formats.mjs';
 import {books} from './books.mjs';
@@ -19,7 +21,7 @@ const root=resolve('dist');
 const htmlFiles=readdirSync(root,{recursive:true}).filter(p=>p.endsWith('.html'));
 const verificationFiles=htmlFiles.filter(p=>/^google[0-9a-f]+\.html$/.test(p));
 const pages=htmlFiles.filter(p=>!verificationFiles.includes(p));
-assert.equal(pages.length,11+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
+assert.equal(pages.length,12+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
 for(const card of Object.values(socialCards)){
  const bytes=readFileSync(resolve(root,card.path));
  assert.equal(bytes.subarray(0,3).toString('hex'),'ffd8ff',`${card.path}: expected JPEG`);
@@ -63,7 +65,7 @@ for(const page of pages){
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
   assert.ok(html.includes(socialMetadata(origin,page)),`${page}: missing shared social metadata`);
-  const card=['l-immagine-della-bestia.html',sampleRoute].includes(page)?'bestia':page==='le-ombre-si-rivelano.html'?'ombre':'sito';
+  const card=['l-immagine-della-bestia.html',sampleRoute].includes(page)?'bestia':['le-ombre-si-rivelano.html',ombreRoute].includes(page)?'ombre':'sito';
   assert.ok(html.includes(`property="og:image" content="${escapeHtml(origin+'/assets/social-'+card+'.jpg')}"`),`${page}: wrong social card or prefix`);
   assert.equal((html.match(/name="twitter:card"/g)||[]).length,1,`${page}: duplicate Twitter card`);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
@@ -89,7 +91,8 @@ for(const page of pages){
  for(const script of html.matchAll(/<script\b[^>]*>/g))assert.ok(/type="application\/ld\+json"|src="(?:https:\/\/[^" ]+\/|\.\.\/)?assets\/navigation\.js" defer/.test(script[0]),`${page}: unexpected script ${script[0]}`);
  assert.ok(!/<iframe|<form/.test(html),'No iframes or forms expected');
 }
-assert.match(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8'),/href="https:\/\/amzn.eu\/d\/6sXfK4j"/);
+assert.ok(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes(`href="${ombrePaperback}"`));
+checkOmbre(root);
 const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/023g6Qe1">Acquista su Amazon<\/a>/;
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
 assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
@@ -101,7 +104,7 @@ for(const page of ['index.html','l-immagine-della-bestia.html','press.html']){
  assert.ok(html.includes(`<a class="button" href="${bestiaFormats.audiobook}">${bestiaFormats.audiobookLabel}</a>`),`${page}: missing free full audiobook`);
  assert.ok(!/Ascolta 30 minuti gratis|Acquista su Google Play|books\/listen\?/.test(html),`${page}: obsolete audiobook CTA`);
 }
-assert.ok(!readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes('play.google.com'),'Le Ombre Si Rivelano must remain Amazon-only');
+assert.ok(!readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes('play.google.com'),'Do not invent a Google Play edition for Le Ombre Si Rivelano');
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html"[^>]*>Press<\/a>/);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((map.match(/<loc>/g)||[]).length,pages.length-1);
@@ -233,10 +236,10 @@ assert.equal(pressKitBytes.subarray(0,5).toString(),'%PDF-','Press kit PDF signa
 assert.equal(createHash('sha256').update(pressKitBytes).digest('hex'),'d2ce554baba4f64f0103b2bda1a55e87d84e457306b86e5893f16ff6c6a456a6','Press kit PDF must match approved 2-page master');
 assert.ok(pressKitBytes.length>5000&&pressKitBytes.length<500000,'Press kit file size');
 assert.ok(press.includes('<a class="button" href="downloads/press-kit-l-immagine-della-bestia.pdf" download>Scarica press kit PDF</a>'),'Press kit download link is missing');
-const allowedBinary=new Set([companionPdf,companionEpub,pressKit,...estrattoAssets.map(asset=>resolve(root,asset.publicPath))]);
+const allowedBinary=new Set([companionPdf,companionEpub,pressKit,...estrattoAssets.map(asset=>resolve(root,asset.publicPath)),...ombreAssets.map(asset=>resolve(root,asset.path))]);
 const walk=p=>readdirSync(p,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(resolve(p,e.name)):resolve(p,e.name));
 let bytes=0;for(const f of walk(root)){
- assert.ok(!/\.(docx|zip|env)$/.test(f),`Unexpected publication/source file: ${f}`);
+ assert.ok(!/\.(docx|zip|env|kpf|pages|kcb|kdf)$/.test(f),`Unexpected publication/source file: ${f}`);
  if(/\.(epub|pdf)$/.test(f))assert.ok(allowedBinary.has(f),`Unexpected downloadable binary: ${f}`);
  if(/\.(html|xml|txt|js|css)$/.test(f)){
   const text=readFileSync(f,'utf8');

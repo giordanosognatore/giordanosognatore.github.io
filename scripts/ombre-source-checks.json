@@ -1,0 +1,492 @@
+{
+  "sourceSha256": "b8eaf7a646c3638bd0f3b9bdcab14c12da36bea3919e68a0f0054e06c6fcb87a",
+  "sections": [
+    {
+      "file": "titlePageContent.xhtml",
+      "title": "Frontespizio",
+      "blocks": [
+        "b13e93099da6cdcbec29e1785c154c700b40f35413826a59f3ae6e4190e5cec0",
+        "ee5fb51681c9ce89a3f8f9946ae234b43a3c98d58390b11488b49153d554c2ea",
+        "63d7c69d1a7523d7499410b6a33458c75d721e2c38e54e2f879b1686df876a7d",
+        "bbb4f655cac1e4ff586ebb7fd467c29b2d54604c1fbfc66c7fe84956512bc8ef",
+        "f8780635fee22ecc621079cfb133897a8a8556238fda7135c1bfc1f458a9ac62"
+      ],
+      "lineBreaks": 1,
+      "emphasisSha256": "599170c0ff15c98cf37ae0595ac5263bd6dc7267d92f3d30731f7d85e18f4a6d"
+    },
+    {
+      "file": "chapter-1.xhtml",
+      "title": "Dedica",
+      "blocks": [
+        "7b27d54ea9e76d6c2fb981b1941c8aa530e47c78d1cc6feddcf57c1388fee9c0",
+        "72985a2733d6e345f89fe620dda8283ae1a5bf07a5059db09a578b16491d21cb",
+        "d62995cf404d002cf558c580cb6fb1ad320456abacbae804b6202ac0d74493f9",
+        "4d91bf0cdecedee627efd4b049f7c08c8146b7844cdc9edeafe24961c99bfb14",
+        "e7e64af38e50c72e6d9e1d02fc357591950ff581ab380d59244f9e9af14b2f7f"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "beeebbd02dbc5f1beb4b7df812d41a73dd8e09122c36680b172f48563d080bea"
+    },
+    {
+      "file": "chapter-2.xhtml",
+      "title": "Introduzione",
+      "blocks": [
+        "bed8e30cf3398a8e8b708629d64d8dbbfa005b0f89d7823bc7b8c5de8510a2aa",
+        "825a0e0c277e16d507902e1961fa3ebb1c6461d68782aa4c0b26b5b5c65a1f50",
+        "0f5c377f27841e0170a9dd5304fa0753da84e33699ae0cf86e8455e4061ac4ea",
+        "63d7c69d1a7523d7499410b6a33458c75d721e2c38e54e2f879b1686df876a7d"
+      ],
+      "lineBreaks": 1,
+      "emphasisSha256": "9d00832c7c2b7fcb33b3543e27b9d3d2f5678a5da63492f25be2c882957c20b6"
+    },
+    {
+      "file": "chapter-3.xhtml",
+      "title": "Indice",
+      "blocks": [
+        "153df23f4806af6725aec781575aba4b8934ecb536e38963a9dd75208d0980ca",
+        "7b27d54ea9e76d6c2fb981b1941c8aa530e47c78d1cc6feddcf57c1388fee9c0",
+        "bed8e30cf3398a8e8b708629d64d8dbbfa005b0f89d7823bc7b8c5de8510a2aa",
+        "153df23f4806af6725aec781575aba4b8934ecb536e38963a9dd75208d0980ca",
+        "e3a79cd11aa158590febfe96a73242946a6147df59af809ce6423164e3ee3d24",
+        "e13f82adc73e7d4b44f2eda546fa6805da748f492b9450677a2fc1f17c6bc773",
+        "2f481526184b322b60c854cfe04fab2731fd7bd26df91b7df1fbf7529d68b551",
+        "edb6560bf671b07805fffcc12e6c7023adde0e7ca6faece2c82f50c2fb9eaee4",
+        "a4ce2507a9754cf134ceae6a145f86c124f799212d2497909e333d42469135f6",
+        "f75bb7f96ccd1b70339da26ff1bcb830dd1b1be2acd0d30aa4f017a9503703cc",
+        "b4b347ff1242b6f4a42f2136e05737cf03ef3f1c6c7270cdc9f778783e0ba0f1",
+        "e5a13d6efc29c27cd79a7df6f8a8f29dd1f8cf08487fe335d93b93e5030a2929",
+        "2e0f323b4679ef87c17ca8909d49da1aa230f4493e7b8f261ef9161e742e2296",
+        "8307a666ded7a03bb362de7c9a08c4feb7395d9a5d6cd9cbc65433aefed0e22a",
+        "86e16644ca9ce6ef294078a6ad5734c44906c0546a1f4119803e792b23abdecd",
+        "728cb98cfbe6581446a44b861ad31a66cc0ba61b9154a38651937a91811a6d38",
+        "8afa9440b5b67c3792ab903f3b36875548611b93ed2a1fa74c8ecc3d9508769b",
+        "a8cc09b0778fcab0d8aab79d0f4c38353b0e727be0bb9277af9cde8cd723ee40",
+        "e576c030bbb8c77cf11f8bc9276288b1f3c94a69e1966a00ff1476fa8d0807aa",
+        "f8aecc8a531bae62b2a39adccdd07034a60be4611994190cfa24bf746d75cb44",
+        "779e2332f8a45c18c7c1457fd11f299e41c5a765ce98ceb9bf47ba50b3dec7d3",
+        "d13b172ac39f7ac5f0297078918b0d8f830e7f6c46b19c01f432075890fc25f4",
+        "a1127e2588135cdcbccf66a79048f1e31ba34d448ea2bf7caf71623dec375ebe",
+        "2bf23f08155442ad0f294d8290e395a666b997365a8cc25c8f901aa2a2110dd7",
+        "419a6d41c0d9910f52f21760885c625005abb1d469e2d96abe43ca7c07fd9553",
+        "cb29611e1026c8642e55fa0b8a7fe47f8adf523cf0a14330c89ea8a3f0ba10fb"
+      ],
+      "lineBreaks": 1,
+      "emphasisSha256": "45c12a35eb702db94fe70838e3fe5fba91420266fa997dfcffc2154385ae9c39"
+    },
+    {
+      "file": "chapter-4.xhtml",
+      "title": "Prologo",
+      "blocks": [
+        "e3a79cd11aa158590febfe96a73242946a6147df59af809ce6423164e3ee3d24",
+        "2e4f3acafeafca29fccd8da824af3b470eef582d44165798de5868627fb26958",
+        "bffb83a1fa906bb9c56da9d9097f490fbf69191ad818a14c4213cc0c61f420a8",
+        "196ba274d1dd2fd72ff12e9c00291a87d69da3dbea3bc6423543800aec65ccb2",
+        "d53f5f31b3d98318a5cc33ec33b49757b8ed7ef07240102ad940d0ebd57724d7",
+        "4ffdd6c6db2647529637e30cb0d588b7c2e71d202554cb8e83408b790d58faf8",
+        "f06f60c53b04414994d6b008ee931f8ca32e51b6513ec404a5ab4f343ec3ec7b"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "1267ebe9a185ee61b5b2a67a71ef68d76ee18ab9ee552325e5584b1024e619b7"
+    },
+    {
+      "file": "chapter-5.xhtml",
+      "title": "1. Il primo segnale",
+      "blocks": [
+        "e13f82adc73e7d4b44f2eda546fa6805da748f492b9450677a2fc1f17c6bc773",
+        "bd183c4d2c4829303e6737833f8452025f3d1bfc1a9867e430cdc2835473b122",
+        "fae1de5d1fa4dad04dc88b086fbec2953a031d0068ba3e0df23d7222c4f580ef",
+        "9f08c5f1f31bf1b36bfabba3eaaf337384f594902c93b90d526de2dae7ab40f5",
+        "3cac809ed9a24fa9cac68961177c3ee92b7178d8d897e8f8553a5ce6b382accd",
+        "569f9ef32033ce7be1f891532e5dc3f9b47ce43f2f80de90784935389fc63227",
+        "49da3f3070214c6b361d3637ef8367cc636b8dab9f767800ceaec4ccb20788db",
+        "1c3e018a51bbdf127a57c28752dc96825b9aee374fafb67bd2fbb3bacdbdcfd6",
+        "e4d2c18b1517ae9041e374cc1b7df2aeff6747e805b53056b01dbddeac2a3abd",
+        "fbbe6b6b3fadcb3300c1be695dedc9820990891e1bb3985b86f66eb1ff9d9233",
+        "7ba50a55ae9edb3fecc0c6de926a2eb6a61070ed87c4df6128f1e04ef6606846",
+        "2c95c51deaa6ffa25ea365f77e3fd041e6956e18ddfb81fde49d375f25f6cd0e"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "eed2ac539348913fcd6970f0cee66e801b1bf4d2dcffb60e7ca03c696daf01bb"
+    },
+    {
+      "file": "chapter-6.xhtml",
+      "title": "2. Voci nel buio",
+      "blocks": [
+        "2f481526184b322b60c854cfe04fab2731fd7bd26df91b7df1fbf7529d68b551",
+        "06050826a596e233dc84f8187dac59c1e20000037cb0339bcd3b2d0c9b7c250c",
+        "63b0976fb0c35c985611c8a808bf8c9b1c64b0f7865b48d852d15ffb0478b6be",
+        "7f252fbe9adfc5889ec5569e024aad6fb66a40dfc5c3858abe810bfe9584a822",
+        "de60a62e9affd4615fe9f34e61b32deb272662289fa025ec6391db74d31efc42",
+        "582f3bbc5372d08a47f62801a1d0976cc35881cf514ea8baf742c030fc83a8b8",
+        "73b15d9f2909ce9fe29c255be67734a56bf81175e02b0d9f05095ca5f4e509e9",
+        "a1aba6c4737bdd20fd8e1ed726da7f323081553a688a90f49dbbe2b6ff33692a",
+        "302ef9fd748b30e2a4b4224e0a9a36711714ecfb7d2f68088b71af6f5843c8f3",
+        "ae5f5e1086be088508cc43758107a88ef7977fbd64d20514669b3547b14bbfc4",
+        "c3bfb3d46478a75f34345201c3e690626ab862c122b99e71bce65922457a49bb",
+        "81d5ff2d719c8445decf81962b918ac2084012655411343af7116dccf64cf953",
+        "ced0cc4d79f1b9357d1690522ed4905694b501945cb598b6a08e816d442179d3",
+        "348e805fb44cae34269f3278565f54728714af5ecde493192eb8eaa6d1e72a6c",
+        "93e6b21d572096153556093cba69e215ff3f404155606b61c2ca9d43d0eb14b4"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "291eb085f1671b017c848db6af896fd2e49a910c1da1f07ac724c3ab9d1a55e2"
+    },
+    {
+      "file": "chapter-7.xhtml",
+      "title": "3. La maschera cade",
+      "blocks": [
+        "edb6560bf671b07805fffcc12e6c7023adde0e7ca6faece2c82f50c2fb9eaee4",
+        "3063aeca9dac1a0cd096b4ddca8804f439275671b9916426aa1d994ede96bd71",
+        "f1ffbefb7e24c3b52128601162c2c5e4c83dae758c62ad4aa58068d1630cf166",
+        "75565fb8c50efc908ca3b502ac88cd18a810dc9ec39de2e232a77e2b9ea6a97c",
+        "7d91eaf115f8f20d52a174f17f68d27ab6bf5911f325dba07821eb133b3a169d",
+        "e682bdc074b00da3a3380daf465a36416d8e62e044b504d0c8828bee2a325427",
+        "9199bfbe8c18b56e23c776f66b7bd06cb8220ce6e084fca367e2ecdc96dbdc44",
+        "7c3297bf3e2e9c1dc20d89ff999c83c1ddc9ef910a60d8abf6a69d03f4ea30ca",
+        "a648f5cdadecb4c0decf2af86461829328356a70b3b77b01e3fd36583f5afac4",
+        "0c62341066ee32656e0dd302497a73549b56cc6cfdaacc7037748595c653a4d8",
+        "18ebd8277e1ab3421ffc0c61236720ee5c8114821ac2ed7c42a09ead3bb41c52",
+        "541d0b757ebcb8695ee275892d470f6a4e5b24ceec46c1146a7b1ea600178d9a"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "b3c8bef04c8c177b9b1cdd4a816382dcbb8b109a11e25c67b2edc82147e9ad36"
+    },
+    {
+      "file": "chapter-8.xhtml",
+      "title": "4. Le crepe si allargano",
+      "blocks": [
+        "a4ce2507a9754cf134ceae6a145f86c124f799212d2497909e333d42469135f6",
+        "db33cd56da02ef0e9fb49b84237db4625425d9f0c0b1a03e9597c48c92dd0aad",
+        "7c2d95e3c73688e08ea73e5d56838202019c53cc2446a60533eccdae5bc45016",
+        "67119d547f1e2778ab19f216583fb6e3e020eafb35be45d32858a36d8d331c18",
+        "2b5934ed44ba1ecb601085fba6a5e4b387721a92f3ce98403b5defb2b2fd86da",
+        "57c977e1fa6406b6e6f82d7023a5f7b126d0b855f4dcab95c2e8590d6a7923b9",
+        "4df6f0cefc7f476e1d6c86ff0755003896a0c08e51cdae7e50d331fd10ee30c7",
+        "b3e09d9d0d77b10b26e08d272dc1c93f121120696213f39d3c3e4740a263256c",
+        "241ecb02c9848a84745e8f1f987356c96b4441b0f4abdf011b349515e710477a",
+        "176637a95d66314e62cdeafe1d5fef2b2d504d83c4497e6cccb8e820c1ab01c7"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "9e769f1258c9170561656e6a02f4e6b7df5c2104d48960bb0e77959ebd7995ad"
+    },
+    {
+      "file": "chapter-9.xhtml",
+      "title": "5. Il grido spezzato",
+      "blocks": [
+        "f75bb7f96ccd1b70339da26ff1bcb830dd1b1be2acd0d30aa4f017a9503703cc",
+        "c0c69d84e9e2d755fed9216efa6a56a9817f14a20708cc0ff3fcc5df2d959197",
+        "0a39ec54418ae11206dbe6d16671f68e034a7f7f60b26448318a6230269b98e6",
+        "288d4a813e0e0be7141f3384ceca6ce15f247ea1ddab451073bd5b6acd92413d",
+        "a8f8644bcbb5b116d7c801302492d202ac61ead4e6b623501b91b54e2b3906c2",
+        "288bd0b64d215d0ca9d613a9f67be5420427c7d50a590860216fdc89e0080fda",
+        "11438c372af4ae5afbd35856555dde552c6cdfdff492d208c85a572da5ec9bb1",
+        "b1e177b153617d4a68ded4d1240fa173c31bfaf10f54cba58d6b875bf0dcb5f9",
+        "293ad4a9a585f9860f392fc7036b7868114fb0b581a0df1fae1ddf5b327d1118",
+        "e7cca65e2535ddfa7f7ce0693104d1896a426a7818cab7d3771c4078d58a237a",
+        "54389f5961ff0670e932050c74f75041b06f70ce6a8f9c29b7b913af5e4e3696",
+        "6b09e69b2e833440a9453baedb16a0040c68bc09f7fa5b75019b6be795355878",
+        "3d9a75f2d14ec38c353c4b4b5b6f46228c47086f8f5f0ec9912f7c1ef131a57d",
+        "70c63f07e372ea9f6d0304b0db842c36747f3b61fe7621b19ed18dd6b7a17855",
+        "36e735a6b594d28d097557150d94dd347f7dc89ab27da8a63a8307c8a9378d9f"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "2446361a9c9c05e6253800d1e01666712ad52bd8ac451e2e04550d8720668235"
+    },
+    {
+      "file": "chapter-10.xhtml",
+      "title": "6. I fili del controllo",
+      "blocks": [
+        "b4b347ff1242b6f4a42f2136e05737cf03ef3f1c6c7270cdc9f778783e0ba0f1",
+        "c6fe7beb00074c96029f2d28ec06fd4873f336500d87fc8eb04465f454cea385",
+        "13a2c74dbad3bd74e9f0287ee402eb81f9e3ffb46db4eda960337a11bcbc046e",
+        "8538844e71b9ba005390592d30f9cc18bb33aa5040283a334a637a8691ac7ebe",
+        "0de5481e48492fcbab494254d4be140b467c0c1737ea60da7e34a329eb629d64",
+        "d3215092d2c1340018a96f1edd17e16794a61eda2146c7d71adb31f32c5a55da",
+        "2116dac0a0f89c578e1332c6f895f1078c94c48e1a9aeccbc921311b39a288e4",
+        "3d2293b924b8be8b1533d6803a23817aafe4bfa703f46aa64cd37ca1f02f2f90",
+        "18919db4a0df39add74570aea51fa6da4e90f8456c889b2e21c632340426adbe",
+        "61d5e58f494352d242591b62303565ecac7af91e0a0d0e56e353657be5c8aea5",
+        "20b3d2386d9f153fa0252502e688d39ab715d9d7cbabf6aaee97beda69e91387"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "82b182c78ba9521b1b0c595974bf4fa9b67c263e0b43983b0a9b54120121e0d6"
+    },
+    {
+      "file": "chapter-11.xhtml",
+      "title": "7. Ombre verdi",
+      "blocks": [
+        "e5a13d6efc29c27cd79a7df6f8a8f29dd1f8cf08487fe335d93b93e5030a2929",
+        "ccf72c4c3945cba2e91cc6357d1814c434fe28f65a9df81b00925db896496fa9",
+        "63784b5deb738c8c53e3122e888922efe6202d96b6909e865d859cebb8569300",
+        "b5e24cfd1564c95be6a5c4dadc3d4e4f82250f53bafc66556adcb1e7a8d22d62",
+        "1e1baddc972de3042f7945e62b9acee1b3ce7c7d9b723c0d80e3f4c64f2c36ba",
+        "387593223218658b7698d089d44f17a60275943e6ef81f577cd4992fd133f77a",
+        "0ae16b36a8dbfb465afed173c21ec77951eb5c0f7ca831099269baade80f86b8",
+        "fdbbe0f7266c3c17a2724d18d5a26f1b05a7c8c16c086fad1f3c207978b6226f",
+        "48b63b4a9443b4801e092767769c271f21fac036ee7b4607a1034b5ff988e4cd",
+        "b35997758c75345d72e6437584f7894f54e9783841818db621b95a78bdabef10"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "77557491d0f975c80b5e234c760ec15a9f0316a3a2026a75f99867ca362c2ca2"
+    },
+    {
+      "file": "chapter-12.xhtml",
+      "title": "8. Sotto lo sguardo",
+      "blocks": [
+        "2e0f323b4679ef87c17ca8909d49da1aa230f4493e7b8f261ef9161e742e2296",
+        "32cf37f2551c212dd8edaffc79dcce889b1d512db5beed41f36550bfe8bbac26",
+        "40fb61538b7757c81a0c60caaf07f4339ac641168d2ced50cc922f0ec81b594d",
+        "6bfcd7f88a12407a12293cc54281e38d809c07c0045d8f0fcc158eb400d75924",
+        "6ea5eedeab5d434c18f181404f7f890947a86e34f895ceeca656a9e1a06b8b68",
+        "089c731e5d95f20656bb89a0e472784a52076f97f77c6eca8ac45af246aa80fc",
+        "0c205808dc7ec744c198f21004b170a1e4b23d751e16199fa496d00192f313ca",
+        "8276ad2fe3922346a06b98e725fd2e48d0ce7eb11724e9e5180cf2a22f97d233",
+        "775b21179a2eb25ad1bfe8fd0132d843249af1a9a65bc484efbde27c395ce5a1",
+        "961d9fe10b01e342960fe50e4ceb4696428c17b95a8cddec1eb1ba747c8645b3",
+        "9af2d29c89fa43cfa7d4273eca497357ff0de2cea79a2001dbbf4e1ea6279da9",
+        "ba012eb4f6739e14faea44268c7de295ee64f107d680569fdb175644615c4e90"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "99b3e768dd4012db7cb86c40a2dbe8936c22108ca948c8b030a4ed5e8d340a3d"
+    },
+    {
+      "file": "chapter-13.xhtml",
+      "title": "9. Frantumi di verità",
+      "blocks": [
+        "8307a666ded7a03bb362de7c9a08c4feb7395d9a5d6cd9cbc65433aefed0e22a",
+        "710f4a8add2e9dab2dda3da5c50fa7b5aa2b2f7e46bb826649a3e747f30e4f28",
+        "9131be8a4372e60e2aa202439247042540c719dd2096d1313d71c1a16a463d78",
+        "7aacb469fe0ee74a26312bed42ec46765aeb989fe85226e03707d0c4276f4a02",
+        "b8f373e2ae7e7b512d6ee93ce2c5d3af0599023209cf9f242c05450e7596f7f1",
+        "550eae365b1e753154da79c0a12ad755e8c7ac6a96faf1f4c58e045895fc22fb",
+        "184e0360f08c0f79ca7b5975a65739c821920b350d30c2c928900015797277a0",
+        "d7b9ba9fc9207e07b97af930202f9ad092cce2fb5a97274ab50b49a569ef608b",
+        "8a43b9c3d7f7d46311e4a90d5366369389edc009b5bfa3898a23e961f4452e65",
+        "8044cf1822232e79c8afe8c6099e216663e19218ab2a48c790e58f4c135a8c08",
+        "e26c7a53680d3848c8a529c9790a3c778487eacb687a37d16a40f26b50de64f4",
+        "29e6b0ae17d99f122b880ffe9e1458c0f54835881c63129663d5c2081cf8397a"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "6da7688c4b4568c400fd69f724646de17657d9f5141aa8e9b4bcecb7e892b2e2"
+    },
+    {
+      "file": "chapter-14.xhtml",
+      "title": "10. Il cerchio dei corrotti",
+      "blocks": [
+        "86e16644ca9ce6ef294078a6ad5734c44906c0546a1f4119803e792b23abdecd",
+        "beb8e1403d29af99463ec4df803788eef5a5cc94f7904694d1cd71262fd3e3d9",
+        "1cba5ebd43f3aae03dbba3e01eeb06064f0a0818465ab78292ded0d1a4b9cfd1",
+        "e786d3e4013d44789e803a00ad64e9b050811446620e4b7b8e1016d32761145d",
+        "9ab4a1c9923ae862a105b571d3bcf1756eab7f23ef36bf4c8420313c0d048374",
+        "41b4eb9d08f74e9fe1fa451cc0772edc22103f4ebe09c77942bb0636eb33efb9",
+        "abe0d04428e35a64471183fab1d40e49dfc0a5ca235e9f36f80d769bac8b9654",
+        "fb4fd4af7d8316ce65069dff6102edb392e34ea5bb6fd15d84a53a6058feeea9",
+        "58f4d2d980eab58049e18aa22b784bcc2eb18c0505585f443ecb6d1d2c5f768f",
+        "c4ace3b2b1e552b50e6eb0de96baf72b8d1faefe5435fcdc5004d995a6084b7a",
+        "292324c07e1f6fcae5b39a147d9cfb26b9e5e314e30e342219dce605b717fad0",
+        "5d129955cc25c5ff5b5feba8d2d74a94b02f5dd387ce3fc08b36bb083b65c876",
+        "176f0c11e7e9e46c99f855305d38883eaea97a09b831979c0b023f1b078f75a9"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "29adacf7d36e3d192548bb302c07640af4d039c8258301a7e016f8876569085c"
+    },
+    {
+      "file": "chapter-15.xhtml",
+      "title": "11. Onde nella mente",
+      "blocks": [
+        "728cb98cfbe6581446a44b861ad31a66cc0ba61b9154a38651937a91811a6d38",
+        "041ec783d3c7382a28206e5b7fca75705344c2e4684f48284fe68d9a26503615",
+        "fa6b030bc2ceebacea4c96af89bf7462e218a5bb130128f5a5b166b6b61afd09",
+        "ff00eefa4b96897a84dc8833b8dbc8a11398c70e91fababa5b57145cb2607a54",
+        "96edcb5e80e99b472d42be6622d23b69e59ba91addcbcd563bf79bcc67fd2e59",
+        "508a431e6d660d25e568ffc6fd1e49d5e910772e15cf6c6c4036c792bb528261",
+        "ed556bc87d564b028d52ba184843c131ae209ea181f9b04e3a7492302a20470e",
+        "c0679e2f8dcf01136572f9faccfadbaad23a6ae538cfcf3d4fc96aa3088a12eb",
+        "88a1dbcb11a4170c3a201ba3af1b9bdde05ad5844365be1093a1fdc1b0288975",
+        "ee25b712963ce6c43ea0d1799b5800305fb5b9b274cc0142550d8d6571429c57"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "dd3eed22c21e27ce72aeee6c430a454d1dfea323643f2e4aa6fbe49b335ac99f"
+    },
+    {
+      "file": "chapter-16.xhtml",
+      "title": "12. Catene di silenzio",
+      "blocks": [
+        "8afa9440b5b67c3792ab903f3b36875548611b93ed2a1fa74c8ecc3d9508769b",
+        "9163faff6977925673984667b081eee113ba119a6ee7b20daa1b7d38d93760c1",
+        "20b44196440aa516e8d54787bc93ab4fab2d8b2039a4771e2ba47e4f558a0361",
+        "b956ea09157fbe0b706d30219faa249bf715f9f48f589030ebdea82fbfbee299",
+        "fda8b99b44e25c6f9d7b5a88eb78392a257c2f8842b8978d48a2da65b3d2614b",
+        "75d02de9ba5ecde5a688dc44dd5feec6e126fa0d9525358f5769f2a73250905a",
+        "2b09902eef3cf096178bb7d724f86c91de9f5779e1b9f231ffef5df8b29c3f74",
+        "f1cf770357f46aab3bad83d3da53f92917bf24a364a4af19b6425114aadc63ad",
+        "b2810c526a3c9d9a385192d63f06f55795aa46a543e52edeeb3a939b2e05fac2",
+        "c17dc24c7ab809ba70af517353fe6999c8292978d14362f5cb235ac61546aed2"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "942a9c440e4c519ee19f3367af7675f3931a7f6ad8ed897036dc8fae4f5f150e"
+    },
+    {
+      "file": "chapter-17.xhtml",
+      "title": "13. Reticoli di specchi",
+      "blocks": [
+        "a8cc09b0778fcab0d8aab79d0f4c38353b0e727be0bb9277af9cde8cd723ee40",
+        "3524b01ca8c127116645c503a0b06f4b0fed15033b72e90dcc6556cbd18077f6",
+        "1868d5c969cbad10c922a32562310ce7c60248d6a1b22c8fe0acdde744f219ed",
+        "1711cd918dba5c2be98a6eb9e1eab31b9affb9de45a6d893540d5543c95e98e6",
+        "d6d9baedb2243fb2c1a676ac50d0ca2474bbc94d784fee4d680466700bc3123d",
+        "6122bb35939c5dcbefc9e2dba96ca69939f092bda4a78e623b4afb1181de7de3",
+        "aa12d6456aa574e198f5ffebb951b51e7305a00c2aedee3041764198983ba9f0",
+        "fb8ab854ab3edfc94eb44fa738d5b7e3365e9237a0f3f0f66cd6fa62043f478d",
+        "f32ef756c4207a0d3575cad2828e797f98e6c8b6d6e7a78d5b03dcb4d789e51b",
+        "8bb56237c4aa6c25fe2abbdace660d9597ad9db338d25ae2e94928060aab35ff",
+        "f04453638b295bc72550f2fcb0218b8d96897daf8d13491645c98b8d61ba60f5"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "f75e0dac9be81685e77d9e7aa78abd0f4d964ce93f3627ac1651b694ac692f96"
+    },
+    {
+      "file": "chapter-18.xhtml",
+      "title": "14. L’eco del vuoto",
+      "blocks": [
+        "e576c030bbb8c77cf11f8bc9276288b1f3c94a69e1966a00ff1476fa8d0807aa",
+        "1929927d3aa932395db6fbfb848bbbeea801e8b0e7beee9ea4ea064fb70e76c4",
+        "1187f88215c9be2492da16216630bae58d082a1b62a14ab2a21441535675024b",
+        "732f4b50c7f26931b2fdf91846a0a23a4d92e7b5b3be411a2523c9ff329c0670",
+        "75671a3a8605ddcdae97160ead07c94f6711ac12c90a1837b363ede3435b9e43",
+        "c6303e886b899a89edca9aa793c167ea90a4bda0444d05ca506a4c352c97f26c",
+        "b0c5fd15053b99293e77676ef08b421d5656efef256634522a85629f71b45190",
+        "f312dcc5d7d080bda9368da2dd6f1647c692ef23dea97226205f4123a0e8d833",
+        "34bc884889902ab139ff61d7d9f124899f29109845810a4a3f43810fec46c7f0",
+        "367c5208da1291cefcfdb539eca7df125efa2b6ef76834c2aa1cacb702a2977b"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "26e1784ad0daa095035e58318d839e63feeda41716a6ba9e1fd5632d17fac4e9"
+    },
+    {
+      "file": "chapter-19.xhtml",
+      "title": "15. L’incontro e l’agguato",
+      "blocks": [
+        "f8aecc8a531bae62b2a39adccdd07034a60be4611994190cfa24bf746d75cb44",
+        "001894a9977c398d76b4557c647d9e49db72cca8a61446efbb15fbd9caa566ad",
+        "513c32fdfd8d78f083ae5d94e9819a2cf80339f233e53eb24a0bec90bc967a8b",
+        "1adf4d739554ebe740e39b10005b54297d0c2b54ad8216e88787bf6557712801",
+        "79729f80bff8002894aaa46001c6a5cc8f44d371ec7212717951ec8af77e9c6a",
+        "0d6d790e0598a99ca6f2e19dca9dc52de84a9f0080285a9a536525ff9e9ba4bd",
+        "8980c9f5bdbb1f349acef02d57735eb53d763fe08a7de79ad8a96442c0051939",
+        "4853ce2a958dd8557ae7589ccc804409a8a21e649d0589f57f63a868dee3a25a",
+        "788d834729bab53e67d83a312a1f2416cdf6c9345fdd7eb37c27c66d38931ed7",
+        "c26e022c7fbd1c3cfd572b65cb98ce03567af19e058d16035dea2cf840810f42",
+        "6585ed4e95370dc02709a1837a9143d796bcf5855f6a34d091e0897e98779143",
+        "5892a02dc3efca4df743b9464cd141f4d58603598212a12561ae9a343f0ea4a7",
+        "3becf13c81746df2013616f9c2d98431ac21b890c2df2fbc3c4f78195ad0e7e0"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "a2b41c598cfe0047df5db8bdb2cbcdb387d3fd93c3a6f1478370565dec32b2a3"
+    },
+    {
+      "file": "chapter-20.xhtml",
+      "title": "16. La caduta",
+      "blocks": [
+        "779e2332f8a45c18c7c1457fd11f299e41c5a765ce98ceb9bf47ba50b3dec7d3",
+        "31b3d0199a9b0d12d1f1ba91d5287e1671708a6ba2949a03ad60791933b08e76",
+        "1c0dccde0cf80f248c1f9d86727840039c393337d1b05a9484ce1bae927fbe2f",
+        "9b86b9a521e570fcb04dcd7da1c9b8a7fcb4a4a0106088cc588492820859f678",
+        "b1677f04083a103557bddbc5dbd0ac45c05823d48c524ba998d855aecf8890de",
+        "f9d511e2d7e2ea42736fbb4f517cec35143bb319ddced63d00a8512b18f816a3",
+        "68e63776fe74b4d5741fd9b6f47747850d96c8c12c1161bd39ca1cc77de9cef2",
+        "07012f74abe2064330e376f49076bbb24887576ea1c52ec8226597a2040cab32",
+        "b9ba42e9ee575a2017455d1b3a70877889058ec4c1f30c88aa3f22c11dd7b5a7",
+        "7b0e1514bab9c295889ca615b2681133dec9506bcc7c9a3b083bda31e8318e45",
+        "f90420ead3aaca4ff47c174bea935c9b89d0f2a84c9afd7740b5cf1a4371ce1e",
+        "8cbd665e3e232dd507de0d3d709b16e8e7a8bd3c4edf3035c7780b9b1394af7b",
+        "b7e0e412c44df6c91d935b4ad2bcc84573631f6d3e69e82fc174b54442a91cc6",
+        "9a81313cc864df607236a114f4536df5ca45726979426ef34ebe6dd1f20ce328"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "c8e5b09850545031e1fbe84402951e148cf94bab4ea475e1ed495f27fb47dfbd"
+    },
+    {
+      "file": "chapter-21.xhtml",
+      "title": "17. La luce tra le ombre",
+      "blocks": [
+        "d13b172ac39f7ac5f0297078918b0d8f830e7f6c46b19c01f432075890fc25f4",
+        "fd5616fb72ab21b36d43c7c5fb91b323a6e2932ffb33279c4fd5b780f830e4a9",
+        "687146609333b3234aae4deaa8edb588e39f646623f5500257c5605adc258acf",
+        "e56448e804171c3ece03a54ae68dd3622da874ff1a199e9d0deed895015a1893",
+        "c2e44644f9a20252b168123c09a553b1d6a558ce8f9da5b7cbba8b907d7694f8",
+        "9c724405f54c88cc8ba37e4e08492600dd5c5a4e81afa9dfd7db6b67a74970b9",
+        "0d2586082b1d4d6747e5b3dff77d906dce42f5beccc6e3a18598a0e6915fedd6",
+        "e22c975212ae6652c8afe5027e85cca7ae66566b5630c38cf5fed4c37ab1602d",
+        "049a305b6aaf0dfaaa82f82764caa88e7d02b9dbf8591567142c7cdd7fd1b587",
+        "542ca4b2eb3b46809d4aed5bf44ec58ed37bc2925b64a130e81338b3a603bbce"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "830e5641e5ec2010a2c08e0c7b4a537b462ea9afcc0e623dfd38265979d08058"
+    },
+    {
+      "file": "chapter-22.xhtml",
+      "title": "18. Ombre nella cella",
+      "blocks": [
+        "a1127e2588135cdcbccf66a79048f1e31ba34d448ea2bf7caf71623dec375ebe",
+        "65ffdea97bc118cbdbd0255ab6743ddb10824f2c6dc1330ab43c206702b45404",
+        "82a5e2603ed3682a73fb409ec5a34cf61c8543171cdbea443bc8c665ccba47b9",
+        "7cb44edcfdd2e505d9fc4ad5f710a534bb934e9b61910197184c1660aef423e1",
+        "11de3655e2d0a65b525f07e8f5c4863737331e1217276fdd710341159755848a",
+        "7f956ebfd87be186e133dbc4872e1febf84a1f6f65d7d57572e74d539fab00c7",
+        "0b7c41dc4d2ddd86c5054339b3f407c1eb3851ab300446cc22a4c6cd1a9572b6",
+        "44050ea65f6b85a0f46340766983421693318d9edb174fcda4fca7b2980cc0bf",
+        "ebc457d76a88461656bba6474f8b22912fa9a7b0c13dc47c1b145d6ded2d78ad",
+        "08d6f5efc8028e3cb4734097e54a78f4342e77438c893a767db6e47ad65d8e17"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "2f8b12ca794a03560e813fcc35fd21ab2e857fa040bc6089553c6c7d190b0f77"
+    },
+    {
+      "file": "chapter-23.xhtml",
+      "title": "Epilogo",
+      "blocks": [
+        "2bf23f08155442ad0f294d8290e395a666b997365a8cc25c8f901aa2a2110dd7",
+        "e2f27b111546ac06421cd03576da68bd73dfeb036196656dc641e632d8fa2e7e",
+        "bc455dc08f7c7e601699d1d55aef523d25f292de2ba4b072a3bd91f23ad4083b",
+        "1af2970278d5a81dc598a16532c5dbc39c1a9ecadc39828a2834cf59dae41d03",
+        "7881da93b45229bc7ea10d168b1c767b0c0793d79e403a1dc4e40a00a98df2f8",
+        "f06f60c53b04414994d6b008ee931f8ca32e51b6513ec404a5ab4f343ec3ec7b"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "eedf1d1e9d250f06474fd2f2b99bb2ef3ce85d900e2050853d0277a55a77a541"
+    },
+    {
+      "file": "chapter-24.xhtml",
+      "title": "Riflessioni finali",
+      "blocks": [
+        "419a6d41c0d9910f52f21760885c625005abb1d469e2d96abe43ca7c07fd9553",
+        "1bb6d9a578ea073296ece369af0524984e6c732b4ab47cec42ab9610c5afbfaa",
+        "fa5821f7881e98cc74626e0ab9664b21c3acbcf79cea14c6917f09184f8f1005",
+        "f8d71fa8fb9d5ebcacbb56affcc8d9c7059a990bb43d5f71774512f6d0cff4db",
+        "71ab22b274c051385c1a490644eddebf5ddbe00b7ce210e7aaabae06a64e76d1",
+        "e3338582975f273e05de1e1185910803d62ed3f36fc0a55c93f33daf18e875cd",
+        "53a71f0c55e26788a994ae1ff4b1c47d732d1efe950a797b27e26e8247b944b7",
+        "12d56f72c3bd1e18de30ada9110d1f3ec0266b5451207c55ab93d5536d3380b7",
+        "a44c4dc9777cdd4524279e3adceb2cf58fd09286a94c14b799a70d2a5fce716b",
+        "261b55dcf108e4668c51b3a101203641ba0d9ca8cbce52c755b7880d22b6579a",
+        "b596cb25dba41862ba07fec7dafe37ca329248adbd6923306bf15953ad527322",
+        "af59044d70a1a77b886ec53d2063a2e95d42be7efe0fa5ac94db2ed235c8ea5b",
+        "63d7c69d1a7523d7499410b6a33458c75d721e2c38e54e2f879b1686df876a7d"
+      ],
+      "lineBreaks": 1,
+      "emphasisSha256": "d75e9ccb35e8ca3bc4baf2428339814b29e3504fb61db413c5e5cc9df2b9cb45"
+    },
+    {
+      "file": "chapter-25.xhtml",
+      "title": "L’autore",
+      "blocks": [
+        "cb29611e1026c8642e55fa0b8a7fe47f8adf523cf0a14330c89ea8a3f0ba10fb",
+        "64f8859972d6f9683b325c3312470ec772498b4b2d142efb74ecbb8b822a1967",
+        "cc6202455909541744aa2433b5dbd1b82ef436dedf12a4847914562487ff8aae"
+      ],
+      "lineBreaks": 0,
+      "emphasisSha256": "6894303d93ca915a09c7203e75a4a4214046db2949f28c9c1f17f0e79eb692a2"
+    }
+  ]
+}

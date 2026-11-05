@@ -89,7 +89,7 @@ try{
  const linkedPage=readFileSync(join(temp,'dist/taccuino/appunto-4.html'),'utf8');
  assert.ok(linkedPage.includes('</div><aside class="entry-books"'));
  assert.ok(linkedPage.includes('href="../l-immagine-della-bestia.html#estratto-gratuito"'));
- const snapshots=['index.html','autore.html','feed.xml','sitemap.xml','l-immagine-della-bestia.html','taccuino/appunto-4.html'].map(f=>[f,readFileSync(join(temp,'dist',f),'utf8')]);
+ const snapshots=['index.html','autore.html','feed.xml','sitemap.xml','leggi-le-ombre-si-rivelano.html','l-immagine-della-bestia.html','taccuino/appunto-4.html'].map(f=>[f,readFileSync(join(temp,'dist',f),'utf8')]);
  run();for(const [f,content] of snapshots)assert.equal(readFileSync(join(temp,'dist',f),'utf8'),content);
  rmSync(join(dir,'comunicato.md'));run();
  assert.ok(!existsSync(join(temp,'dist/comunicati-stampa.html')));
