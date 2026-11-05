@@ -110,6 +110,12 @@ try{
   }
   console.log(`PASS layout/solid-background contrast: ${JSON.stringify(mode)}`);
  }
+ for(const width of [1440,390])for(const page of ['estratto-l-immagine-della-bestia.html','leggi-le-ombre-si-rivelano.html']){
+  await size(width);await navigate(page);
+  const cover=await evaluate(`(()=>{const figure=document.querySelector('.reading-cover'),img=figure.querySelector('img'),r=figure.getBoundingClientRect(),h=figure.closest('header').getBoundingClientRect(),buttons=document.querySelector('.excerpt-header .download-actions').getBoundingClientRect(),toc=document.querySelector('.excerpt-toc').getBoundingClientRect();return {loaded:img.complete&&img.naturalWidth>0,width:r.width,expectedWidth:Math.min(320,h.width),centerError:Math.abs(r.left+r.width/2-h.left-h.width/2),gap:r.top-buttons.bottom,beforeIndex:r.bottom<=toc.top,aspectError:Math.abs(img.getBoundingClientRect().height-r.width*Number(img.getAttribute('height'))/Number(img.getAttribute('width')))};})()`);
+  assert.ok(cover.loaded&&Math.abs(cover.width-cover.expectedWidth)<1&&cover.centerError<1&&cover.gap>=39&&cover.beforeIndex&&cover.aspectError<1,`${page} ${width}: inconsistent reading cover ${JSON.stringify(cover)}`);
+ }
+ console.log('PASS shared flat reading covers: loaded, centered, responsive, uncropped, after actions and before index');
  for(const width of [390,1440])for(const page of ['index.html','press.html','estratto-l-immagine-della-bestia.html','leggi-le-ombre-si-rivelano.html']){
   await size(width);await navigate(page);await key('Tab');
   assert.equal(await evaluate('document.activeElement.className'),'skip');

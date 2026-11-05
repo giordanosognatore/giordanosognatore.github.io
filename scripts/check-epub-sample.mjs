@@ -62,7 +62,16 @@ export function checkOnlineSample(root){
   assert.ok(tag?.includes('loading="lazy"')&&tag.includes('decoding="async"'));
   assert.ok(tag.includes(`width="${image.width}" height="${image.height}"`));
  }
- assert.equal((page.match(/<img\b/g)||[]).length,2,'Only the illustrations already in the approved excerpt');
+ assert.equal((page.match(/<img\b/g)||[]).length,3,'Two approved illustrations plus the existing book cover');
+ const header=page.match(/<header class="excerpt-header">([\s\S]*?)<\/header>/)[1];
+ assert.equal((header.match(/<figure class="reading-cover">/g)||[]).length,1);
+ assert.ok(header.includes('src="assets/bestia-720.webp"'));
+ assert.ok(header.includes('srcset="assets/bestia-360.webp 360w, assets/bestia-720.webp 671w"'));
+ assert.ok(header.includes('width="671" height="1003"'));
+ assert.ok(header.includes('alt="Copertina di L’Immagine della Bestia, Giordano Sognatore con Ada Vesper"'));
+ assert.ok(header.indexOf('class="reading-cover"')>header.indexOf('Scarica PDF'));
+ assert.ok(page.indexOf('</header>')<page.indexOf('class="excerpt-toc"'));
+ assert.ok(!page.includes('bestia-mockup.webp'),'Use the flat cover, not the book mockup');
  assert.ok(page.includes('<span lang="en"><span class="smallcaps">SOPHIA — predict consequences. Preserve choice.</span></span>'));
  for(const asset of estrattoAssets)assert.ok(page.includes(`href="${asset.publicPath}" download>Scarica ${asset.format}</a>`));
  const feed=readFileSync(resolve(root,'feed.xml'),'utf8');assert.ok(!feed.includes(sampleRoute),'The excerpt is not a journal post');
