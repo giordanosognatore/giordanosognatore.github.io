@@ -60,6 +60,10 @@ export function checkOmbre(root){
  }
  assert.ok(web.length<160000);
  assert.ok(page.includes('width="640" height="990"'));
+ const header=page.match(/<header class="excerpt-header">([\s\S]*?)<\/header>/)[1];
+ assert.equal((header.match(/<figure class="reading-cover">/g)||[]).length,1);
+ assert.ok(header.indexOf('class="reading-cover"')>header.indexOf('Scarica PDF'));
+ assert.ok(page.indexOf('</header>')<page.indexOf('class="excerpt-toc"'));
  assert.ok(page.includes('class="reading-page"'));
  assert.equal((page.match(/class="excerpt-chapter-nav"/g)||[]).length,26);
  assert.ok(page.includes('href="#prologo">Inizia dal Prologo'));
