@@ -98,6 +98,10 @@ assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),b
 const homeCatalog=readFileSync(resolve(root,'index.html'),'utf8');
 const bestiaCatalog=[...homeCatalog.matchAll(/<article class="book-row">[\s\S]*?<\/article>/g)].map(m=>m[0]).find(html=>html.includes('<h3><a href="l-immagine-della-bestia.html">'));
 assert.ok(bestiaCatalog,'Missing Bestia catalog entry');
+assert.ok(!bestiaCatalog.includes('<p class="credit">'),'No isolated author credit in catalog');
+const bestiaPage=readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8');
+assert.ok(bestiaPage.includes('<p class="credit">Giordano Sognatore <span>con Ada Vesper</span></p>'),'Keep credit on book page');
+assert.ok(bestiaPage.includes('<a class="button" href="il-giorno-in-cui-nacque-la-bestia.html">Scopri il companion</a>'),'Companion discovery must be a secondary button');
 assert.ok(bestiaCatalog.includes('<div class="format-actions" role="group" aria-label="Scopri e ascolta L’Immagine della Bestia">'));
 assert.deepEqual([...bestiaCatalog.matchAll(/<a class="button" href="([^"]+)">([^<]+)<\/a>/g)].map(m=>[m[1],m[2]]),[
  ['l-immagine-della-bestia.html','Scopri il libro'],[bestiaFormats.audiobook,'Audiolibro gratuito']
@@ -179,6 +183,7 @@ assert.ok(author.includes('<a class="button" href="mailto:giordano.sognatore@gma
 assert.ok(author.indexOf('id="perche-scrivo"')<author.indexOf('UN IMMAGINARIO NARRATIVO'));
 const home=readFileSync(resolve(root,'index.html'),'utf8');
 const hero=home.match(/<section class="hero shell">(.*?)<\/section>/s)[1];
+assert.ok(hero.includes('<p class="credit">Giordano Sognatore <span>con Ada Vesper</span></p>'),'Keep credit in Home hero');
 assert.ok(hero.includes('<div class="hero-actions" role="group" aria-label="Scopri, leggi e ascolta L’Immagine della Bestia">'));
 assert.deepEqual([...hero.matchAll(/<a class="(button(?: button-primary)?)" href="([^"]+)">([^<]+)<\/a>/g)].map(m=>m.slice(1)),[
  ['button button-primary','l-immagine-della-bestia.html','Scopri il libro'],

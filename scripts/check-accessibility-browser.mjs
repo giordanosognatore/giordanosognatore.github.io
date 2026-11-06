@@ -93,12 +93,13 @@ const probe=()=>{
   for(const e of controls){const r=e.getBoundingClientRect(),s=getComputedStyle(e);if(r.height<48||s.textAlign!=='center'||Math.abs(parseFloat(s.fontSize)-parseFloat(getComputedStyle(document.documentElement).fontSize)*.875)>.1)actionGroups.push(describe(e));}
   if(innerWidth<=700&&controls.some(e=>Math.abs(e.getBoundingClientRect().width-group.getBoundingClientRect().width)>1))actionGroups.push(`${group.className}: mobile actions must fill their group`);
  }
- const catalogWidths=[...document.querySelectorAll('#romanzi .format-actions>.button')].map(e=>e.getBoundingClientRect().width);
- if(catalogWidths.length&&Math.max(...catalogWidths)-Math.min(...catalogWidths)>1)actionGroups.push('Catalog widths differ between books');
+ const catalogRects=[...document.querySelectorAll('#romanzi .format-actions>.button')].map(e=>e.getBoundingClientRect());
+ for(const dimension of ['width','height'])if(catalogRects.length&&Math.max(...catalogRects.map(r=>r[dimension]))-Math.min(...catalogRects.map(r=>r[dimension]))>1)actionGroups.push(`Catalog ${dimension} differs between books`);
+ if(innerWidth>700&&catalogRects.length===4)for(const i of [0,1])if(Math.abs(catalogRects[i].top-catalogRects[i+2].top)>1)actionGroups.push('Catalog actions are not aligned between books');
  return {contrast,overflow,clippedText,unnamed,frameLines,actionGroups};
 };
 const modes=[
- {width:1440},{width:768},{width:390},{width:320},
+ {width:1440},{width:1169},{width:768},{width:390},{width:320},
  {width:768,font:32},{width:320,font:32},
  {width:768,spacing:true},{width:320,spacing:true}
 ];
@@ -125,6 +126,12 @@ try{
   }
   console.log(`PASS layout/solid-background contrast: ${JSON.stringify(mode)}`);
  }
+ for(const width of [350,701,1050,1280])for(const font of [16,32]){
+  await size(width);await navigate('index.html');await evaluate(`document.documentElement.style.fontSize='${font}px'`);
+  const report=await evaluate(`(${probe.toString()})()`);
+  for(const [check,issues] of Object.entries(report))assert.deepEqual(issues,[],`Catalog boundary ${width} ${font} ${check}`);
+ }
+ console.log('PASS catalog: equal widths/heights and aligned actions, including intermediate widths and 200% text');
  for(const width of [1440,390])for(const page of ['estratto-l-immagine-della-bestia.html','leggi-le-ombre-si-rivelano.html']){
   await size(width);await navigate(page);
   const cover=await evaluate(`(()=>{const figure=document.querySelector('.reading-cover'),img=figure.querySelector('img'),r=figure.getBoundingClientRect(),h=figure.closest('header').getBoundingClientRect(),buttons=document.querySelector('.excerpt-header .download-actions').getBoundingClientRect(),toc=document.querySelector('.excerpt-toc').getBoundingClientRect();return {loaded:img.complete&&img.naturalWidth>0,width:r.width,expectedWidth:Math.min(320,h.width),centerError:Math.abs(r.left+r.width/2-h.left-h.width/2),gap:r.top-buttons.bottom,beforeIndex:r.bottom<=toc.top,aspectError:Math.abs(img.getBoundingClientRect().height-r.width*Number(img.getAttribute('height'))/Number(img.getAttribute('width')))};})()`);
