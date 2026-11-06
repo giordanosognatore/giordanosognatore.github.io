@@ -3,6 +3,7 @@ import {resolve} from 'node:path';
 import {nav} from './navigation.mjs';
 import {formatActions} from './formats.mjs';
 import {socialMetadata} from './social.mjs';
+import {books} from './books.mjs';
 import {loadArticles,articleSection} from './taccuino.mjs';
 const articles=loadArticles();
 
@@ -16,8 +17,7 @@ const esc=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','
 
 const schema=()=>({'@context':'https://schema.org','@graph':[
  {'@type':'Person','@id':`${origin}/autore.html#autore`,name:'Giordano Sognatore',url:`${origin}/autore.html`,email,sameAs:[telegram]},
- {'@type':'Book','@id':`${origin}/l-immagine-della-bestia.html#libro`,name:'L’Immagine della Bestia',inLanguage:'it',genre:'Thriller geopolitico fantascientifico',author:{'@id':`${origin}/autore.html#autore`},url:`${origin}/l-immagine-della-bestia.html`},
- {'@type':'Book','@id':`${origin}/le-ombre-si-rivelano.html#libro`,name:'Le Ombre Si Rivelano',inLanguage:'it',genre:'Thriller distopico',author:{'@id':`${origin}/autore.html#autore`},url:`${origin}/le-ombre-si-rivelano.html`}
+ ...books.map(book=>({'@type':'Book','@id':`${origin}/${book.route}#libro`,name:book.title,inLanguage:'it',genre:book.genre,author:{'@id':`${origin}/autore.html#autore`},url:`${origin}/${book.route}`}))
 ]});
 
 const contactLinks=`<div class="contact-links"><a href="mailto:${email}" aria-label="Email: ${email}">Email</a><a href="${telegram}" aria-label="Canale Telegram ufficiale di Giordano Sognatore">Telegram</a></div>`;

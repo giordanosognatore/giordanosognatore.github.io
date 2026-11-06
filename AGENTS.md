@@ -45,7 +45,7 @@ Le sorgenti pubblicabili stanno in `contenuti/taccuino/` e seguono il formato do
 - `category: taccuino` identifica gli articoli ordinari.
 - `category: comunicati-stampa` identifica comunicati destinati anche alla superficie Press.
 - I tag descrivono temi e contesto; non sostituiscono la categoria funzionale.
-- Nell’handoff di ogni nuovo articolo, la redazione deve proporre esplicitamente `relatedBooks`: elenco degli ID dei romanzi realmente pertinenti (`bestia`, `ombre` nel catalogo attuale), oppure `relatedBooks: []` se non ci sono associazioni. La scelta è editoriale e soggetta alla revisione dell’autore: non dedurla automaticamente da tag o citazioni e non inventare ID per opere future. Verificare sempre gli ID in `scripts/books.mjs` e le regole nel README.
+- Nell’handoff di ogni nuovo articolo, la redazione deve proporre esplicitamente `relatedBooks`: elenco degli ID dei romanzi realmente pertinenti (`bestia`, `ombre`, `sottutto` nel catalogo attuale), oppure `relatedBooks: []` se non ci sono associazioni. La scelta è editoriale e soggetta alla revisione dell’autore: non dedurla automaticamente da tag o citazioni e non inventare ID per opere future. Verificare sempre gli ID in `scripts/books.mjs` e le regole nel README.
 - `relatedBooks` è un metadato del front matter, non una sezione da scrivere nel corpo: la build genera i richiami reciproci articolo/romanzo. È opzionale per compatibilità; assente o vuoto non genera richiami. I comunicati stampa non ammettono associazioni. Non aggiungere manualmente riquadri promozionali agli articoli approvati.
 - Le bozze non approvate devono restare fuori da `contenuti/taccuino/`, perché ogni file presente viene pubblicato dalla build.
 - Conservare slug stabili per gli URL già pubblicati.

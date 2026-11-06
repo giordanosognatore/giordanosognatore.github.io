@@ -23,7 +23,7 @@ const root=resolve('dist');
 const htmlFiles=readdirSync(root,{recursive:true}).filter(p=>p.endsWith('.html'));
 const verificationFiles=htmlFiles.filter(p=>/^google[0-9a-f]+\.html$/.test(p));
 const pages=htmlFiles.filter(p=>!verificationFiles.includes(p));
-assert.equal(pages.length,13+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
+assert.equal(pages.length,14+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
 for(const card of Object.values(socialCards)){
  const bytes=readFileSync(resolve(root,card.path));
  assert.equal(bytes.subarray(0,3).toString('hex'),'ffd8ff',`${card.path}: expected JPEG`);
@@ -67,11 +67,11 @@ for(const page of pages){
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
   assert.ok(html.includes(socialMetadata(origin,page)),`${page}: missing shared social metadata`);
-  const card=['l-immagine-della-bestia.html',sampleRoute].includes(page)?'bestia':['le-ombre-si-rivelano.html',ombreRoute].includes(page)?'ombre':'sito';
+  const card=['l-immagine-della-bestia.html',sampleRoute].includes(page)?'bestia':['le-ombre-si-rivelano.html',ombreRoute].includes(page)?'ombre':page==='il-dottor-sottutto.html'?'sottutto':'sito';
   assert.ok(html.includes(`property="og:image" content="${escapeHtml(origin+'/assets/social-'+card+'.jpg')}"`),`${page}: wrong social card or prefix`);
   assert.equal((html.match(/name="twitter:card"/g)||[]).length,1,`${page}: duplicate Twitter card`);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
-  assert.equal(data['@graph'].filter(n=>n['@type']==='Book').length,2);
+  assert.equal(data['@graph'].filter(n=>n['@type']==='Book').length,3);
   assert.equal(data['@graph'].filter(n=>n['@type']==='Person').length,1);
   assert.deepEqual(data['@graph'].find(n=>n['@type']==='Person').sameAs,['https://t.me/giordanosognatoreofficial']);
   assert.ok(!JSON.stringify(data['@graph'].filter(n=>n['@type']!=='BlogPosting')).match(/isbn|offers|price|datePublished/));
@@ -114,6 +114,14 @@ assert.deepEqual([...bestiaCatalog.matchAll(/<a class="button" href="([^"]+)">([
 ]);
 assert.equal((bestiaCatalog.match(/<a\b/g)||[]).length,4,'Only cover, title and two actions in Bestia catalog');
 assert.ok(!/<details|<summary|class="text-link"/.test(bestiaCatalog),'Catalog must not duplicate the book format chooser');
+const catalogEntries=[...homeCatalog.matchAll(/<article class="book-row">[\s\S]*?<\/article>/g)].map(m=>m[0]);
+assert.equal(catalogEntries.length,3,'Home catalog must contain the two published novels and the forthcoming novel');
+const sottuttoCatalog=catalogEntries.find(html=>html.includes('<h3><a href="il-dottor-sottutto.html">Il Dottor Sottutto</a></h3>'));
+assert.ok(sottuttoCatalog,'Missing Il Dottor Sottutto catalog entry');
+for(const copy of ['ROMANZO · IN ARRIVO','Mystery thriller','assets/dottor-sottutto-360.webp 360w, assets/dottor-sottutto-720.webp 720w','width="720" height="1080"'])assert.ok(sottuttoCatalog.includes(copy),`Sottutto catalog: missing ${copy}`);
+assert.deepEqual([...sottuttoCatalog.matchAll(/<a class="button" href="([^"]+)">([^<]+)<\/a>/g)].map(m=>[m[1],m[2]]),[['il-dottor-sottutto.html','Scopri il libro']]);
+assert.ok(sottuttoCatalog.includes('class="format-actions single-action" role="group" aria-label="Scopri Il Dottor Sottutto"'));
+assert.ok(!sottuttoCatalog.includes('Amazon')&&!sottuttoCatalog.includes('Acquista')&&!sottuttoCatalog.includes('Leggi gratis'),'Forthcoming catalog card must not imply availability');
 const googlePlayUrl=bestiaFormats.ebook;
 const googlePlayButton=`<a class="button" href="${googlePlayUrl}">Google Play Books</a>`;
 for(const page of ['index.html','l-immagine-della-bestia.html','press.html']){
@@ -132,11 +140,25 @@ const ombrePage=readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8');
 assert.ok(!ombrePage.includes('play.google.com'),'Do not invent a Google Play edition for Le Ombre Si Rivelano');
 assert.ok(ombrePage.includes('class="detail-cover uniform-mockup"'),'Ombre book page must use the approved photographic mockup');
 assert.ok(ombrePage.includes('assets/ombre-mockup.webp'),'Ombre page must use the approved mockup asset');
+const sottuttoPage=readFileSync(resolve(root,'il-dottor-sottutto.html'),'utf8');
+const sottuttoTeaser='Milano, 2011. Una serie di morti, un soprannome costruito dalla stampa e un giornalista deciso a verificare i fatti dietro quel nome.';
+for(const copy of ['ROMANZO · IN ARRIVO','<h1>Il Dottor<br><em>Sottutto</em></h1>','Giordano Sognatore <span>con Ada Vesper</span>','Mystery thriller',sottuttoTeaser,'Marco Rinaldi','Dottor Sottutto','Competenza e autorità','Dubbio e verità','Il Dottor Sottutto · In arrivo'])assert.ok(sottuttoPage.includes(copy),`Sottutto page: missing ${copy}`);
+assert.equal(books.find(book=>book.id==='sottutto').desc,sottuttoTeaser);
+assert.ok(!sottuttoPage.includes('ciò che tutti sembrano già sapere'),'Remove the vague consensus claim from the public teaser');
+const sottuttoNicknameCopy='La stampa costruisce presto una figura capace di concentrare paure e sospetti: il Dottor Sottutto. Ma un soprannome può essere un indizio, una caricatura o soltanto un titolo efficace. Marco cerca un legame fra le vittime, mentre ogni risposta apre una domanda nuova.';
+assert.ok(sottuttoPage.includes(`<p>${sottuttoNicknameCopy}</p>`),'Keep the public nickname deliberately ambiguous');
+for(const spoiler of ['È un medico realmente competente','non ammettere repliche','Fra redazioni, ospedali'])assert.ok(!sottuttoPage.includes(spoiler),`Sottutto page must not reveal identity or motivation through: ${spoiler}`);
+assert.ok(sottuttoPage.includes('<p>Fra redazioni, piste incerte e notti trascorse a cercare un legame ancora invisibile, Marco entra in un caso che mette alla prova il suo mestiere e il suo modo di cercare la verità.</p>'),'Keep the closing investigative without implying a medical setting');
+assert.ok(sottuttoPage.includes('<figure class="detail-cover uniform-mockup provisional-cover"><img src="assets/dottor-sottutto-mockup.webp" width="420" height="525"'));
+assert.ok(sottuttoPage.includes('<figcaption>Copertina provvisoria</figcaption>'));
+assert.ok(!/(?:Amazon|Acquista|Scarica|Leggi online|Audiolibro|Cartaceo|Ebook|EPUB|PDF)/i.test(sottuttoPage.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1]),'Forthcoming page must not expose commercial or download actions');
+assert.ok(!sottuttoPage.includes('↓'),'Sottutto preview must not introduce down arrows');
+assert.equal((sottuttoPage.match(/class="button(?: [^"]*)?"/g)||[]).length,0,'Sottutto page must not have premature CTA buttons');
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html"[^>]*>Press<\/a>/);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((map.match(/<loc>/g)||[]).length,pages.length-1);
 assert.ok(!map.includes('404.html'));
-for(const required of ['il-giorno-in-cui-nacque-la-bestia.html','press.html','ai.html','temi.html'])assert.ok(map.includes(required));
+for(const required of ['il-dottor-sottutto.html','il-giorno-in-cui-nacque-la-bestia.html','press.html','ai.html','temi.html'])assert.ok(map.includes(required));
 assert.match(readFileSync(resolve(root,'robots.txt'),'utf8'),/Sitemap: https:\/\//);
 const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);assert.match(css,/@media\(max-width:700px\).*\.nav-toggle/s);assert.match(css,/\.nav-toggle\[data-ready\]\[aria-expanded="false"\]\+nav\{display:none\}/);
 assert.match(css,/:root\{[^}]*font-size:100%/, 'Respect the browser’s default text size');
@@ -217,6 +239,12 @@ const feed=readFileSync(resolve(root,'feed.xml'),'utf8');
 assert.equal(existsSync(resolve(root,'comunicati-stampa.html')),releases.length>0);
 assert.equal(press.includes('<h2>Ultimi comunicati stampa</h2>'),releases.length>0);
 assert.equal((feed.match(/<item>/g)||[]).length,articles.length);
+assert.ok(!feed.includes('il-dottor-sottutto.html'),'Book preview must not enter the Taccuino feed');
+const sottuttoSocial=readFileSync(resolve(root,socialCards.sottutto.path));
+assert.equal(createHash('sha256').update(sottuttoSocial).digest('hex'),'3308721bdc6c69a603866bd36f95a8126e98c70555a688e495264daf96c2b079','Sottutto social card must match the approved provisional composition');
+const sottuttoSocialSource=readFileSync(resolve('materiali/social/sottutto.svg'),'utf8');
+for(const copy of ['ROMANZO · IN ARRIVO','Copertina provvisoria','../../dist/assets/dottor-sottutto-720.webp'])assert.ok(sottuttoSocialSource.includes(copy),`Sottutto social source: missing ${copy}`);
+assert.ok(articles.every(article=>!article.relatedBooks.includes('sottutto')),'No Taccuino article is editorially associated with Sottutto in this task');
 assert.match(feed,/<rss version="2.0"/);
 for(const article of articles){
  const html=readFileSync(resolve(root,article.route),'utf8');
@@ -255,6 +283,18 @@ const ombreMockupAsset=resolve(root,'assets/ombre-mockup.webp');
 const companionMockupAsset=resolve(root,'assets/companion-mockup.webp');
 assert.ok(existsSync(ombreMockupAsset)&&statSync(ombreMockupAsset).size===20818,'Approved Ombre mockup asset');
 assert.ok(existsSync(companionMockupAsset)&&statSync(companionMockupAsset).size===13734,'Approved companion mockup asset');
+const sottuttoAssets=[
+ ['dottor-sottutto-360.webp',54392,'9fb9742d319e8c423e60dead27798dc6e3cde4565025fd8a85d42dafe9ef960e',[360,540]],
+ ['dottor-sottutto-720.webp',136786,'fbc945fa096513ab1fcdbe0bc3ecf8f84e6b9f7ad61634b4b6702ffba96a020a',[720,1080]],
+ ['dottor-sottutto-mockup.webp',56058,'f59d51674667651fd08b799587efd8da380f6cd48aa662e5661f7938bdc3b382',[420,525]]
+];
+for(const [name,size,hash,dimensions] of sottuttoAssets){
+ const bytes=readFileSync(resolve(root,'assets',name));
+ assert.equal(bytes.length,size,`${name}: approved size`);
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),hash,`${name}: approved hash`);
+ assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,16).toString(),'WEBPVP8 ');
+ assert.deepEqual([bytes.readUInt16LE(26)&0x3fff,bytes.readUInt16LE(28)&0x3fff],dimensions,`${name}: dimensions`);
+}
 const companionPdf=resolve(root,'downloads/il-giorno-in-cui-nacque-la-bestia-ada-vesper.pdf');
 const companionEpub=resolve(root,'downloads/il-giorno-in-cui-nacque-la-bestia-ada-vesper.epub');
 const companionCover=resolve(root,'assets/companion-cover.png');

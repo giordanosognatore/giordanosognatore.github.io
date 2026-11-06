@@ -14,10 +14,11 @@ assert.equal(parseArticle(fixture('showOnHome: false\n'),'prova.md').showOnHome,
 for(const source of [fixture('unknown: yes\n'),fixture('date: 2026-10-11\n'),fixture('showOnHome: yes\n'),fixture('slug: ../escape\n'),fixture().replace('2026-10-10','2026-02-30'),fixture().replace('category: taccuino','category: altro'),fixture('', '# Altro titolo')])assert.throws(()=>parseArticle(source,'prova.md'));
 assert.deepEqual(parseArticle(fixture(),'prova.md').relatedBooks,[]);
 assert.deepEqual(parseArticle(fixture('relatedBooks: []\n'),'prova.md').relatedBooks,[]);
-const linked=parseArticle(fixture('relatedBooks:\n  - bestia\n  - ombre\n'),'prova.md');
-assert.deepEqual(linked.relatedBooks,['bestia','ombre']);
+const linked=parseArticle(fixture('relatedBooks:\n  - bestia\n  - ombre\n  - sottutto\n'),'prova.md');
+assert.deepEqual(linked.relatedBooks,['bestia','ombre','sottutto']);
 assert.ok(articleBooks(linked).includes('I romanzi collegati a questo appunto'));
 assert.ok(articleBooks(linked).includes('href="../le-ombre-si-rivelano.html"'));
+assert.ok(articleBooks(linked).includes('href="../il-dottor-sottutto.html"'));
 assert.equal((articleBooks(linked).match(/Leggi l’estratto gratuito/g)||[]).length,1);
 assert.equal(articleBooks(parseArticle(fixture(),'prova.md')),'');
 assert.equal(bookJournal([parseArticle(fixture(),'prova.md')],'bestia'),'');
@@ -57,7 +58,7 @@ listeners['toggle:click']();mobile.matches=false;listeners['media:change']({matc
 const temp=mkdtempSync(join(tmpdir(),'taccuino-check-'));
 try{
  const repo=new URL('../',import.meta.url);
- for(const path of ['scripts','dist','site.config.json','contenuti/autore','materiali/autore'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
+ for(const path of ['scripts','dist','site.config.json','contenuti/autore','materiali/autore','materiali/social'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
  const dir=join(temp,'contenuti/taccuino');mkdirSync(dir,{recursive:true});
  const env={...process.env,SITE_URL:'https://example.test/anteprima',SITE_INDEXABLE:'false'};
  const run=()=>{for(const file of ['build.mjs','press.mjs','check.mjs'])execFileSync(process.execPath,[`scripts/${file}`],{cwd:temp,env,stdio:'pipe'});};

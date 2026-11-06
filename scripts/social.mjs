@@ -3,11 +3,12 @@ import {escapeHtml} from './taccuino.mjs';
 export const socialCards = Object.freeze({
  site: {path:'assets/social-sito.jpg', alt:'Giordano Sognatore — romanzi, tecnologia, potere e libertà'},
  bestia: {path:'assets/social-bestia.jpg', alt:'L’Immagine della Bestia — Giordano Sognatore con Ada Vesper, con la copertina del romanzo'},
- ombre: {path:'assets/social-ombre.jpg', alt:'Le Ombre Si Rivelano — Giordano Sognatore, con la copertina del romanzo'}
+ ombre: {path:'assets/social-ombre.jpg', alt:'Le Ombre Si Rivelano — Giordano Sognatore, con la copertina del romanzo'},
+ sottutto: {path:'assets/social-sottutto.jpg', alt:'Il Dottor Sottutto — romanzo in arrivo di Giordano Sognatore con Ada Vesper, copertina provvisoria'}
 });
 
 export function socialMetadata(origin, file) {
- const key=['l-immagine-della-bestia.html','estratto-l-immagine-della-bestia.html'].includes(file)?'bestia':['le-ombre-si-rivelano.html','leggi-le-ombre-si-rivelano.html'].includes(file)?'ombre':'site';
+ const key=['l-immagine-della-bestia.html','estratto-l-immagine-della-bestia.html'].includes(file)?'bestia':['le-ombre-si-rivelano.html','leggi-le-ombre-si-rivelano.html'].includes(file)?'ombre':file==='il-dottor-sottutto.html'?'sottutto':'site';
  const card=socialCards[key];
  const url=escapeHtml(`${origin}/${card.path}`);
  const alt=escapeHtml(card.alt);
