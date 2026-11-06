@@ -104,9 +104,10 @@ assert.ok(!bestiaCatalog.includes('<p class="credit">'),'No isolated author cred
 const bestiaPage=readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8');
 assert.ok(bestiaPage.includes('<p class="credit">Giordano Sognatore <span>con Ada Vesper</span></p>'),'Keep credit on book page');
 assert.ok(bestiaPage.includes('<a class="button" href="il-giorno-in-cui-nacque-la-bestia.html">Scopri il companion</a>'),'Companion discovery must be a secondary button');
-assert.ok(bestiaPage.includes('<a class="button" href="#estratto-gratuito">Estratto gratuito <span aria-hidden="true">↓</span></a>'),'Book hero must link to the excerpt section and signal same-page scrolling');
-assert.ok(bestiaPage.includes('<a class="button" href="#companion-gratuito">Companion gratuito <span aria-hidden="true">↓</span></a>'),'Book hero must link to the companion section and signal same-page scrolling');
+assert.ok(bestiaPage.includes('<a class="button" href="#estratto-gratuito">Estratto gratuito</a>'),'Book hero must link to the excerpt section');
+assert.ok(bestiaPage.includes('<a class="button" href="#companion-gratuito">Companion gratuito</a>'),'Book hero must link to the companion section');
 assert.ok(bestiaPage.includes('<section class="companion-strip shell" id="companion-gratuito">'),'Companion section needs the stable in-page anchor');
+assert.ok(!readFileSync(resolve(root,'index.html'),'utf8').includes('↓')&&!bestiaPage.includes('↓'),'Down arrows must not return to Home or the Bestia page');
 assert.ok(bestiaCatalog.includes('<div class="format-actions" role="group" aria-label="Scopri e ascolta L’Immagine della Bestia">'));
 assert.deepEqual([...bestiaCatalog.matchAll(/<a class="button" href="([^"]+)">([^<]+)<\/a>/g)].map(m=>[m[1],m[2]]),[
  ['l-immagine-della-bestia.html','Scopri il libro'],[bestiaFormats.audiobook,'Audiolibro gratuito']
@@ -177,7 +178,7 @@ assert.match(author,/id="perche-scrivo" aria-labelledby="perche-scrivo-title"/);
 assert.ok(author.includes('<figure class="author-illustration"><img src="assets/autore-viandante-800.webp"'));
 assert.ok(author.includes('srcset="assets/autore-viandante-400.webp 400w, assets/autore-viandante-800.webp 800w"'));
 assert.ok(author.includes('width="800" height="800" alt="Viandante con un cane fra libri, simboli celesti e paesaggi antichi e futuristici"'));
-assert.ok(author.includes('<figcaption>Il viandante cosmico — immagine simbolica di Giordano Sognatore</figcaption>'));
+assert.ok(author.includes('<figcaption><span>Il viandante cosmico.</span><span>Rappresentazione simbolica dell’autore.</span></figcaption>'));
 const authorOriginal=readFileSync(resolve('materiali/autore/viandante-cosmico-tra-mondi-celesti-originale.png'));
 assert.equal(createHash('sha256').update(authorOriginal).digest('hex'),'6efc4795cb8ee693a1753da30d5c17826decaae14336e28e505145ad941c32a6','Archived author image must match the unmodified original');
 for(const size of [400,800]){
