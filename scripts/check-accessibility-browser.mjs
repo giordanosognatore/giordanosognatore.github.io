@@ -31,7 +31,9 @@ const navigate=async path=>{
  await call('Page.navigate',{url});
  for(let i=0;i<100;i++){
   await delay(50);
-  if(await evaluate(`location.href===${JSON.stringify(url)}&&document.readyState==='complete'`))return;
+  if(await evaluate(`location.href===${JSON.stringify(url)}&&document.readyState==='complete'`)){
+   await delay(50);return; // Let navigation/focus settle, also with page scripts disabled.
+  }
  }
  throw new Error(`Page did not load: ${url}`);
 };
@@ -80,7 +82,20 @@ const probe=()=>{
   const e=document.querySelector(selector),r=e.getBoundingClientRect();
   if(Math.abs(r.x)>.5||Math.abs(r.width-document.documentElement.clientWidth)>.5||parseFloat(getComputedStyle(e)[border])!==1)frameLines.push(`${selector}: separator must span the full page width`);
  }
- return {contrast,overflow,clippedText,unnamed,frameLines};
+ const actionGroups=[];
+ for(const group of document.querySelectorAll('.hero-actions,.format-actions,.download-actions')){
+  const controls=[...group.children].map(e=>e.matches('.format-menu')?e.querySelector('summary'):e).filter(e=>e.matches('.button')&&visible(e));
+  if(!controls.length)continue;
+  const widths=controls.map(e=>e.getBoundingClientRect().width),style=getComputedStyle(group);
+  if(style.display!=='grid'||Math.max(...widths)-Math.min(...widths)>1)actionGroups.push(`${group.className}: action widths differ`);
+  const parent=group.parentElement,pstyle=getComputedStyle(parent),available=parent.clientWidth-parseFloat(pstyle.paddingLeft)-parseFloat(pstyle.paddingRight);
+  if(Math.abs(group.getBoundingClientRect().width-available)>1)actionGroups.push(`${group.className}: group must fill its parent content width`);
+  for(const e of controls){const r=e.getBoundingClientRect(),s=getComputedStyle(e);if(r.height<48||s.textAlign!=='center'||Math.abs(parseFloat(s.fontSize)-parseFloat(getComputedStyle(document.documentElement).fontSize)*.875)>.1)actionGroups.push(describe(e));}
+  if(innerWidth<=700&&controls.some(e=>Math.abs(e.getBoundingClientRect().width-group.getBoundingClientRect().width)>1))actionGroups.push(`${group.className}: mobile actions must fill their group`);
+ }
+ const catalogWidths=[...document.querySelectorAll('#romanzi .format-actions>.button')].map(e=>e.getBoundingClientRect().width);
+ if(catalogWidths.length&&Math.max(...catalogWidths)-Math.min(...catalogWidths)>1)actionGroups.push('Catalog widths differ between books');
+ return {contrast,overflow,clippedText,unnamed,frameLines,actionGroups};
 };
 const modes=[
  {width:1440},{width:768},{width:390},{width:320},
@@ -118,7 +133,7 @@ try{
  console.log('PASS shared flat reading covers: loaded, centered, responsive, uncropped, after actions and before index');
  for(const width of [390,1440])for(const page of ['index.html','press.html','estratto-l-immagine-della-bestia.html','leggi-le-ombre-si-rivelano.html']){
   await size(width);await navigate(page);await key('Tab');
-  assert.equal(await evaluate('document.activeElement.className'),'skip');
+  assert.equal(await evaluate('document.activeElement.className'),'skip',`${page} ${width}: first Tab must reach skip link`);
   assert.ok(await evaluate('document.activeElement.matches(":focus-visible")&&document.activeElement.getBoundingClientRect().top>=0'));
   await key('Enter');assert.equal(await evaluate('document.activeElement.id'),'contenuto');
   await key('Tab');assert.ok(await evaluate('document.querySelector("main").contains(document.activeElement)'));
@@ -152,7 +167,16 @@ try{
  assert.equal(await evaluate('document.activeElement.className'),'breadcrumb');
  assert.equal(await evaluate('document.querySelector(".nav-toggle").getAttribute("aria-expanded")'),'false');
  assert.ok(await evaluate('(()=>{const e=document.activeElement,r=e.getBoundingClientRect();return e.contains(document.elementFromPoint(r.x+10,r.y+r.height/2))})()'),'Menu covers the link focused after leaving navigation');
- console.log('PASS keyboard skip, main focus, menu/escape/focus exit, native ebook details, accessible names and landmarks');
+ for(const width of [1440,390])for(const page of ['l-immagine-della-bestia.html','press.html']){
+  await size(width);await navigate(page);await evaluate('document.querySelector("summary").focus()');await key('Enter');
+  assert.ok(await evaluate('document.querySelector("details").open'));
+  const report=await evaluate(`(${probe.toString()})()`);
+  for(const [check,issues] of Object.entries(report))assert.deepEqual(issues,[],`${page} ${width} open Ebook ${check}`);
+  const widths=await evaluate('[...document.querySelectorAll(".format-menu-panel .button")].map(e=>e.getBoundingClientRect().width)');
+  assert.ok(Math.max(...widths)-Math.min(...widths)<1,'Ebook options must share panel width');
+  await key('Enter');assert.ok(await evaluate('!document.querySelector("details").open'));
+ }
+ console.log('PASS keyboard skip, main focus, menu/escape/focus exit, native ebook details (open/closed desktop/mobile), accessible names and landmarks');
  for(const mode of [{width:390},{width:320,font:32},{width:768,font:32}]){
   await size(mode.width);await navigate('estratto-l-immagine-della-bestia.html');
   if(mode.font)await evaluate(`document.documentElement.style.fontSize='${mode.font}px'`);

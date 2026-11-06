@@ -37,6 +37,12 @@ Tutte queste coppie superano 4,5:1, anche per testo normale. Il test browser con
 - Estratto lungo: ancore di Prologo, capitoli 1 e 6 e fine estratto; titoli e collegamenti non coperti dagli strumenti di lettura, anche con base a 32 px. Testo e salto al contenuto disponibili anche con JavaScript disabilitato.
 - Ispezione di catture desktop e mobile, focus sul riepilogo Ebook e Prologo. Testi visibili, articoli approvati, estratto, EPUB/PDF, immagini, feed e sitemap restano invariati; cambiano struttura HTML, presentazione, chiusura del menu al cambio di focus e strumenti di verifica.
 
+## Aggiornamento — gruppi di azioni coerenti
+
+La revisione dei pulsanti estende una griglia condivisa a Home, schede dei romanzi, companion, Press, contatti e letture online: colonne di uguale larghezza nel gruppo, una colonna fino a 700 px, testo centrato e spezzabile, carattere relativo, altezza minima 48 px e gap 12 px. Nessuna larghezza rigida globale; link editoriali e navigazione compatta dei lettori restano distinti. Nel catalogo i due romanzi condividono anche la larghezza dei controlli. Il menu Ebook conserva `details`/`summary`, opzioni raggiungibili da tastiera e pannello nel flusso su mobile.
+
+Il controllo browser attuale copre **192 combinazioni** (19 pagine e cinque template sotto prefisso, per otto configurazioni). Controlla le larghezze uniformi dei gruppi e fra le due schede del catalogo, altezza minima, centratura, carattere relativo, impilamento mobile, reflow e contrasto. Aggiunge apertura/chiusura e dimensioni delle opzioni Ebook su scheda Bestia e Press a 1440 e 390 px. Una breve attesa dopo il caricamento precede misure e invio di tasti, anche con gli script della pagina disabilitati. Queste verifiche restano distinte da una certificazione e non colmano i limiti Safari/VoiceOver indicati sotto.
+
 ## Ripetere il controllo browser
 
 Non servono pacchetti npm o librerie di automazione. Il controllo usa il protocollo di debug di Chrome tramite le API native di Node >=22; è facoltativo, non fa parte della build, non viene distribuito al lettore e non viene eseguito automaticamente in CI.

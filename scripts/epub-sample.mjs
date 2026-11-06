@@ -105,6 +105,6 @@ export function onlineSample(){
 <nav class="excerpt-toc" id="indice-estratto" aria-labelledby="indice-estratto-title"><h2 id="indice-estratto-title">Indice dell’estratto</h2><ol>${toc}</ol></nav>
 <nav class="excerpt-tools" aria-label="Strumenti di lettura"><a href="#indice-estratto">Indice</a><a href="${estrattoAssets[0].publicPath}" download>EPUB</a><a href="${estrattoAssets[1].publicPath}" download>PDF</a><a href="l-immagine-della-bestia.html">Il romanzo</a></nav>
 ${sections}
-<footer class="excerpt-end" id="fine-estratto"><p class="eyebrow">FINE DELL’ESTRATTO GRATUITO</p><h2>Vuoi continuare?</h2><p>Hai letto il Prologo e l’Atto I — La Pace di <em>L’Immagine della Bestia</em>. La pagina del romanzo raccoglie i formati disponibili, compreso l’audiolibro integrale gratuito.</p><div class="download-actions"><a class="button button-primary" href="l-immagine-della-bestia.html">Scopri il romanzo completo</a>${downloads}</div><a class="text-link" href="#indice-estratto">Torna all’indice dell’estratto</a></footer>
+<footer class="excerpt-end" id="fine-estratto"><p class="eyebrow">FINE DELL’ESTRATTO GRATUITO</p><h2>Vuoi continuare?</h2><p>Hai letto il Prologo e l’Atto I — La Pace di <em>L’Immagine della Bestia</em>. La pagina del romanzo raccoglie i formati disponibili, compreso l’audiolibro integrale gratuito.</p><div class="download-actions"><a class="button button-primary" href="l-immagine-della-bestia.html">Scopri il libro</a>${downloads}</div><a class="text-link" href="#indice-estratto">Torna all’indice dell’estratto</a></footer>
 </article>`;
 }
