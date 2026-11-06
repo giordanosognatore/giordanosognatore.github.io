@@ -30,7 +30,7 @@ L’importatore manuale `scripts/import-ombre-assets.py` usa soltanto la libreri
 - trasforma le intestazioni in titoli semantici e conserva i collegamenti dell’indice;
 - elimina font, offuscamento dei font, JavaScript vuoto, eventi `onload`, stili di posizionamento, UUID Pages e metadati applicativi;
 - ricrea metadati minimi: autore **Giordano Sognatore**, titolo, italiano, diritti riservati, nuovo identificatore tecnico e data di modifica costante;
-- conserva tutti i pixel della copertina PNG, rimuovendo i chunk accessori, compresi EXIF, testo e profili colore. Il derivato web è WebP 640 × 990, senza metadati. Nessun ritaglio;
+- conserva tutti i pixel della copertina PNG dentro l’EPUB, rimuovendo i chunk accessori, compresi EXIF, testo e profili colore. Il solo derivato web è WebP 640 × 990, senza metadati: rimuove 8 px per lato della cornice chiara esterna e riporta l’immagine alle dimensioni previste dal layout;
 - copia il PDF originale **byte per byte**. PDFKit ed ExifTool non hanno rilevato metadati autore privati: il `Creator` identifica Pages. Le 25 annotazioni PDF sono collegamenti, senza autori di annotazione privati. Non è una nuova impaginazione o un PDF con copertina aggiunta.
 
 La gratuità non introduce una licenza libera: i diritti sui testi e sulle immagini rimangono riservati.
@@ -44,7 +44,7 @@ import {writeFileSync} from 'node:fs';
 import {ombreEntries} from './scripts/ombre.mjs';
 writeFileSync('/tmp/ombre-cover-clean.png',ombreEntries().get('OPS/cover.png'));
 JS
-cwebp -q 85 -m 6 -metadata none -resize 640 0 /tmp/ombre-cover-clean.png -o dist/assets/ombre-lettura-copertina.webp
+cwebp -q 85 -m 6 -metadata none -crop 8 8 927 1484 -resize 640 990 /tmp/ombre-cover-clean.png -o dist/assets/ombre-lettura-copertina.webp
 epubcheck dist/downloads/le-ombre-si-rivelano.epub
 npm run build
 npm run check
