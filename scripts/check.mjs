@@ -145,6 +145,9 @@ const sottuttoTeaser='Milano, 2011. Una serie di morti, un soprannome costruito 
 for(const copy of ['ROMANZO · IN ARRIVO','<h1>Il Dottor<br><em>Sottutto</em></h1>','Giordano Sognatore <span>con Ada Vesper</span>','Mystery thriller',sottuttoTeaser,'Marco Rinaldi','Dottor Sottutto','Competenza e autorità','Dubbio e verità','Il Dottor Sottutto · In arrivo'])assert.ok(sottuttoPage.includes(copy),`Sottutto page: missing ${copy}`);
 assert.equal(books.find(book=>book.id==='sottutto').desc,sottuttoTeaser);
 assert.ok(!sottuttoPage.includes('ciò che tutti sembrano già sapere'),'Remove the vague consensus claim from the public teaser');
+const sottuttoNicknameCopy='La stampa costruisce presto una figura capace di concentrare paure e sospetti: il Dottor Sottutto. Ma un soprannome può essere un indizio, una caricatura o soltanto un titolo efficace. Marco cerca un legame fra le vittime, mentre ogni risposta apre una domanda nuova.';
+assert.ok(sottuttoPage.includes(`<p>${sottuttoNicknameCopy}</p>`),'Keep the public nickname deliberately ambiguous');
+for(const spoiler of ['È un medico realmente competente','non ammettere repliche'])assert.ok(!sottuttoPage.includes(spoiler),`Sottutto page must not reveal identity or motivation through: ${spoiler}`);
 assert.ok(sottuttoPage.includes('<figure class="detail-cover uniform-mockup provisional-cover"><img src="assets/dottor-sottutto-mockup.webp" width="420" height="525"'));
 assert.ok(sottuttoPage.includes('<figcaption>Copertina provvisoria</figcaption>'));
 assert.ok(!/(?:Amazon|Acquista|Scarica|Leggi online|Audiolibro|Cartaceo|Ebook|EPUB|PDF)/i.test(sottuttoPage.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1]),'Forthcoming page must not expose commercial or download actions');
