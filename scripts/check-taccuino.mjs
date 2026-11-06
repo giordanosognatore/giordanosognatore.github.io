@@ -58,7 +58,7 @@ listeners['toggle:click']();mobile.matches=false;listeners['media:change']({matc
 const temp=mkdtempSync(join(tmpdir(),'taccuino-check-'));
 try{
  const repo=new URL('../',import.meta.url);
- for(const path of ['scripts','dist','site.config.json','contenuti/autore','materiali/autore'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
+ for(const path of ['scripts','dist','site.config.json','contenuti/autore','materiali/autore','materiali/social'])cpSync(new URL(path,repo),join(temp,path),{recursive:true});
  const dir=join(temp,'contenuti/taccuino');mkdirSync(dir,{recursive:true});
  const env={...process.env,SITE_URL:'https://example.test/anteprima',SITE_INDEXABLE:'false'};
  const run=()=>{for(const file of ['build.mjs','press.mjs','check.mjs'])execFileSync(process.execPath,[`scripts/${file}`],{cwd:temp,env,stdio:'pipe'});};

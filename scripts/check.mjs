@@ -67,7 +67,7 @@ for(const page of pages){
  if(page!=='404.html'){
   assert.match(html,/rel="canonical" href="https:\/\//);
   assert.ok(html.includes(socialMetadata(origin,page)),`${page}: missing shared social metadata`);
-  const card=['l-immagine-della-bestia.html',sampleRoute].includes(page)?'bestia':['le-ombre-si-rivelano.html',ombreRoute].includes(page)?'ombre':'sito';
+  const card=['l-immagine-della-bestia.html',sampleRoute].includes(page)?'bestia':['le-ombre-si-rivelano.html',ombreRoute].includes(page)?'ombre':page==='il-dottor-sottutto.html'?'sottutto':'sito';
   assert.ok(html.includes(`property="og:image" content="${escapeHtml(origin+'/assets/social-'+card+'.jpg')}"`),`${page}: wrong social card or prefix`);
   assert.equal((html.match(/name="twitter:card"/g)||[]).length,1,`${page}: duplicate Twitter card`);
   const data=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
@@ -141,7 +141,10 @@ assert.ok(!ombrePage.includes('play.google.com'),'Do not invent a Google Play ed
 assert.ok(ombrePage.includes('class="detail-cover uniform-mockup"'),'Ombre book page must use the approved photographic mockup');
 assert.ok(ombrePage.includes('assets/ombre-mockup.webp'),'Ombre page must use the approved mockup asset');
 const sottuttoPage=readFileSync(resolve(root,'il-dottor-sottutto.html'),'utf8');
-for(const copy of ['ROMANZO · IN ARRIVO','<h1>Il Dottor<br><em>Sottutto</em></h1>','Giordano Sognatore <span>con Ada Vesper</span>','Mystery thriller','Milano, 2011.','Marco Rinaldi','Dottor Sottutto','Competenza e autorità','Dubbio e verità','Il Dottor Sottutto · In arrivo'])assert.ok(sottuttoPage.includes(copy),`Sottutto page: missing ${copy}`);
+const sottuttoTeaser='Milano, 2011. Una serie di morti, un soprannome costruito dalla stampa e un giornalista deciso a verificare i fatti dietro quel nome.';
+for(const copy of ['ROMANZO · IN ARRIVO','<h1>Il Dottor<br><em>Sottutto</em></h1>','Giordano Sognatore <span>con Ada Vesper</span>','Mystery thriller',sottuttoTeaser,'Marco Rinaldi','Dottor Sottutto','Competenza e autorità','Dubbio e verità','Il Dottor Sottutto · In arrivo'])assert.ok(sottuttoPage.includes(copy),`Sottutto page: missing ${copy}`);
+assert.equal(books.find(book=>book.id==='sottutto').desc,sottuttoTeaser);
+assert.ok(!sottuttoPage.includes('ciò che tutti sembrano già sapere'),'Remove the vague consensus claim from the public teaser');
 assert.ok(sottuttoPage.includes('<figure class="detail-cover uniform-mockup provisional-cover"><img src="assets/dottor-sottutto-mockup.webp" width="420" height="525"'));
 assert.ok(sottuttoPage.includes('<figcaption>Copertina provvisoria</figcaption>'));
 assert.ok(!/(?:Amazon|Acquista|Scarica|Leggi online|Audiolibro|Cartaceo|Ebook|EPUB|PDF)/i.test(sottuttoPage.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1]),'Forthcoming page must not expose commercial or download actions');
@@ -233,6 +236,10 @@ assert.equal(existsSync(resolve(root,'comunicati-stampa.html')),releases.length>
 assert.equal(press.includes('<h2>Ultimi comunicati stampa</h2>'),releases.length>0);
 assert.equal((feed.match(/<item>/g)||[]).length,articles.length);
 assert.ok(!feed.includes('il-dottor-sottutto.html'),'Book preview must not enter the Taccuino feed');
+const sottuttoSocial=readFileSync(resolve(root,socialCards.sottutto.path));
+assert.equal(createHash('sha256').update(sottuttoSocial).digest('hex'),'3308721bdc6c69a603866bd36f95a8126e98c70555a688e495264daf96c2b079','Sottutto social card must match the approved provisional composition');
+const sottuttoSocialSource=readFileSync(resolve('materiali/social/sottutto.svg'),'utf8');
+for(const copy of ['ROMANZO · IN ARRIVO','Copertina provvisoria','../../dist/assets/dottor-sottutto-720.webp'])assert.ok(sottuttoSocialSource.includes(copy),`Sottutto social source: missing ${copy}`);
 assert.ok(articles.every(article=>!article.relatedBooks.includes('sottutto')),'No Taccuino article is editorially associated with Sottutto in this task');
 assert.match(feed,/<rss version="2.0"/);
 for(const article of articles){
