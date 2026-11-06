@@ -22,4 +22,4 @@ SHA-256:
 - 720: `fbc945fa096513ab1fcdbe0bc3ecf8f84e6b9f7ad61634b4b6702ffba96a020a`
 - mockup: `f59d51674667651fd08b799587efd8da380f6cd48aa662e5661f7938bdc3b382`
 
-Questi file preparano soltanto il lavoro successivo. Non aggiungono ancora il romanzo al catalogo, alla Home, alla sitemap o alle associazioni del Taccuino.
+Questi file sono usati dall’anteprima revisionabile: cover piatte nella Home/catalogo e mockup nella scheda `il-dottor-sottutto.html`. L’integrazione aggiunge il romanzo alla sitemap e rende disponibile l’ID `sottutto` per future associazioni esplicite del Taccuino, ma non associa automaticamente alcun articolo e non implica disponibilità commerciale.

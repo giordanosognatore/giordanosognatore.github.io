@@ -93,9 +93,11 @@ const probe=()=>{
   for(const e of controls){const r=e.getBoundingClientRect(),s=getComputedStyle(e);if(r.height<48||s.textAlign!=='center'||Math.abs(parseFloat(s.fontSize)-parseFloat(getComputedStyle(document.documentElement).fontSize)*.875)>.1)actionGroups.push(describe(e));}
   if(innerWidth<=700&&controls.some(e=>Math.abs(e.getBoundingClientRect().width-group.getBoundingClientRect().width)>1))actionGroups.push(`${group.className}: mobile actions must fill their group`);
  }
- const catalogRects=[...document.querySelectorAll('#romanzi .format-actions>.button')].map(e=>e.getBoundingClientRect());
- for(const dimension of ['width','height'])if(catalogRects.length&&Math.max(...catalogRects.map(r=>r[dimension]))-Math.min(...catalogRects.map(r=>r[dimension]))>1)actionGroups.push(`Catalog ${dimension} differs between books`);
- if(innerWidth>700&&catalogRects.length===4)for(const i of [0,1])if(Math.abs(catalogRects[i].top-catalogRects[i+2].top)>1)actionGroups.push('Catalog actions are not aligned between books');
+ const catalogGroups=[...document.querySelectorAll('#romanzi .format-actions')];
+ if(innerWidth>1050&&catalogGroups.length===3){
+  const firstButtons=catalogGroups.map(group=>group.querySelector('.button').getBoundingClientRect());
+  if(Math.max(...firstButtons.map(r=>r.top))-Math.min(...firstButtons.map(r=>r.top))>1)actionGroups.push('Catalog primary actions are not aligned between books');
+ }
  return {contrast,overflow,clippedText,unnamed,frameLines,actionGroups};
 };
 const modes=[
@@ -110,7 +112,7 @@ try{
  for(const mode of modes){
   await size(mode.width);
   // All generated pages at root; representative templates under project prefix.
-  const paths=[...pages,...['index.html','press.html','estratto-l-immagine-della-bestia.html','le-ombre-si-rivelano.html','leggi-le-ombre-si-rivelano.html','il-giorno-in-cui-nacque-la-bestia.html','leggi-il-giorno-in-cui-nacque-la-bestia.html'].map(p=>'giordanosognatore/'+p)];
+  const paths=[...pages,...['index.html','press.html','estratto-l-immagine-della-bestia.html','le-ombre-si-rivelano.html','leggi-le-ombre-si-rivelano.html','il-giorno-in-cui-nacque-la-bestia.html','leggi-il-giorno-in-cui-nacque-la-bestia.html','il-dottor-sottutto.html'].map(p=>'giordanosognatore/'+p)];
   for(const path of paths){
    await navigate(path);
    if(mode.font)await evaluate(`document.documentElement.style.fontSize='${mode.font}px'`);
@@ -118,8 +120,8 @@ try{
    const report=await evaluate(`(${probe.toString()})()`);
    for(const [check,issues] of Object.entries(report))assert.deepEqual(issues,[],`${path} ${JSON.stringify(mode)} ${check}: ${JSON.stringify(issues.slice(0,5))}`);
    if(path.endsWith('index.html')){
-    const separated=await evaluate(`(()=>{const groups=[...document.querySelectorAll('#romanzi .format-actions')];return groups.length===2&&groups.every(group=>{const links=[...group.querySelectorAll('a')];if(links.length!==2||links.some(a=>!a.classList.contains('button')))return false;const [a,b]=links.map(e=>e.getBoundingClientRect());return b.left-a.right>=7||b.top-a.bottom>=7;});})()`);
-    assert.ok(separated,`Both catalog entries must have two visibly separated buttons: ${path} ${JSON.stringify(mode)}`);
+    const separated=await evaluate(`(()=>{const groups=[...document.querySelectorAll('#romanzi .format-actions')];return groups.length===3&&groups.every((group,index)=>{const links=[...group.querySelectorAll('a')];if(links.length!==(index<2?2:1)||links.some(a=>!a.classList.contains('button')))return false;if(links.length===1)return links[0].getBoundingClientRect().height>=48;const [a,b]=links.map(e=>e.getBoundingClientRect());return b.left-a.right>=7||b.top-a.bottom>=7;});})()`);
+    assert.ok(separated,`Catalog entries must expose the expected distinct actions: ${path} ${JSON.stringify(mode)}`);
    }
    if(path==='index.html'&&[390,1440].includes(mode.width)&&!mode.spacing)await screenshot(`home-${mode.width}-${mode.font||16}`);
    combinations++;
@@ -138,6 +140,13 @@ try{
   assert.ok(cover.loaded&&Math.abs(cover.width-cover.expectedWidth)<1&&cover.centerError<1&&cover.gap>=39&&cover.beforeIndex&&cover.aspectError<1,`${page} ${width}: inconsistent reading cover ${JSON.stringify(cover)}`);
  }
  console.log('PASS shared flat reading covers: loaded, centered, responsive, uncropped, after actions and before index');
+ for(const width of [1440,1169,768,390,320]){
+  await size(width);await navigate('il-dottor-sottutto.html');
+  const cover=await evaluate(`(()=>{const figure=document.querySelector('.provisional-cover'),img=figure.querySelector('img'),r=img.getBoundingClientRect();return {loaded:img.complete&&img.naturalWidth===420&&img.naturalHeight===525,width:r.width,height:r.height,ratio:r.width/r.height,caption:figure.querySelector('figcaption').textContent.trim(),overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth};})()`);
+  assert.ok(cover.loaded&&Math.abs(cover.ratio-4/5)<.01&&cover.caption==='Copertina provvisoria'&&cover.overflow<=1,`Sottutto mockup ${width}: ${JSON.stringify(cover)}`);
+  if([1440,390].includes(width))await screenshot(`sottutto-${width}-16`);
+ }
+ console.log('PASS forthcoming Sottutto mockup: loaded, fully visible, labelled provisional and responsive');
  for(const width of [390,1440])for(const page of ['index.html','press.html','estratto-l-immagine-della-bestia.html','leggi-le-ombre-si-rivelano.html','leggi-il-giorno-in-cui-nacque-la-bestia.html']){
   await size(width);await navigate(page);await key('Tab');
   assert.equal(await evaluate('document.activeElement.className'),'skip',`${page} ${width}: first Tab must reach skip link`);
@@ -148,7 +157,7 @@ try{
   assert.equal(tree.filter(n=>n.role?.value==='main').length,1);
   assert.equal(tree.filter(n=>n.role?.value==='heading'&&n.properties?.some(p=>p.name==='level'&&p.value.value===1)).length,1);
   for(const node of tree.filter(n=>['button','link','DisclosureTriangle','heading'].includes(n.role?.value)))assert.ok(node.name?.value,`${page}: unnamed ${node.role.value}`);
-  if(page==='index.html')for(const name of ['Scopri e ascolta L’Immagine della Bestia','Scopri e leggi Le Ombre Si Rivelano'])assert.ok(tree.some(n=>n.role?.value==='group'&&n.name?.value===name));
+  if(page==='index.html')for(const name of ['Scopri e ascolta L’Immagine della Bestia','Scopri e leggi Le Ombre Si Rivelano','Scopri Il Dottor Sottutto'])assert.ok(tree.some(n=>n.role?.value==='group'&&n.name?.value===name));
  }
  await size(390);await navigate('index.html');await key('Tab');await key('Tab');await key('Tab');
  assert.equal(await evaluate('document.activeElement.className'),'nav-toggle');

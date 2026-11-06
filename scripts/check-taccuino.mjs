@@ -14,10 +14,11 @@ assert.equal(parseArticle(fixture('showOnHome: false\n'),'prova.md').showOnHome,
 for(const source of [fixture('unknown: yes\n'),fixture('date: 2026-10-11\n'),fixture('showOnHome: yes\n'),fixture('slug: ../escape\n'),fixture().replace('2026-10-10','2026-02-30'),fixture().replace('category: taccuino','category: altro'),fixture('', '# Altro titolo')])assert.throws(()=>parseArticle(source,'prova.md'));
 assert.deepEqual(parseArticle(fixture(),'prova.md').relatedBooks,[]);
 assert.deepEqual(parseArticle(fixture('relatedBooks: []\n'),'prova.md').relatedBooks,[]);
-const linked=parseArticle(fixture('relatedBooks:\n  - bestia\n  - ombre\n'),'prova.md');
-assert.deepEqual(linked.relatedBooks,['bestia','ombre']);
+const linked=parseArticle(fixture('relatedBooks:\n  - bestia\n  - ombre\n  - sottutto\n'),'prova.md');
+assert.deepEqual(linked.relatedBooks,['bestia','ombre','sottutto']);
 assert.ok(articleBooks(linked).includes('I romanzi collegati a questo appunto'));
 assert.ok(articleBooks(linked).includes('href="../le-ombre-si-rivelano.html"'));
+assert.ok(articleBooks(linked).includes('href="../il-dottor-sottutto.html"'));
 assert.equal((articleBooks(linked).match(/Leggi l’estratto gratuito/g)||[]).length,1);
 assert.equal(articleBooks(parseArticle(fixture(),'prova.md')),'');
 assert.equal(bookJournal([parseArticle(fixture(),'prova.md')],'bestia'),'');
