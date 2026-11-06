@@ -102,6 +102,8 @@ assert.ok(!bestiaCatalog.includes('<p class="credit">'),'No isolated author cred
 const bestiaPage=readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8');
 assert.ok(bestiaPage.includes('<p class="credit">Giordano Sognatore <span>con Ada Vesper</span></p>'),'Keep credit on book page');
 assert.ok(bestiaPage.includes('<a class="button" href="il-giorno-in-cui-nacque-la-bestia.html">Scopri il companion</a>'),'Companion discovery must be a secondary button');
+assert.ok(bestiaPage.includes('<a class="button" href="#companion-gratuito">Companion gratuito <span aria-hidden="true">↓</span></a>'),'Book hero must link to the companion section and signal same-page scrolling');
+assert.ok(bestiaPage.includes('<section class="companion-strip shell" id="companion-gratuito">'),'Companion section needs the stable in-page anchor');
 assert.ok(bestiaCatalog.includes('<div class="format-actions" role="group" aria-label="Scopri e ascolta L’Immagine della Bestia">'));
 assert.deepEqual([...bestiaCatalog.matchAll(/<a class="button" href="([^"]+)">([^<]+)<\/a>/g)].map(m=>[m[1],m[2]]),[
  ['l-immagine-della-bestia.html','Scopri il libro'],[bestiaFormats.audiobook,'Audiolibro gratuito']
@@ -122,7 +124,10 @@ for(const page of ['index.html','l-immagine-della-bestia.html','press.html']){
  }
  assert.ok(!/Ascolta 30 minuti gratis|Acquista su Google Play|books\/listen\?/.test(html),`${page}: obsolete audiobook CTA`);
 }
-assert.ok(!readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes('play.google.com'),'Do not invent a Google Play edition for Le Ombre Si Rivelano');
+const ombrePage=readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8');
+assert.ok(!ombrePage.includes('play.google.com'),'Do not invent a Google Play edition for Le Ombre Si Rivelano');
+assert.ok(ombrePage.includes('class="detail-cover uniform-mockup"'),'Ombre book page must use the approved photographic mockup');
+assert.ok(ombrePage.includes('assets/ombre-mockup.webp'),'Ombre page must use the approved mockup asset');
 assert.match(readFileSync(resolve(root,'index.html'),'utf8'),/href="press\.html"[^>]*>Press<\/a>/);
 const map=readFileSync(resolve(root,'sitemap.xml'),'utf8');
 assert.equal((map.match(/<loc>/g)||[]).length,pages.length-1);
@@ -133,6 +138,7 @@ const css=readFileSync(resolve(root,'assets/site.css'),'utf8');assert.match(css,
 assert.match(css,/:root\{[^}]*font-size:100%/, 'Respect the browser’s default text size');
 assert.ok(css.includes('.hero-actions,.format-actions,.download-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr))'),'Action groups must share responsive equal-width columns');
 assert.ok(css.includes('@media(max-width:700px){.hero-actions,.format-actions,.download-actions{grid-template-columns:1fr}'),'Action groups must stack consistently on mobile');
+assert.ok(css.includes('.detail-cover.uniform-mockup'),'Approved detail mockups must share one responsive crop rule');
 assert.match(css,/:where\(a,button,summary\):focus-visible\{outline:2px solid var\(--gold\)/);
 const luminance=hex=>{const rgb=hex.match(/[a-f\d]{2}/gi).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;};
 const color=name=>css.match(new RegExp(`--${name}:(#[a-f0-9]{6})`))[1].slice(1);
@@ -142,13 +148,21 @@ for(const background of ['bg','surface'])for(const foreground of ['ink','muted',
 }
 const navigationJs=readFileSync(resolve(root,'assets/navigation.js'),'utf8');
 for(const required of ["event.key==='Escape'","closeMenu(true)","mobile.addEventListener('change'","aria-expanded","aria-label"])assert.ok(navigationJs.includes(required),`navigation.js: ${required}`);
-assert.match(readFileSync(resolve(root,'il-giorno-in-cui-nacque-la-bestia.html'),'utf8'),/COMPANION GRATUITO/);
+const companionPage=readFileSync(resolve(root,'il-giorno-in-cui-nacque-la-bestia.html'),'utf8');
+assert.match(companionPage,/COMPANION GRATUITO/);
+assert.ok(companionPage.includes('class="detail-cover uniform-mockup"'),'Companion page must use the approved illustrative book mockup');
+assert.ok(companionPage.includes('assets/companion-mockup.webp'),'Companion page must use the approved mockup asset');
 assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/PRESS &amp; MEDIA|PRESS & MEDIA/);
 assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/Review copy EPUB\/PDF disponibile su richiesta/);
-assert.match(readFileSync(resolve(root,'ai.html'),'utf8'),/Non contro l’IA/);
-assert.match(readFileSync(resolve(root,'ai.html'),'utf8'),/Ada Vesper/);
+const ai=readFileSync(resolve(root,'ai.html'),'utf8');
+assert.match(ai,/Non contro l’IA/);
+assert.match(ai,/Ada Vesper/);
+assert.ok(ai.includes('<a class="button" href="il-giorno-in-cui-nacque-la-bestia.html">Scopri il companion</a>'),'ai.html: companion CTA must use the shared button style');
+assert.ok(!ai.includes('Leggi il companion gratuito'),'ai.html: obsolete companion label remains');
 const temi=readFileSync(resolve(root,'temi.html'),'utf8');
 assert.match(temi,/Sei domande/);
+assert.ok(temi.includes('<a class="button" href="l-immagine-della-bestia.html">Scopri il libro</a>'),'temi.html: book CTA must use the shared button style');
+assert.ok(!temi.includes('Scopri il romanzo'),'temi.html: obsolete book label remains');
 assert.ok(temi.includes('<a class="text-link" href="press.html">Torna a Press & media</a>'),'temi.html: missing aligned Press text link');
 assert.ok(!temi.includes('<a class="button" href="press.html">Press & media</a>'),'temi.html: obsolete Press button remains');
 const author=readFileSync(resolve(root,'autore.html'),'utf8');
@@ -231,6 +245,10 @@ for(const page of pages){
  assert.ok(html.includes(`type="application/rss+xml" title="Dal taccuino di Giordano" href="${escapeHtml(origin+'/feed.xml')}"`));
  if(page==='404.html')assert.ok(html.includes(`href="${origin}/taccuino.html"`));
 }
+const ombreMockupAsset=resolve(root,'assets/ombre-mockup.webp');
+const companionMockupAsset=resolve(root,'assets/companion-mockup.webp');
+assert.ok(existsSync(ombreMockupAsset)&&statSync(ombreMockupAsset).size===20818,'Approved Ombre mockup asset');
+assert.ok(existsSync(companionMockupAsset)&&statSync(companionMockupAsset).size===13734,'Approved companion mockup asset');
 const companionPdf=resolve(root,'downloads/il-giorno-in-cui-nacque-la-bestia-ada-vesper.pdf');
 const companionEpub=resolve(root,'downloads/il-giorno-in-cui-nacque-la-bestia-ada-vesper.epub');
 const companionCover=resolve(root,'assets/companion-cover.png');
