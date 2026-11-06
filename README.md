@@ -154,7 +154,7 @@ Questa sezione presenta motivazioni, discernimento, fede e rispetto verso il pro
 
 ### Immagine simbolica dell’autore
 
-La pagina Autore presenta «Il viandante cosmico», l’immagine indicata dall’autore come già utilizzata su Telegram e Amazon. È un’identità visiva simbolica, non una fotografia. L’intera composizione quadrata viene mostrata accanto al nome su desktop e sotto il nome su schermi piccoli, senza ritaglio circolare; testo alternativo e didascalia ne chiariscono il significato.
+La pagina Autore presenta «Il viandante cosmico», l’immagine indicata dall’autore come già utilizzata su Telegram e Amazon. È un’identità visiva simbolica, non una fotografia. L’intera composizione quadrata viene mostrata accanto al nome su desktop e sotto il nome su schermi piccoli, senza ritaglio circolare; testo alternativo e didascalia su due righe — «Il viandante cosmico. / Rappresentazione simbolica dell’autore.» — ne chiariscono il significato.
 
 L’originale PNG 1254 × 1254 è archiviato senza modifiche in `materiali/autore/viandante-cosmico-tra-mondi-celesti-originale.png`, **fuori dalla directory pubblicata `dist/`**. Il sito usa due derivati WebP senza metadati, a 400 e 800 pixel, selezionati con `srcset`, con spazio riservato per evitare salti di layout. Provenienza, SHA-256 e comandi di rigenerazione sono in [`materiali/autore/README.md`](materiali/autore/README.md). Build e CI usano gli asset versionati senza richiedere un encoder d’immagini. L’immagine non viene aggiunta alla Home né alle anteprime social.
 
