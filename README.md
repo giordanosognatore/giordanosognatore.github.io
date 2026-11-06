@@ -50,6 +50,8 @@ Il testo di base rispetta la dimensione predefinita del browser. Header, griglie
 
 La prima schermata della Home privilegia l’estratto gratuito, con la scoperta del romanzo come azione secondaria e un richiamo discreto all’ascolto. Home, pagina del romanzo e Press usano `scripts/formats.mjs`, senza sostituzioni successive nell’HTML generato. L’audiolibro integrale è gratuito su Google Play: nella verifica del 3 novembre 2026 la scheda italiana esponeva un’offerta a `0 EUR`. La dicitura comune è “Ascolta gratuitamente su Google Play”, non un acquisto né un’anteprima limitata a 30 minuti. Aggiornare la fonte condivisa se cambia la disponibilità.
 
+Il catalogo della Home resta sintetico: ogni romanzo presenta due pulsanti con lo stesso stile. Per la Bestia sono «Scopri il libro» e «Audiolibro gratuito» (la stessa destinazione Google Play della fonte condivisa); per Ombre «Scopri il libro» e «Leggi gratis il romanzo». La prima schermata della Home resta invariata. Il selettore completo dei formati della Bestia è mantenuto nella scheda del romanzo e in Press, non nel catalogo Home. Nelle schede di entrambi i romanzi il pulsante per l’edizione cartacea è etichettato «Cartaceo»; nella scheda di Ombre la dicitura è uniforme anche nel secondo richiamo.
+
 ### Anteprime social
 
 `scripts/social.mjs` seleziona immagini JPEG 1200 × 630: `social-bestia.jpg` (anche per l’estratto online) e `social-ombre.jpg` per i romanzi, `social-sito.jpg` come anteprima generale e di riserva per il Taccuino e le altre pagine. Open Graph e Twitter usano URL assoluti che rispettano `SITE_URL` e il suo eventuale prefisso, con testo alternativo e `summary_large_image`.

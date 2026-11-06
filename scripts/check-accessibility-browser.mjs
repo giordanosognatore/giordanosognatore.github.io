@@ -102,8 +102,8 @@ try{
    const report=await evaluate(`(${probe.toString()})()`);
    for(const [check,issues] of Object.entries(report))assert.deepEqual(issues,[],`${path} ${JSON.stringify(mode)} ${check}: ${JSON.stringify(issues.slice(0,5))}`);
    if(path.endsWith('index.html')){
-    const separated=await evaluate(`(()=>{const group=document.querySelector('[aria-label="Scopri e leggi Le Ombre Si Rivelano"]'),links=[...group.querySelectorAll('a')];if(links.length!==2||links.some(a=>!a.classList.contains('button')))return false;const [a,b]=links.map(e=>e.getBoundingClientRect());return b.left-a.right>=7||b.top-a.bottom>=7;})()`);
-    assert.ok(separated,`Ombre catalog buttons must have a visible gap: ${path} ${JSON.stringify(mode)}`);
+    const separated=await evaluate(`(()=>{const groups=[...document.querySelectorAll('#romanzi .format-actions')];return groups.length===2&&groups.every(group=>{const links=[...group.querySelectorAll('a')];if(links.length!==2||links.some(a=>!a.classList.contains('button')))return false;const [a,b]=links.map(e=>e.getBoundingClientRect());return b.left-a.right>=7||b.top-a.bottom>=7;});})()`);
+    assert.ok(separated,`Both catalog entries must have two visibly separated buttons: ${path} ${JSON.stringify(mode)}`);
    }
    if(path==='index.html'&&[390,1440].includes(mode.width)&&!mode.spacing)await screenshot(`home-${mode.width}-${mode.font||16}`);
    combinations++;
@@ -126,7 +126,7 @@ try{
   assert.equal(tree.filter(n=>n.role?.value==='main').length,1);
   assert.equal(tree.filter(n=>n.role?.value==='heading'&&n.properties?.some(p=>p.name==='level'&&p.value.value===1)).length,1);
   for(const node of tree.filter(n=>['button','link','DisclosureTriangle','heading'].includes(n.role?.value)))assert.ok(node.name?.value,`${page}: unnamed ${node.role.value}`);
-  if(page==='index.html')assert.ok(tree.some(n=>n.role?.value==='group'&&n.name?.value==='Formati e accesso a L’Immagine della Bestia'));
+  if(page==='index.html')for(const name of ['Scopri e ascolta L’Immagine della Bestia','Scopri e leggi Le Ombre Si Rivelano'])assert.ok(tree.some(n=>n.role?.value==='group'&&n.name?.value===name));
  }
  await size(390);await navigate('index.html');await key('Tab');await key('Tab');await key('Tab');
  assert.equal(await evaluate('document.activeElement.className'),'nav-toggle');
@@ -137,6 +137,7 @@ try{
  await key('Escape');assert.equal(await evaluate('document.activeElement.className'),'nav-toggle');
  assert.equal(await evaluate('document.activeElement.getAttribute("aria-expanded")'),'false');
  await key('Tab');assert.ok(await evaluate('!document.activeElement.closest("#primary-navigation")'));
+ await navigate('l-immagine-della-bestia.html');
  await evaluate('document.querySelector("summary").focus()');
  assert.ok(await evaluate('document.activeElement.matches(":focus-visible")&&getComputedStyle(document.activeElement).outlineStyle==="solid"'));
  await key('Enter');assert.ok(await evaluate('document.querySelector("details").open'));

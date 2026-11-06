@@ -94,14 +94,27 @@ for(const page of pages){
 assert.ok(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes(`href="${ombrePaperback}"`));
 checkOmbre(root);
 const bestiaAmazon=/<a class="button" href="https:\/\/amzn.eu\/d\/023g6Qe1">Acquista su Amazon<\/a>/;
-assert.match(readFileSync(resolve(root,'index.html'),'utf8'),bestiaAmazon);
 assert.match(readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8'),bestiaAmazon);
+const homeCatalog=readFileSync(resolve(root,'index.html'),'utf8');
+const bestiaCatalog=[...homeCatalog.matchAll(/<article class="book-row">[\s\S]*?<\/article>/g)].map(m=>m[0]).find(html=>html.includes('<h3><a href="l-immagine-della-bestia.html">'));
+assert.ok(bestiaCatalog,'Missing Bestia catalog entry');
+assert.ok(bestiaCatalog.includes('<div class="format-actions" role="group" aria-label="Scopri e ascolta L’Immagine della Bestia">'));
+assert.deepEqual([...bestiaCatalog.matchAll(/<a class="button" href="([^"]+)">([^<]+)<\/a>/g)].map(m=>[m[1],m[2]]),[
+ ['l-immagine-della-bestia.html','Scopri il libro'],[bestiaFormats.audiobook,'Audiolibro gratuito']
+]);
+assert.equal((bestiaCatalog.match(/<a\b/g)||[]).length,4,'Only cover, title and two actions in Bestia catalog');
+assert.ok(!/<details|<summary|class="text-link"/.test(bestiaCatalog),'Catalog must not duplicate the book format chooser');
 const googlePlayUrl=bestiaFormats.ebook;
 const googlePlayButton=`<a class="button" href="${googlePlayUrl}">Google Play Books</a>`;
 for(const page of ['index.html','l-immagine-della-bestia.html','press.html']){
  const html=readFileSync(resolve(root,page),'utf8');
- assert.ok(html.includes(googlePlayButton),`${page}: missing Google Play Books button`);
- assert.ok(html.includes(`<a class="button" href="${bestiaFormats.audiobook}">${bestiaFormats.audiobookLabel}</a>`),`${page}: missing free full audiobook`);
+ if(page==='index.html'){
+  assert.ok(!html.includes('<details'),'Full format chooser belongs on the book page, not Home');
+  assert.ok(html.includes(`<a class="text-link hero-audio" href="${bestiaFormats.audiobook}">${bestiaFormats.audiobookLabel}</a>`),'Keep the hero audiobook access unchanged');
+ }else{
+  assert.ok(html.includes(googlePlayButton),`${page}: missing Google Play Books button`);
+  assert.ok(html.includes(`<a class="button" href="${bestiaFormats.audiobook}">${bestiaFormats.audiobookLabel}</a>`),`${page}: missing free full audiobook`);
+ }
  assert.ok(!/Ascolta 30 minuti gratis|Acquista su Google Play|books\/listen\?/.test(html),`${page}: obsolete audiobook CTA`);
 }
 assert.ok(!readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes('play.google.com'),'Do not invent a Google Play edition for Le Ombre Si Rivelano');
