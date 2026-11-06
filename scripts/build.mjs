@@ -31,9 +31,9 @@ const companionAssetsReady=[companion.cover,companion.pdf,companion.epub].every(
 const img=(b,lazy=false)=>`<img src="assets/${b.id}-720.webp" srcset="assets/${b.id}-360.webp 360w, assets/${b.id}-720.webp ${b.width}w" sizes="(max-width: 640px) 72vw, 360px" width="${b.width}" height="${b.height}" alt="Copertina di ${b.title}, Giordano Sognatore${b.credit?', '+b.credit:''}" ${lazy?'loading="lazy"':'fetchpriority="high"'} decoding="async">`;
 const link=(href,label,cls='text-link')=>`<a class="${cls}" href="${href}">${label}</a>`;
 const downloadLink=(href,label)=>`<a class="button" href="${href}" download>${label}</a>`;
-const ombreMockup=`<figure class="detail-cover product-mockup physical-book-mockup"><div class="mockup-scene"><div class="book-object"><span class="book-top" aria-hidden="true"></span><span class="book-spine" aria-hidden="true"><span>LE OMBRE SI RIVELANO</span></span>${img(books[1])}</div></div></figure>`;
+const ombreMockup=`<figure class="detail-cover uniform-mockup"><img src="assets/ombre-mockup.webp" width="420" height="525" alt="Mockup illustrativo del volume Le Ombre Si Rivelano, Giordano Sognatore" fetchpriority="high" decoding="async"></figure>`;
 const companionCover=companionAssetsReady
- ? `<figure class="detail-cover product-mockup digital-reader-mockup"><div class="mockup-scene"><div class="reader-object"><div class="reader-screen"><img src="${companion.cover}" width="640" height="920" alt="Copertina di Il giorno in cui nacque la Bestia, Ada Vesper con Giordano Sognatore" fetchpriority="high" decoding="async"></div><span class="reader-mark" aria-hidden="true"></span></div></div></figure>`
+ ? `<figure class="detail-cover uniform-mockup"><img src="assets/companion-mockup.webp" width="420" height="525" alt="Mockup illustrativo di Il giorno in cui nacque la Bestia, Ada Vesper con Giordano Sognatore" fetchpriority="high" decoding="async"></figure>`
  : `<div class="companion-placeholder" role="img" aria-label="Il giorno in cui nacque la Bestia — Ada Vesper con Giordano Sognatore"><span>ADA VESPER</span><strong>Il giorno in cui<br>nacque la Bestia</strong><small>DIARIO DI UNA COLLABORAZIONE CREATIVA</small></div>`;
 const companionDownloads=companionAssetsReady
  ? `<div class="download-actions">${downloadLink(companion.epub,'Scarica EPUB')}${downloadLink(companion.pdf,'Scarica PDF')}</div>`
