@@ -7,6 +7,8 @@ import {sampleRoute} from './epub-sample.mjs';
 import {ombreRoute,ombrePaperback,ombreAssets} from './ombre.mjs';
 import {checkOmbre} from './check-ombre.mjs';
 import {checkOnlineSample} from './check-epub-sample.mjs';
+import {companionReadingRoute} from './companion.mjs';
+import {checkCompanion} from './check-companion.mjs';
 import {bestiaFormats} from './formats.mjs';
 import {books} from './books.mjs';
 import {bookJournal,articleBooks} from './related-books.mjs';
@@ -21,7 +23,7 @@ const root=resolve('dist');
 const htmlFiles=readdirSync(root,{recursive:true}).filter(p=>p.endsWith('.html'));
 const verificationFiles=htmlFiles.filter(p=>/^google[0-9a-f]+\.html$/.test(p));
 const pages=htmlFiles.filter(p=>!verificationFiles.includes(p));
-assert.equal(pages.length,12+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
+assert.equal(pages.length,13+articles.length+(releases.length?1:0),'Generated pages do not match content: run npm run build before npm run check');
 for(const card of Object.values(socialCards)){
  const bytes=readFileSync(resolve(root,card.path));
  assert.equal(bytes.subarray(0,3).toString('hex'),'ffd8ff',`${card.path}: expected JPEG`);
@@ -152,6 +154,8 @@ const companionPage=readFileSync(resolve(root,'il-giorno-in-cui-nacque-la-bestia
 assert.match(companionPage,/COMPANION GRATUITO/);
 assert.ok(companionPage.includes('class="detail-cover uniform-mockup"'),'Companion page must use the approved illustrative book mockup');
 assert.ok(companionPage.includes('assets/companion-mockup.webp'),'Companion page must use the approved mockup asset');
+assert.ok(companionPage.includes(`<a class="button button-primary" href="${companionReadingRoute}">Leggi online</a>`),'Companion page must lead with online reading');
+checkCompanion(root);
 assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/PRESS &amp; MEDIA|PRESS & MEDIA/);
 assert.match(readFileSync(resolve(root,'press.html'),'utf8'),/Review copy EPUB\/PDF disponibile su richiesta/);
 const ai=readFileSync(resolve(root,'ai.html'),'utf8');
