@@ -104,9 +104,10 @@ assert.ok(!bestiaCatalog.includes('<p class="credit">'),'No isolated author cred
 const bestiaPage=readFileSync(resolve(root,'l-immagine-della-bestia.html'),'utf8');
 assert.ok(bestiaPage.includes('<p class="credit">Giordano Sognatore <span>con Ada Vesper</span></p>'),'Keep credit on book page');
 assert.ok(bestiaPage.includes('<a class="button" href="il-giorno-in-cui-nacque-la-bestia.html">Scopri il companion</a>'),'Companion discovery must be a secondary button');
-assert.ok(bestiaPage.includes('<a class="button" href="#estratto-gratuito">Estratto gratuito <span aria-hidden="true">↓</span></a>'),'Book hero must link to the excerpt section and signal same-page scrolling');
-assert.ok(bestiaPage.includes('<a class="button" href="#companion-gratuito">Companion gratuito <span aria-hidden="true">↓</span></a>'),'Book hero must link to the companion section and signal same-page scrolling');
+assert.ok(bestiaPage.includes('<a class="button" href="#estratto-gratuito">Estratto gratuito</a>'),'Book hero must link to the excerpt section');
+assert.ok(bestiaPage.includes('<a class="button" href="#companion-gratuito">Companion gratuito</a>'),'Book hero must link to the companion section');
 assert.ok(bestiaPage.includes('<section class="companion-strip shell" id="companion-gratuito">'),'Companion section needs the stable in-page anchor');
+assert.ok(!readFileSync(resolve(root,'index.html'),'utf8').includes('↓')&&!bestiaPage.includes('↓'),'Down arrows must not return to Home or the Bestia page');
 assert.ok(bestiaCatalog.includes('<div class="format-actions" role="group" aria-label="Scopri e ascolta L’Immagine della Bestia">'));
 assert.deepEqual([...bestiaCatalog.matchAll(/<a class="button" href="([^"]+)">([^<]+)<\/a>/g)].map(m=>[m[1],m[2]]),[
  ['l-immagine-della-bestia.html','Scopri il libro'],[bestiaFormats.audiobook,'Audiolibro gratuito']
