@@ -48,7 +48,13 @@ Il testo di base rispetta la dimensione predefinita del browser. Header, griglie
 
 ### Formati e accessi gratuiti
 
-La prima schermata della Home privilegia l’estratto gratuito, con la scoperta del romanzo come azione secondaria e un richiamo discreto all’ascolto. Home, pagina del romanzo e Press usano `scripts/formats.mjs`, senza sostituzioni successive nell’HTML generato. L’audiolibro integrale è gratuito su Google Play: nella verifica del 3 novembre 2026 la scheda italiana esponeva un’offerta a `0 EUR`. La dicitura comune è “Ascolta gratuitamente su Google Play”, non un acquisto né un’anteprima limitata a 30 minuti. Aggiornare la fonte condivisa se cambia la disponibilità.
+La prima schermata della Home mette in primo piano l’ultima uscita con tre pulsanti, nell’ordine: «Scopri il libro» (azione principale piena), «Estratto gratuito» e «Audiolibro gratuito» (con bordo). L’estratto apre direttamente la lettura online, l’audiolibro la scheda Google Play. Home, pagina del romanzo e Press usano le destinazioni e l’etichetta «Audiolibro gratuito» di `scripts/formats.mjs`, senza sostituzioni successive nell’HTML generato. L’audiolibro integrale è gratuito su Google Play: nella verifica del 3 novembre 2026 la scheda italiana esponeva un’offerta a `0 EUR`. Non è un acquisto né un’anteprima limitata a 30 minuti. Aggiornare la fonte condivisa se cambia la disponibilità.
+
+Il catalogo della Home resta sintetico: ogni romanzo presenta due pulsanti con lo stesso stile. Per la Bestia sono «Scopri il libro» e «Audiolibro gratuito» (la stessa destinazione Google Play della fonte condivisa); per Ombre «Scopri il libro» e «Leggi gratis il romanzo». Il selettore completo dei formati della Bestia è mantenuto nella scheda del romanzo e in Press, non nel catalogo Home. Nelle schede di entrambi i romanzi il pulsante per l’edizione cartacea è etichettato «Cartaceo»; nella scheda di Ombre la dicitura è uniforme anche nel secondo richiamo.
+
+### Coerenza dei pulsanti
+
+Home, schede dei romanzi, companion, Press, contatti e letture online condividono la stessa regola per `.hero-actions`, `.format-actions` e `.download-actions`: griglia di colonne della stessa larghezza all’interno del gruppo, spaziatura 12 px, altezza minima 48 px, padding e carattere uniformi, etichette centrate e spezzabili. La larghezza dipende dal contenitore, non da una misura rigida comune a tutto il sito. Le colonne hanno un minimo preferito di 9,5 rem, limitato allo spazio disponibile; fino a 700 px diventano una colonna unica. Nel catalogo le due schede condividono larghezza e altezza dei pulsanti: sopra 700 px una subgrid allinea le righe di testo e i gruppi di azioni; le colonne dei pulsanti hanno un minimo preferito di 12 rem per evitare etichette su più righe quando basta impilare le azioni. Su mobile molto stretto rispetto al carattere, una container query riserva lo spazio per due righe, senza altezze rigide che possano tagliare il testo. Il credito isolato «con Ada Vesper» è omesso soltanto dal catalogo, non dalla prima sezione Home, dalla scheda o dalla lettura online. «Scopri il companion» nella scheda Bestia è un pulsante secondario autonomo, non esteso all’intera sezione. I menu Ebook restano nativi e accessibili da tastiera; le loro opzioni condividono la larghezza del pannello. Link editoriali, breadcrumb e comandi compatti di navigazione dei lettori restano distinti.
 
 ### Anteprime social
 
@@ -74,7 +80,7 @@ Le copertine sono ottimizzate a due dimensioni. Il CSS è sorgente diretto in `d
 
 ### Estratto gratuito di L’Immagine della Bestia
 
-La pagina del romanzo presenta **Prologo + Atto I — La Pace, capitoli 1–6**, prima del companion, con «Leggi online» come prima azione e download EPUB/PDF subito disponibili (EPUB per primo fra i download), senza registrazione. La sezione è tipografica e riusa il linguaggio editoriale del sito, senza nuove immagini. Il pulsante principale della Home «Leggi l’estratto gratuito» apre direttamente la lettura online.
+La pagina del romanzo presenta **Prologo + Atto I — La Pace, capitoli 1–6**, prima del companion, con «Leggi online» come prima azione e download EPUB/PDF subito disponibili (EPUB per primo fra i download), senza registrazione. La sezione è tipografica e riusa il linguaggio editoriale del sito, senza nuove immagini. Il pulsante della Home «Estratto gratuito» apre direttamente la lettura online.
 
 Fonte canonica: `giordanosognatore/bestia`, commit approvato `68f7bbb3142f5f0e4dabd0b8d7afb4e6b6b9646a`:
 

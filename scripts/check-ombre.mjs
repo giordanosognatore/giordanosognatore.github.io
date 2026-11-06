@@ -75,7 +75,9 @@ export function checkOmbre(root){
  assert.ok(catalog.includes(`<a class="button" href="${ombreRoute}">Leggi gratis il romanzo</a>`));
  assert.equal((catalog.match(/class="button"/g)||[]).length,2,'Both Ombre catalog actions must remain spaced buttons');
  const book=readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8');
- assert.ok(book.includes(`href="${ombreRoute}">Leggi online`));assert.ok(book.includes(`href="${ombrePaperback}"`));
+ assert.ok(book.includes(`href="${ombreRoute}">Leggi online`));
+ assert.equal(book.split(`<a class="button" href="${ombrePaperback}">Cartaceo</a>`).length-1,2,'Both paperback actions must be labeled Cartaceo buttons');
+ assert.ok(!book.includes('Acquista il cartaceo su Amazon'),'No inconsistent paperback label');
  for(const a of ombreAssets)for(const html of [book,page])assert.ok(html.includes(`href="${a.path}" download>Scarica ${a.format}`));
  assert.ok(!readFileSync(resolve(root,'feed.xml'),'utf8').includes(ombreRoute));
  assert.equal(readFileSync(resolve(root,'sitemap.xml'),'utf8').split('/'+ombreRoute+'</loc>').length-1,1);
