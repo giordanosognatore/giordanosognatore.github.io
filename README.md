@@ -13,6 +13,8 @@ HTML e CSS statici generati con Node.js 22 o successivo, senza dipendenze. Il so
 - `scripts/social.mjs`: immagini e metadati Open Graph/Twitter condivisi;
 - `scripts/epub-sample.mjs`: lettura online generata direttamente dall’EPUB pubblico approvato, senza duplicare il testo;
 - `scripts/check-epub-sample.mjs`: confronto di testo, paragrafi e formattazione con l’EPUB e controlli delle illustrazioni web;
+- `scripts/companion.mjs`: lettura online integrale del companion, generata dal suo EPUB pubblico immutabile;
+- `scripts/check-companion.mjs`: confronto completo delle 29 sezioni e dei 136 paragrafi del companion, oltre a hash, cover e collegamenti;
 - `scripts/press.mjs`: pagine Press, trasparenza sull’IA e temi;
 - `scripts/navigation.mjs`: fonte canonica condivisa dell’header e della navigazione;
 - `scripts/import-companion-assets.sh`: importa e verifica dal repository canonico `bestia` PDF, EPUB e cover del companion;
@@ -64,7 +66,7 @@ Le composizioni sorgenti sono in `materiali/social/`: SVG che riusano le coperti
 
 ### Companion gratuito
 
-La pagina `il-giorno-in-cui-nacque-la-bestia.html` presenta *Il giorno in cui nacque la Bestia — Diario di una collaborazione creativa*, di Ada Vesper con Giordano Sognatore, come companion gratuito e senza spoiler importanti.
+La pagina `il-giorno-in-cui-nacque-la-bestia.html` presenta *Il giorno in cui nacque la Bestia — Diario di una collaborazione creativa*, di Ada Vesper con Giordano Sognatore, come companion gratuito e senza spoiler importanti. Nella prima e nell’ultima sezione, «Leggi online» precede «Scarica EPUB» e «Scarica PDF».
 
 Gli asset canonici restano nel repository privato `gsognatore/bestia`, percorso `documentazione/diario/`. Per materializzarli nel sito da un checkout locale che contenga entrambi i repository:
 
@@ -75,6 +77,8 @@ npm run check
 ```
 
 Lo script verifica gli SHA Git dei tre sorgenti prima di copiarli, rinomina PDF/EPUB con URL stabili e crea una cover web ridimensionata senza modificare gli originali. Se gli asset non sono ancora importati, la pagina resta costruibile in modalità di revisione con una copertina tipografica di riserva e senza link di download attivi.
+
+`leggi-il-giorno-in-cui-nacque-la-bestia.html` pubblica il companion completo come pagina statica: copertina piatta, indice di 29 sezioni, barra degli strumenti, navigazione precedente/successiva e download. `scripts/companion.mjs` legge soltanto l’EPUB pubblico versionato, dopo aver verificato dimensione, SHA Git e SHA-256 di EPUB e PDF; il parser ZIP limitato seleziona le 29 sorgenti XHTML senza estrarle su disco. L’HTML conserva in ordine tutti i 136 paragrafi, titoli, sottotitoli, dedica, enfasi e interruzioni di riga. Gli adattamenti sono soltanto `h1` → `h2` sotto il titolo della pagina e `<br/>` → `<br>`. `scripts/check-companion.mjs` confronta integralmente markup e testo di ogni sezione, rifiuta un EPUB alterato e verifica link, copertina, sitemap e assenza dal feed. Build e CI non accedono al repository privato.
 
 Le copertine sono ottimizzate a due dimensioni. Il CSS è sorgente diretto in `dist/assets/site.css`; la build rigenera HTML e SEO, conservando gli asset. Home e catalogo mantengono le copertine piatte canoniche. Nelle schede dedicate, invece, la presentazione usa tre mockup illustrativi coordinati: `dist/assets/bestia-mockup.webp`, `dist/assets/ombre-mockup.webp` e `dist/assets/companion-mockup.webp`. I mockup di Ombre e companion sono derivati web 420 × 525 degli asset approvati dall’autore e condividono lo stesso ingombro responsive; non sostituiscono le copertine canoniche. Il mockup del companion è una scelta illustrativa di coerenza visiva e non implica l’esistenza di un’edizione cartacea: i formati distribuiti restano PDF ed EPUB. Non cancellare `dist/assets` come se fosse una cache.
 
@@ -108,7 +112,7 @@ Gli asset sono versionati nel sito: build e CI non accedono al repository privat
 
 `estratto-l-immagine-della-bestia.html` è una pagina HTML statica completa: indice con ancore condivisibili, nota degli autori ed epigrafe già presenti nell’EPUB, Prologo, apertura dell’Atto I e capitoli 1–6. Include strumenti di lettura discreti (indice, EPUB, PDF, scheda del romanzo), navigazione fra capitoli e un richiamo al romanzo completo soltanto alla fine. Non richiede JavaScript per leggere o usare l’indice; non registra posizione, cookie o dati del lettore.
 
-Entrambe le letture online presentano la copertina dopo i pulsanti e prima dell’indice, centrata e senza ritaglio, con la classe condivisa `.reading-cover` (larghezza massima 320 px). L’estratto della Bestia riusa la copertina piatta responsive già presente sul sito, non il mockup: nessun nuovo asset o modifica al contenuto dell’EPUB. Restano esplicite le diciture «estratto gratuito» per la Bestia e «romanzo integrale gratuito» per Ombre.
+Le tre letture online presentano la copertina dopo i pulsanti e prima dell’indice, centrata e senza ritaglio, con la classe condivisa `.reading-cover` (larghezza massima 320 px). L’estratto della Bestia riusa la copertina piatta responsive già presente sul sito, non il mockup: nessun nuovo asset o modifica al contenuto dell’EPUB. Restano esplicite le diciture «estratto gratuito» per la Bestia, «romanzo integrale gratuito» per Ombre e «companion gratuito» per il diario.
 
 `scripts/epub-sample.mjs` legge **soltanto l’EPUB pubblico versionato in `dist/downloads/`**, verificandone dimensione, SHA Git e SHA-256 **prima** di interpretarlo. Un lettore ZIP limitato a questo file immutabile usa esclusivamente `node:zlib`, seleziona dieci sezioni XHTML e le due illustrazioni già approvate, non estrae altri contenuti e non scrive file sorgenti. Non si accede a `bestia` durante la build, non si include il master, non si mantengono trascrizioni o copie editoriali da sincronizzare. Un asset assente o diverso da quello approvato interrompe la build.
 
