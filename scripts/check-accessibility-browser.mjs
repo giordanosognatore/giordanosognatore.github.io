@@ -238,7 +238,7 @@ try{
    assert.ok(frame.width>0&&Math.abs(frame.width/frame.height-16/9)<.03&&frame.title&&frame.src.startsWith('https://www.youtube-nocookie.com/embed/'),'Responsive, named YouTube player');
    assert.deepEqual((await evaluate(`(${probe.toString()})()`)).overflow,[]);
   }
-  assert.ok(await evaluate('[...document.querySelectorAll("blockquote")].some(e=>e.children.length===4&&e.firstElementChild.textContent==="«È una macchina.»")'),'Quoted dialogue must preserve separate turns');
+  assert.ok(await evaluate('[...document.querySelectorAll("blockquote")].some(e=>JSON.stringify([...e.children].map(p=>p.textContent))===JSON.stringify(["Teresa: «È gentile.»","Marco: «È una macchina.»","Teresa: «Lo so.»","Marco: «Non è gentile.»","Teresa: «Parla gentilmente.»"]))'),'Quoted dialogue must preserve separate turns and explicit speakers');
  }
  console.log('PASS YouTube embeds and dialogue paragraphs: named responsive players and keyboard-accessible fallback links');
  await size(390);await call('Emulation.setEmulatedMedia',{features:[{name:'forced-colors',value:'active'},{name:'prefers-reduced-motion',value:'reduce'}]});await navigate('autore.html');

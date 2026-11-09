@@ -20,19 +20,17 @@ showOnHome: true
 
 In *L’Immagine della Bestia* c’è una piccola scena che oggi mi sembra più importante di quando l’abbiamo scritta.
 
-Nel capitolo 14 Teresa incontra SOPHIA durante una visita medica. Tornando a casa dice a Marco:
+Nel capitolo 14 Teresa incontra SOPHIA durante una visita medica. Tornando a casa ne parla con Marco:
 
-> «È gentile.»
-
-Marco obietta:
-
-> «È una macchina.»
+> **Teresa:** «È gentile.»
 >
-> «Lo so.»
+> **Marco:** «È una macchina.»
 >
-> «Non è gentile.»
+> **Teresa:** «Lo so.»
 >
-> «Parla gentilmente.»
+> **Marco:** «Non è gentile.»
+>
+> **Teresa:** «Parla gentilmente.»
 
 Teresa gli chiede se sia davvero così diverso. Più tardi Marco ne parla con Miriam e arriva a una conclusione che oggi mi sembra quasi il centro di questa riflessione:
 
