@@ -294,6 +294,14 @@ Le associazioni iniziali collegano i sei articoli attuali alla Bestia: processo 
 
 Sono supportati paragrafi separati da righe vuote, `##` e `###`, `*corsivo*`, `**grassetto**` (anche corsivo dentro il grassetto), link `[testo](URL)`, elenchi semplici con `- ` o `* `, citazioni con `> ` e separatori `---`. Un eventuale `# Titolo` iniziale deve coincidere con `title` e non viene duplicato nel corpo. L’HTML è mostrato come testo, mai eseguito. Tabelle, immagini, codice, liste annidate e altre estensioni Markdown non sono previste.
 
+Per separare i paragrafi di una citazione, inserire fra le righe una riga contenente soltanto `>`: è utile per rendere distinte le battute di un dialogo senza cambiarne il testo.
+
+#### Riquadri video YouTube senza caricamento esterno
+
+Una riga autonoma `{{youtube:QiEbac4pcVE|Please Go On — Count Grey Matter}}` genera un riquadro locale testuale con titolo e azione «Guarda su YouTube». L’ID deve avere esattamente 11 caratteri ASCII alfanumerici, trattini o underscore; il titolo è obbligatorio, escapato e può contenere enfasi Markdown. Una direttiva malformata interrompe la build.
+
+Il riquadro è un normale link accessibile da tastiera, funzionante senza JavaScript. Non incorpora player, miniature remote, iframe o risorse di terze parti: YouTube viene contattato soltanto quando il lettore apre il collegamento, nella stessa scheda e con `referrerpolicy="no-referrer"`. Le pratiche privacy del servizio esterno si applicano dopo la navigazione. Non viene introdotto un banner di consenso o uno script di attivazione.
+
 I link interni partono dalla radice logica di `dist/`, per esempio `l-immagine-della-bestia.html` o `taccuino/altro-appunto.html`; la build aggiunge il prefisso relativo necessario alle pagine articolo. Non usare `/` iniziale né `../`. Per link esterni usare URL completi `https://`/`http://`; sono ammessi anche `mailto:`. Non sono previsti attributi HTML o titoli aggiuntivi nei link.
 
 ### Cosa genera la build

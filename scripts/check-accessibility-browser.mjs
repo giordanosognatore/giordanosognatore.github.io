@@ -227,6 +227,21 @@ try{
   }
  }
  console.log('PASS complete companion reader anchors clear of sticky tools, including 200% text');
+ const gratitudePage='taccuino/perche-dico-grazie-a-una-macchina.html';
+ if(pages.includes(gratitudePage))for(const width of [1440,390]){
+  await size(width);await navigate(gratitudePage);
+  assert.equal(await evaluate('document.querySelectorAll(".video-link").length'),2);
+  assert.equal(await evaluate('document.querySelectorAll("iframe").length'),0);
+  for(const index of [0,1]){
+   await evaluate(`document.querySelectorAll('.video-link-card')[${index}].focus();document.activeElement.scrollIntoView({behavior:'instant',block:'center'})`);
+   assert.ok(await evaluate('document.activeElement.matches(":focus-visible")&&document.activeElement.getAttribute("referrerpolicy")==="no-referrer"'));
+   assert.deepEqual((await evaluate(`(${probe.toString()})()`)).overflow,[]);
+  }
+  const remote=await evaluate('performance.getEntriesByType("resource").map(e=>e.name).filter(url=>new URL(url).origin!==location.origin)');
+  assert.deepEqual(remote,[],'Video cards must not contact third parties, including on scroll and focus');
+  assert.ok(await evaluate('[...document.querySelectorAll("blockquote")].some(e=>e.children.length===4&&e.firstElementChild.textContent==="«È una macchina.»")'),'Quoted dialogue must preserve separate turns');
+ }
+ console.log('PASS local video cards and dialogue paragraphs: keyboard access, responsive, no third-party requests');
  await size(390);await call('Emulation.setEmulatedMedia',{features:[{name:'forced-colors',value:'active'},{name:'prefers-reduced-motion',value:'reduce'}]});await navigate('autore.html');
  assert.deepEqual((await evaluate(`(${probe.toString()})()`)).frameLines,[],'Forced colors must retain full-width separators');
  await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});

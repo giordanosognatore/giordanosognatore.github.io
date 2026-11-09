@@ -91,11 +91,8 @@ for(const page of pages){
  }
  for(const image of html.matchAll(/<img\b[^>]*>/g))for(const attr of ['alt=','width=','height='])assert.ok(image[0].includes(attr));
  for(const script of html.matchAll(/<script\b[^>]*>/g))assert.ok(/type="application\/ld\+json"|src="(?:https:\/\/[^" ]+\/|\.\.\/)?assets\/navigation\.js" defer/.test(script[0]),`${page}: unexpected script ${script[0]}`);
- for(const frame of html.matchAll(/<iframe\b[^>]*>/g)){
-  assert.match(frame[0],/src="https:\/\/www\.youtube-nocookie\.com\/embed\/[A-Za-z0-9_-]{11}"/,`${page}: iframe host or video id not allowed`);
-  for(const required of ['title="','loading="lazy"','referrerpolicy="strict-origin-when-cross-origin"','allow="','allowfullscreen'])assert.ok(frame[0].includes(required),`${page}: incomplete YouTube iframe`);
- }
- assert.ok(!/<form/.test(html),'No forms expected');
+ assert.ok(!/<iframe|<form/.test(html),'No iframes or forms expected');
+ for(const resource of html.matchAll(/<(?:img|script|video|audio|source)\b[^>]*\bsrc="([^"]+)"/g))assert.ok(!/^https?:\/\//.test(resource[1])||resource[1]===`${origin}/assets/navigation.js`,`${page}: unexpected remote resource ${resource[1]}`);
 }
 assert.ok(readFileSync(resolve(root,'le-ombre-si-rivelano.html'),'utf8').includes(`href="${ombrePaperback}"`));
 checkOmbre(root);

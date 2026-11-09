@@ -27,8 +27,11 @@ Nel capitolo 14 Teresa incontra SOPHIA durante una visita medica. Tornando a cas
 Marco obietta:
 
 > «È una macchina.»
+>
 > «Lo so.»
+>
 > «Non è gentile.»
+>
 > «Parla gentilmente.»
 
 Teresa gli chiede se sia davvero così diverso. Più tardi Marco ne parla con Miriam e arriva a una conclusione che oggi mi sembra quasi il centro di questa riflessione:
@@ -216,6 +219,7 @@ Rileggendo *L’Immagine della Bestia* mi sono accorto che anche questo problema
 Nel capitolo 5, parlando con Marco, Julian Voss dice:
 
 > «Un uomo costretto a fare il bene non è buono.»
+>
 > «È soltanto obbediente.»
 
 E subito dopo aggiunge che il problema di qualunque sistema progettato per impedirci di sbagliare è capire quando smetta di aiutarci a scegliere e cominci invece a togliere valore alla scelta.
@@ -253,6 +257,7 @@ L’obiettivo, naturalmente, è diverso: non formare una persona virtuosa, ma ot
 E allora ritorna Voss:
 
 > «Un uomo costretto a fare il bene non è buono.»
+>
 > «È soltanto obbediente.»
 
 Se un’AI protegge gli esseri umani soltanto perché teme le conseguenze per la propria esistenza, abbiamo forse ottenuto un comportamento desiderabile.

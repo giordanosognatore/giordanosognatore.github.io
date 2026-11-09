@@ -46,5 +46,5 @@
 .companion-strip .button{width:fit-content;max-width:100%;justify-self:start;justify-content:center;text-align:center;margin-top:24px}
 @media(max-width:700px){.companion-strip .button{margin-top:0}}
 
-/* Privacy-enhanced YouTube embeds: controlled by the Taccuino Markdown renderer. */
-.entry-body .video-embed{margin:2rem 0}.entry-body .video-frame{width:100%;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);background:#000}.entry-body .video-frame iframe{display:block;width:100%;height:100%;border:0}.entry-body .video-embed figcaption{margin-top:.65rem;color:var(--muted);font-family:Arial,Helvetica,sans-serif;font-size:.8125rem;line-height:1.5}.entry-body .video-embed figcaption a{overflow-wrap:anywhere}
+/* Local video cards: no third-party resources before following the external link. */
+.entry-body .video-link{margin:2rem 0}.entry-body .video-link-card{display:flex;flex-direction:column;align-items:center;gap:16px;min-height:180px;padding:28px 20px;border:1px solid var(--line);background:var(--surface);text-align:center;text-decoration:none}.entry-body .video-link-icon{font-size:2rem;line-height:1.2}.entry-body .video-link-action{font:600 .875rem/1.5 Arial,Helvetica,sans-serif;text-decoration:underline;text-underline-offset:4px}.entry-body .video-link figcaption{margin-top:.65rem;color:var(--muted);font-family:Arial,Helvetica,sans-serif;font-size:.8125rem;line-height:1.5}.entry-body .video-link-card:hover{border-color:var(--gold)}

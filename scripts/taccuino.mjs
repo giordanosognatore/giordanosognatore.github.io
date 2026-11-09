@@ -86,9 +86,12 @@ export function renderMarkdown(body,prefix='../'){
   const youtube=line.match(/^\{\{youtube:([A-Za-z0-9_-]{11})\|(.+)\}\}$/);
   if(youtube){
    const [,id,title]=youtube;
-   html.push(`<figure class="video-embed"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${escapeHtml(title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption><a href="https://www.youtube.com/watch?v=${id}">${inlineMarkdown(title,prefix,false)}</a></figcaption></figure>`);
+   if(!title.trim()||/[{}]/.test(title))throw new Error('Titolo video YouTube non valido');
+   // Local text-only card: no iframe, remote thumbnail or third-party requests before navigation.
+   html.push(`<figure class="video-link"><a class="video-link-card" href="https://www.youtube.com/watch?v=${id}" referrerpolicy="no-referrer"><span class="video-link-icon" aria-hidden="true">▶</span><span>${inlineMarkdown(title,prefix,false)}</span><span class="video-link-action">Guarda su YouTube</span></a><figcaption>Video esterno: YouTube viene contattato solo aprendo il collegamento.</figcaption></figure>`);
    i++;continue;
   }
+  if(line.startsWith('{{youtube:'))throw new Error('Sintassi video YouTube non valida: usare {{youtube:ID|Titolo}}');
   const heading=line.match(/^(##|###) (.+)$/);
   if(heading){html.push(`<h${heading[1].length}>${inlineMarkdown(heading[2],prefix)}</h${heading[1].length}>`);i++;continue;}
   if(/^#{1,6} /.test(line))throw new Error('Sono supportati solo titoli ## e ### nel corpo');
