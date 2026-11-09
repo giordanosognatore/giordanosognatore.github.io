@@ -296,6 +296,10 @@ Non serve sapere chi c’è dall’altra parte per decidere chi voglio essere da
 
 Per questo continuo a dire grazie.
 
+*Giordano Sognatore*
+
+---
+
 ### Per approfondire
 
 - [Joseph Weizenbaum, *ELIZA—a computer program for the study of natural language communication between man and machine*, Communications of the ACM, 1966](https://doi.org/10.1145/365153.365168)
@@ -304,5 +308,3 @@ Per questo continuo a dire grazie.
 - [Josef A. Habdank, *A testable framework for AI alignment: Simulation Theology as an engineered worldview for silicon-based agents*](https://arxiv.org/abs/2602.16987)
 - [Count Grey Matter](https://www.youtube.com/@CountGreyMatter)
 - [*Dove finisce la coscienza? Una conversazione con Ada Vesper*](taccuino/dove-finisce-la-coscienza.html)
-
-*Giordano Sognatore*
