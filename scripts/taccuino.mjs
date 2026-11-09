@@ -87,7 +87,9 @@ export function renderMarkdown(body,prefix='../'){
   if(youtube){
    const [,id,title]=youtube;
    if(!title.trim()||/[{}]/.test(title))throw new Error('Titolo video YouTube non valido');
-   html.push(`<figure class="video-embed"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${escapeHtml(title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption><a href="https://www.youtube.com/watch?v=${id}">${inlineMarkdown(title,prefix,false)}</a></figcaption></figure>`);
+   const label=title.replace(/\[([^\]\n]+)\]\(([^\s)]+)\)/g,'$1');
+   const caption=label!==title?`${inlineMarkdown(title,prefix)} — <a href="https://www.youtube.com/watch?v=${id}">Apri il video su YouTube</a>`:`<a href="https://www.youtube.com/watch?v=${id}">${inlineMarkdown(title,prefix,false)}</a>`;
+   html.push(`<figure class="video-embed"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${escapeHtml(label)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>${caption}</figcaption></figure>`);
    i++;continue;
   }
   if(line.startsWith('{{youtube:'))throw new Error('Sintassi video YouTube non valida: usare {{youtube:ID|Titolo}}');

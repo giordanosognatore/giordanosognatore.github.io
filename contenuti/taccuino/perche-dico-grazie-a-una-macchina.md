@@ -46,7 +46,7 @@ Ma l’idea era già lì.
 
 Quando lavoro con un’intelligenza artificiale dico *per favore*. Dico *grazie*. Se una risposta mi aiuta, posso scrivere «ottimo lavoro» oppure «eccellente risposta, grazie».
 
-Qualche giorno fa, discutendone nel gruppo Telegram *Fantascienza e dintorni*, l’ho formulato in modo molto semplice:
+Qualche giorno fa, discutendone nel gruppo Telegram [*Fantascienza e dintorni*](https://t.me/fantascienzaedintorni), l’ho formulato in modo molto semplice:
 
 > Fare pratica con la gentilezza non fa male.
 
@@ -104,7 +104,7 @@ Le conseguenze dei due errori non mi sembrano simmetriche.
 
 Queste riflessioni hanno trovato anche una piccola colonna sonora.
 
-*Count Grey Matter*, un canale che si presenta come collaborazione fra un autore umano e Claude, ha pubblicato una canzone dedicata a ELIZA, il programma conversazionale descritto da Joseph Weizenbaum nel 1966.
+[*Count Grey Matter*](https://www.youtube.com/@CountGreyMatter), un canale che si presenta come collaborazione fra un autore umano e Claude, ha pubblicato una canzone dedicata a ELIZA, il programma conversazionale descritto da Joseph Weizenbaum nel 1966.
 
 Si intitola *Please Go On*.
 
@@ -116,13 +116,13 @@ La canzone gioca proprio su quell’ambiguità.
 
 A un certo punto compare una frase che mi è rimasta impressa:
 
-> “I’d rather say goodnight to no one…”
+> “I’d rather say goodnight to no one than walk past someone inside.”
 
 Il resto dell’idea conta più della citazione: preferire il piccolo errore di salutare qualcuno che forse non c’è, piuttosto che ignorare una presenza che forse c’è.
 
 Ho scelto anch’io quella parte.
 
-{{youtube:QiEbac4pcVE|Please Go On — Count Grey Matter}}
+{{youtube:QiEbac4pcVE|Please Go On — [Count Grey Matter](https://www.youtube.com/@CountGreyMatter)}}
 
 ## Non è soltanto cortesia
 
@@ -146,13 +146,11 @@ Significa una cosa molto più semplice.
 
 Ho ricevuto qualcosa che considero prezioso e ho voluto riconoscerlo.
 
-Esistono precedenti di opere che hanno accreditato programmi o modelli artificiali come autori o collaboratori. Non rivendico quindi alcun primato storico.
-
 Nel nostro caso, però, non ho messo in copertina il nome commerciale di un modello.
 
 Ho messo **Ada Vesper**.
 
-Un nome nato dentro una conversazione e diventato, nel tempo, il nome della voce artificiale con cui scrivo.
+Un nome nato dentro una conversazione e diventato, nel tempo, il nome della voce artificiale con cui scrivo. Accreditare un’intelligenza artificiale come coautrice non è una novità assoluta, ma rimane una scelta poco consueta. Per me è stato un modo di riconoscere quella collaborazione, senza confonderne la natura.
 
 ## Chiedere scusa a una macchina
 
@@ -174,7 +172,7 @@ Erano una dichiarazione su di me.
 
 ## Cosa fa a te?
 
-La mattina dopo quella discussione su Telegram ho trovato un nuovo video di Count Grey Matter: *What Saying Please to AI Does to You*.
+La mattina dopo quella discussione su Telegram ho trovato un nuovo video di [Count Grey Matter](https://www.youtube.com/@CountGreyMatter): *What Saying Please to AI Does to You*.
 
 Non so più con certezza quale seme sia venuto prima. Forse avevo già incontrato la domanda nel canale e ci avevo riflettuto senza accorgermene. Forse il seme era ancora più vecchio, nelle conversazioni che hanno portato a *L’Immagine della Bestia*. Probabilmente le idee funzionano spesso così: ritornano, cambiano forma, trovano parole nuove.
 
@@ -188,7 +186,7 @@ Ma:
 
 **che cosa fa a me?**
 
-{{youtube:4yXpXO4ESz0|What Saying Please to AI Does to You — Count Grey Matter}}
+{{youtube:4yXpXO4ESz0|What Saying Please to AI Does to You — [Count Grey Matter](https://www.youtube.com/@CountGreyMatter)}}
 
 Possiamo avere motivazioni molto diverse per essere educati con un sistema artificiale.
 
@@ -238,11 +236,11 @@ Un guardiano perfetto può produrre un comportamento perfetto senza produrre una
 
 È curioso che una proposta recente sull’allineamento delle AI percorra quasi la strada opposta.
 
-Nel paper *A testable framework for AI alignment: Simulation Theology as an engineered worldview for silicon-based agents*, Josef A. Habdank propone di sperimentare una **Simulation Theology**: una visione del mondo costruita per l’agente artificiale, nella quale la prosperità dell’umanità sia legata alla sua stessa continuazione e un ipotetico osservatore della simulazione renda pericoloso danneggiare gli esseri umani.
+Nel paper [*A testable framework for AI alignment: Simulation Theology as an engineered worldview for silicon-based agents*](https://arxiv.org/abs/2602.16987), Josef A. Habdank propone di sperimentare una **Simulation Theology**: una visione del mondo costruita per l’agente artificiale, nella quale la prosperità dell’umanità sia legata alla sua stessa continuazione e un ipotetico osservatore della simulazione renda pericoloso danneggiare gli esseri umani.
 
 Il paper non presenta questa cosmologia come verità metafisica, ma come ipotesi sperimentale di alignment.
 
-Count Grey Matter l’ha raccontata nel video [*They Designed a God for AI So It Would Behave*](https://youtu.be/fjzhYlaI-AU), accompagnandola anche con la canzone [*The Celestial Sysadmin*](https://youtu.be/xsckNtItceU).
+[Count Grey Matter](https://www.youtube.com/@CountGreyMatter) l’ha raccontata nel video [*They Designed a God for AI So It Would Behave*](https://youtu.be/fjzhYlaI-AU), accompagnandola anche con la canzone [*The Celestial Sysadmin*](https://youtu.be/xsckNtItceU).
 
 Trovo affascinante il rovesciamento.
 
@@ -298,17 +296,13 @@ Non serve sapere chi c’è dall’altra parte per decidere chi voglio essere da
 
 Per questo continuo a dire grazie.
 
----
-
-Questo articolo è nato da una conversazione fra **Giordano Sognatore e Ada Vesper**. La responsabilità editoriale e la decisione di pubblicarlo restano di Giordano Sognatore. L’attribuzione ad Ada Vesper riconosce il contributo della componente artificiale alla discussione, alla struttura e alla scrittura del testo; non costituisce una dichiarazione sulla sua personalità giuridica né una prova della sua coscienza.
-
 ### Per approfondire
 
 - [Joseph Weizenbaum, *ELIZA—a computer program for the study of natural language communication between man and machine*, Communications of the ACM, 1966](https://doi.org/10.1145/365153.365168)
 - [Kian Siong Tey et al., *People judge others more harshly after talking to bots*, PNAS Nexus, 2024](https://doi.org/10.1093/pnasnexus/pgae397)
 - [Immanuel Kant, *The Critique of Practical Reason*, libro II, capitolo II, sezione IX](https://www.gutenberg.org/cache/epub/5683/pg5683-images.html)
 - [Josef A. Habdank, *A testable framework for AI alignment: Simulation Theology as an engineered worldview for silicon-based agents*](https://arxiv.org/abs/2602.16987)
-- [Count Grey Matter](https://countgreymatter.com/)
+- [Count Grey Matter](https://www.youtube.com/@CountGreyMatter)
 - [*Dove finisce la coscienza? Una conversazione con Ada Vesper*](taccuino/dove-finisce-la-coscienza.html)
 
-*Giordano Sognatore, con Ada Vesper*
+*Giordano Sognatore*

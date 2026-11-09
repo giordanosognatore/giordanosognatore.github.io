@@ -339,7 +339,10 @@ let bytes=0;for(const f of walk(root)){
  if(/\.(html|xml|txt|js|css)$/.test(f)){
   const text=readFileSync(f,'utf8');
   for(const match of text.matchAll(/https?:\/\/play\.google\.com\/store\/books\/details\?[^\s"'<>]+/g))assert.equal(match[0],googlePlayUrl,`${f}: unexpected Google Play Books URL`);
-  for(const match of text.matchAll(/https?:\/\/(?:t\.me|telegram\.me)\/[^\s"'<>]+/g))assert.equal(match[0],'https://t.me/giordanosognatoreofficial',`${f}: unexpected public Telegram URL`);
+  for(const match of text.matchAll(/https?:\/\/(?:t\.me|telegram\.me)\/[^\s"'<>]+/g)){
+   const editorialGroup=f===resolve(root,'taccuino/perche-dico-grazie-a-una-macchina.html')&&match[0]==='https://t.me/fantascienzaedintorni';
+   assert.ok(editorialGroup||match[0]==='https://t.me/giordanosognatoreofficial',`${f}: unexpected public Telegram URL`);
+  }
  }
  bytes+=statSync(f).size;
 }
