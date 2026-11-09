@@ -83,6 +83,12 @@ export function renderMarkdown(body,prefix='../'){
  const special=line=>/^(#{1,6} |[-*] |>|---\s*$|\{\{youtube:)/.test(line);
  for(let i=0;i<lines.length;){
   const line=lines[i];if(!line.trim()){i++;continue;}
+  const youtube=line.match(/^\{\{youtube:([A-Za-z0-9_-]{11})\|(.+)\}\}$/);
+  if(youtube){
+   const [,id,title]=youtube;
+   html.push(`<figure class="video-embed"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${escapeHtml(title)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption><a href="https://www.youtube.com/watch?v=${id}">${inlineMarkdown(title,prefix,false)}</a></figcaption></figure>`);
+   i++;continue;
+  }
   const heading=line.match(/^(##|###) (.+)$/);
   if(heading){html.push(`<h${heading[1].length}>${inlineMarkdown(heading[2],prefix)}</h${heading[1].length}>`);i++;continue;}
   if(/^#{1,6} /.test(line))throw new Error('Sono supportati solo titoli ## e ### nel corpo');
