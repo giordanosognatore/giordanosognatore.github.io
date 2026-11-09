@@ -227,6 +227,20 @@ try{
   }
  }
  console.log('PASS complete companion reader anchors clear of sticky tools, including 200% text');
+ const gratitudePage='taccuino/perche-dico-grazie-a-una-macchina.html';
+ if(pages.includes(gratitudePage))for(const width of [1440,390]){
+  await size(width);await navigate(gratitudePage);
+  assert.equal(await evaluate('document.querySelectorAll(".video-embed iframe").length'),2);
+  for(const index of [0,1]){
+   await evaluate(`document.querySelectorAll('.video-embed figcaption a')[${index}].focus();document.activeElement.scrollIntoView({behavior:'instant',block:'center'})`);
+   assert.ok(await evaluate('document.activeElement.matches(":focus-visible")'));
+   const frame=await evaluate(`(()=>{const e=document.querySelectorAll('.video-embed iframe')[${index}],r=e.getBoundingClientRect();return {width:r.width,height:r.height,title:e.title,src:e.src};})()`);
+   assert.ok(frame.width>0&&Math.abs(frame.width/frame.height-16/9)<.03&&frame.title&&frame.src.startsWith('https://www.youtube-nocookie.com/embed/'),'Responsive, named YouTube player');
+   assert.deepEqual((await evaluate(`(${probe.toString()})()`)).overflow,[]);
+  }
+  assert.ok(await evaluate('[...document.querySelectorAll("blockquote")].some(e=>JSON.stringify([...e.children].map(p=>p.textContent))===JSON.stringify(["Teresa: «È gentile.»","Marco: «È una macchina.»","Teresa: «Lo so.»","Marco: «Non è gentile.»","Teresa: «Parla gentilmente.»"]))'),'Quoted dialogue must preserve separate turns and explicit speakers');
+ }
+ console.log('PASS YouTube embeds and dialogue paragraphs: named responsive players and keyboard-accessible fallback links');
  await size(390);await call('Emulation.setEmulatedMedia',{features:[{name:'forced-colors',value:'active'},{name:'prefers-reduced-motion',value:'reduce'}]});await navigate('autore.html');
  assert.deepEqual((await evaluate(`(${probe.toString()})()`)).frameLines,[],'Forced colors must retain full-width separators');
  await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});

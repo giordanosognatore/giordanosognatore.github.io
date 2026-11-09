@@ -294,6 +294,14 @@ Le associazioni iniziali collegano i sei articoli attuali alla Bestia: processo 
 
 Sono supportati paragrafi separati da righe vuote, `##` e `###`, `*corsivo*`, `**grassetto**` (anche corsivo dentro il grassetto), link `[testo](URL)`, elenchi semplici con `- ` o `* `, citazioni con `> ` e separatori `---`. Un eventuale `# Titolo` iniziale deve coincidere con `title` e non viene duplicato nel corpo. L’HTML è mostrato come testo, mai eseguito. Tabelle, immagini, codice, liste annidate e altre estensioni Markdown non sono previste.
 
+Per separare i paragrafi di una citazione, inserire fra le righe una riga contenente soltanto `>`: è utile per rendere distinte le battute di un dialogo senza cambiarne il testo.
+
+#### Video YouTube incorporati
+
+Una riga autonoma `{{youtube:QiEbac4pcVE|Please Go On — Count Grey Matter}}` genera un player responsive 16:9 su `https://www.youtube-nocookie.com/embed/`, con titolo accessibile, `loading="lazy"`, `referrerpolicy="strict-origin-when-cross-origin"` e link alternativo in didascalia. L’ID deve avere esattamente 11 caratteri ASCII alfanumerici, trattini o underscore; il titolo è obbligatorio ed escapato, con enfasi e link Markdown ammessi nella didascalia. Per esempio, `{{youtube:QiEbac4pcVE|Please Go On — [Count Grey Matter](https://www.youtube.com/@CountGreyMatter)}}` collega il nome del canale e aggiunge un link separato «Apri il video su YouTube», evitando link annidati; il titolo accessibile del player non contiene la sintassi del link. Una direttiva malformata interrompe la build.
+
+Gli embed costituiscono un’eccezione esplicita all’assenza di risorse esterne: il browser può contattare YouTube prima di premere Play, quando il player entra nell’area di caricamento differito. La modalità privacy-enhanced non equivale ad assenza di comunicazioni con il servizio esterno. Non è presente un meccanismo click-to-load o di consenso; non viene aggiunto JavaScript locale e il testo dell’articolo e il link alternativo restano leggibili senza JavaScript. Il player usa il codice e le pratiche privacy del servizio esterno.
+
 I link interni partono dalla radice logica di `dist/`, per esempio `l-immagine-della-bestia.html` o `taccuino/altro-appunto.html`; la build aggiunge il prefisso relativo necessario alle pagine articolo. Non usare `/` iniziale né `../`. Per link esterni usare URL completi `https://`/`http://`; sono ammessi anche `mailto:`. Non sono previsti attributi HTML o titoli aggiuntivi nei link.
 
 ### Cosa genera la build
