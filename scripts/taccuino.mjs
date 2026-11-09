@@ -80,7 +80,7 @@ export function inlineMarkdown(text,prefix='../',allowLinks=true){
 }
 export function renderMarkdown(body,prefix='../'){
  const lines=body.split('\n');let html=[];
- const special=line=>/^(#{1,6} |[-*] |>|---\s*$)/.test(line);
+ const special=line=>/^(#{1,6} |[-*] |>|---\s*$|\{\{youtube:)/.test(line);
  for(let i=0;i<lines.length;){
   const line=lines[i];if(!line.trim()){i++;continue;}
   const heading=line.match(/^(##|###) (.+)$/);
