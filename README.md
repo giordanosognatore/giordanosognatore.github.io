@@ -296,11 +296,11 @@ Sono supportati paragrafi separati da righe vuote, `##` e `###`, `*corsivo*`, `*
 
 Per separare i paragrafi di una citazione, inserire fra le righe una riga contenente soltanto `>`: è utile per rendere distinte le battute di un dialogo senza cambiarne il testo.
 
-#### Riquadri video YouTube senza caricamento esterno
+#### Video YouTube incorporati
 
-Una riga autonoma `{{youtube:QiEbac4pcVE|Please Go On — Count Grey Matter}}` genera un riquadro locale testuale con titolo e azione «Guarda su YouTube». L’ID deve avere esattamente 11 caratteri ASCII alfanumerici, trattini o underscore; il titolo è obbligatorio, escapato e può contenere enfasi Markdown. Una direttiva malformata interrompe la build.
+Una riga autonoma `{{youtube:QiEbac4pcVE|Please Go On — Count Grey Matter}}` genera un player responsive 16:9 su `https://www.youtube-nocookie.com/embed/`, con titolo accessibile, `loading="lazy"`, `referrerpolicy="strict-origin-when-cross-origin"` e link alternativo in didascalia. L’ID deve avere esattamente 11 caratteri ASCII alfanumerici, trattini o underscore; il titolo è obbligatorio ed escapato, con enfasi Markdown ammessa nella didascalia. Una direttiva malformata interrompe la build.
 
-Il riquadro è un normale link accessibile da tastiera, funzionante senza JavaScript. Non incorpora player, miniature remote, iframe o risorse di terze parti: YouTube viene contattato soltanto quando il lettore apre il collegamento, nella stessa scheda e con `referrerpolicy="no-referrer"`. Le pratiche privacy del servizio esterno si applicano dopo la navigazione. Non viene introdotto un banner di consenso o uno script di attivazione.
+Gli embed costituiscono un’eccezione esplicita all’assenza di risorse esterne: il browser può contattare YouTube prima di premere Play, quando il player entra nell’area di caricamento differito. La modalità privacy-enhanced non equivale ad assenza di comunicazioni con il servizio esterno. Non è presente un meccanismo click-to-load o di consenso; non viene aggiunto JavaScript locale e il testo dell’articolo e il link alternativo restano leggibili senza JavaScript. Il player usa il codice e le pratiche privacy del servizio esterno.
 
 I link interni partono dalla radice logica di `dist/`, per esempio `l-immagine-della-bestia.html` o `taccuino/altro-appunto.html`; la build aggiunge il prefisso relativo necessario alle pagine articolo. Non usare `/` iniziale né `../`. Per link esterni usare URL completi `https://`/`http://`; sono ammessi anche `mailto:`. Non sono previsti attributi HTML o titoli aggiuntivi nei link.
 

@@ -230,18 +230,17 @@ try{
  const gratitudePage='taccuino/perche-dico-grazie-a-una-macchina.html';
  if(pages.includes(gratitudePage))for(const width of [1440,390]){
   await size(width);await navigate(gratitudePage);
-  assert.equal(await evaluate('document.querySelectorAll(".video-link").length'),2);
-  assert.equal(await evaluate('document.querySelectorAll("iframe").length'),0);
+  assert.equal(await evaluate('document.querySelectorAll(".video-embed iframe").length'),2);
   for(const index of [0,1]){
-   await evaluate(`document.querySelectorAll('.video-link-card')[${index}].focus();document.activeElement.scrollIntoView({behavior:'instant',block:'center'})`);
-   assert.ok(await evaluate('document.activeElement.matches(":focus-visible")&&document.activeElement.getAttribute("referrerpolicy")==="no-referrer"'));
+   await evaluate(`document.querySelectorAll('.video-embed figcaption a')[${index}].focus();document.activeElement.scrollIntoView({behavior:'instant',block:'center'})`);
+   assert.ok(await evaluate('document.activeElement.matches(":focus-visible")'));
+   const frame=await evaluate(`(()=>{const e=document.querySelectorAll('.video-embed iframe')[${index}],r=e.getBoundingClientRect();return {width:r.width,height:r.height,title:e.title,src:e.src};})()`);
+   assert.ok(frame.width>0&&Math.abs(frame.width/frame.height-16/9)<.03&&frame.title&&frame.src.startsWith('https://www.youtube-nocookie.com/embed/'),'Responsive, named YouTube player');
    assert.deepEqual((await evaluate(`(${probe.toString()})()`)).overflow,[]);
   }
-  const remote=await evaluate('performance.getEntriesByType("resource").map(e=>e.name).filter(url=>new URL(url).origin!==location.origin)');
-  assert.deepEqual(remote,[],'Video cards must not contact third parties, including on scroll and focus');
   assert.ok(await evaluate('[...document.querySelectorAll("blockquote")].some(e=>e.children.length===4&&e.firstElementChild.textContent==="«È una macchina.»")'),'Quoted dialogue must preserve separate turns');
  }
- console.log('PASS local video cards and dialogue paragraphs: keyboard access, responsive, no third-party requests');
+ console.log('PASS YouTube embeds and dialogue paragraphs: named responsive players and keyboard-accessible fallback links');
  await size(390);await call('Emulation.setEmulatedMedia',{features:[{name:'forced-colors',value:'active'},{name:'prefers-reduced-motion',value:'reduce'}]});await navigate('autore.html');
  assert.deepEqual((await evaluate(`(${probe.toString()})()`)).frameLines,[],'Forced colors must retain full-width separators');
  await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
