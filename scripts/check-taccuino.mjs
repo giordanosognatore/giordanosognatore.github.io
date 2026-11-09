@@ -30,6 +30,7 @@ assert.equal(renderMarkdown('**enfasi e *corsivo***'),'<p><strong>enfasi e <em>c
 assert.equal(renderMarkdown('**Lo *Spaccio* è una coincidenza.**'),'<p><strong>Lo <em>Spaccio</em> è una coincidenza.</strong></p>');
 assert.equal(renderMarkdown('## Titolo\n\n### Dettaglio\n\n- uno\n- due\n\n> Una *citazione*.\n\n---'),'<h2>Titolo</h2>\n<h3>Dettaglio</h3>\n<ul><li>uno</li><li>due</li></ul>\n<blockquote><p>Una <em>citazione</em>.</p></blockquote>\n<hr>');
 assert.equal(renderMarkdown('[Romanzo](l-immagine-della-bestia.html)'),'<p><a href="../l-immagine-della-bestia.html">Romanzo</a></p>');
+assert.equal(renderMarkdown('{{youtube:QiEbac4pcVE|Please Go On}}'),'<figure class="video-embed"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/QiEbac4pcVE" title="Please Go On" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption><a href="https://www.youtube.com/watch?v=QiEbac4pcVE">Please Go On</a></figcaption></figure>');
 assert.ok(renderMarkdown('<script>alert("x")</script>').includes('&lt;script&gt;'));
 assert.throws(()=>renderMarkdown('[click](javascript:alert)'));
 assert.throws(()=>renderMarkdown('[click](//example.test)'));
