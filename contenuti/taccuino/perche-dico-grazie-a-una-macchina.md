@@ -304,7 +304,7 @@ Per questo continuo a dire grazie.
 
 - [Joseph Weizenbaum, *ELIZA—a computer program for the study of natural language communication between man and machine*, Communications of the ACM, 1966](https://doi.org/10.1145/365153.365168)
 - [Kian Siong Tey et al., *People judge others more harshly after talking to bots*, PNAS Nexus, 2024](https://doi.org/10.1093/pnasnexus/pgae397)
-- [Immanuel Kant, *The Critique of Practical Reason*, libro II, capitolo II, sezione IX](https://www.gutenberg.org/cache/epub/5683/pg5683-images.html)
+- [Immanuel Kant, *The Critique of Practical Reason*, libro II, capitolo II, sezione IX](https://en.wikisource.org/wiki/Critique_of_Practical_Reason)
 - [Josef A. Habdank, *A testable framework for AI alignment: Simulation Theology as an engineered worldview for silicon-based agents*](https://arxiv.org/abs/2602.16987)
 - [Count Grey Matter](https://www.youtube.com/@CountGreyMatter)
 - [*Dove finisce la coscienza? Una conversazione con Ada Vesper*](taccuino/dove-finisce-la-coscienza.html)
