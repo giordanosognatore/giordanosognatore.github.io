@@ -250,7 +250,9 @@ const sottuttoSocial=readFileSync(resolve(root,socialCards.sottutto.path));
 assert.equal(createHash('sha256').update(sottuttoSocial).digest('hex'),'3308721bdc6c69a603866bd36f95a8126e98c70555a688e495264daf96c2b079','Sottutto social card must match the approved provisional composition');
 const sottuttoSocialSource=readFileSync(resolve('materiali/social/sottutto.svg'),'utf8');
 for(const copy of ['ROMANZO · IN ARRIVO','Copertina provvisoria','../../dist/assets/dottor-sottutto-720.webp'])assert.ok(sottuttoSocialSource.includes(copy),`Sottutto social source: missing ${copy}`);
-assert.ok(articles.every(article=>!article.relatedBooks.includes('sottutto')),'No Taccuino article is editorially associated with Sottutto in this task');
+const brianEntry=articles.find(article=>article.slug==='chi-educa-chi-brian-marco-limite-di-chi-scrive');
+assert.ok(brianEntry,'Approved Brian article must be included in Taccuino');
+assert.deepEqual(brianEntry.relatedBooks,['sottutto'],'Brian article has explicit editorial association to Sottutto');
 assert.match(feed,/<rss version="2.0"/);
 for(const article of articles){
  const html=readFileSync(resolve(root,article.route),'utf8');
