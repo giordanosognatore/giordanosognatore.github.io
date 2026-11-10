@@ -1,5 +1,5 @@
 ---
-title: "Chi educa chi? Brian, Marco e il limite di chi scrive"
+title: "Chi educa chi?"
 date: 2026-11-10
 description: "Un cane che educa il suo umano, un personaggio che sorprende chi lo scrive e una domanda sulla differenza fra creare e controllare."
 category: taccuino
