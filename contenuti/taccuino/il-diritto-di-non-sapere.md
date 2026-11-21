@@ -16,8 +16,6 @@ relatedBooks:
 
 # Il diritto di non sapere. L'arroganza di credere di sapere.
 
-*Dal taccuino di Giordano Sognatore*
-
 Ho letto poche righe scritte da uno sconosciuto. Avrei potuto ignorarle e continuare la mia giornata. Invece, un'ora dopo, ci stavo ancora pensando.
 
 Non perché quelle parole fossero particolarmente offensive. Non erano rivolte a me. E nemmeno perché contenessero errori: tutti sbagliamo, io per primo.
